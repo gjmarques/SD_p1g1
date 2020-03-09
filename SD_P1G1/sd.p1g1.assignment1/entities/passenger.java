@@ -10,9 +10,14 @@ public class passenger extends Thread{
     
     private passengerState state;
     private char destination;
-    private int nBags;
-    private arrivalLounge arrivalLounge;
+    private int collectedBags;
+    private int[] numBags = {0,0,0,0,0};
+    private int passID = 0;
 
+    private arrivalLounge arrivalLounge;
+    private arrivalTermExit arrivalTermExit;
+    private arrivalTermTransfQuay arrivalTermTransfQuay;
+ 
 
     public passenger(passengerState state) {
         this.state = state;
@@ -23,46 +28,36 @@ public class passenger extends Thread{
         for(int i = 0; i < 5;i++){
         char c  =  arrivalLounge.whatShouldIDo(i);
         switch(c){
-            case('a'):
+            case('a'):  arrivalTermExit.goHome(i);
 
-            case('b'):
+            case('b'):  arrivalTermTransfQuay.takeABus();		   
+                        arrivalTermTransfQuay.enterTheBus();
+                        departureTerminalTransferQuay.leaveTheBus();
+                        departureTerminalEntrance.prepareNextLeg(i);
 
-            case('c'):
+            case('c'):  collectedBags = 0;
+                        while(collectedBags != numBags[i]){
+                            if(baggageCollectionPoint.goCollectABag()){
+                                collectedBags+=1;
+                            }else { baggageReclaimOffice.reportMissingBags(numBags[i]-collectedBags);
+                                break;
+                            }
+                        arrivalTerminalExit.goHome(i);
 
 
             }
         }
-
     }
 
-
-
-    public void whatShouldIDo() {
-		state = passengerState.AT_THE_DISEMBARKING_ZONE;
-
-	}
 
     public void setState(passengerState state) {
         this.state = state;
     }
 
-    public arrivalLounge getArrivalLounge() {
-        return this.arrivalLounge;
+    public int getPassID() {
+        return this.passID;
     }
 
-    public void setArrivalLounge(arrivalLounge arrivalLounge) {
-        this.arrivalLounge = arrivalLounge;
-    }
-
-    public passenger state(passengerState state) {
-        this.state = state;
-        return this;
-    }
-
-    public passenger arrivalLounge(arrivalLounge arrivalLounge) {
-        this.arrivalLounge = arrivalLounge;
-        return this;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -84,7 +79,6 @@ public class passenger extends Thread{
     public String toString() {
         return "{" +
             " state='" + getState() + "'" +
-            ", arrivalLounge='" + getArrivalLounge() + "'" +
             "}";
     }
 

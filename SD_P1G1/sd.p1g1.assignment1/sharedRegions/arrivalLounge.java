@@ -6,7 +6,7 @@ import java.util.Stack;
 
 public class arrivalLounge {
 
-    boolean endOfDay;
+    boolean endOfDay = false;
     // main init value
     int passengerCount;
     Stack<bag>[] planehold;
