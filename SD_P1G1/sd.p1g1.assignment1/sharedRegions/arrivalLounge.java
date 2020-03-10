@@ -9,17 +9,19 @@ public class arrivalLounge {
     boolean endOfDay = false;
     // main init value
     int passengerCount;
-    Stack<bag>[] planehold;
+    Stack<Bag>[] planehold;
 
     //PORTER
 
+    
     public synchronized char takeARest(){
         while(!endOfDay){
-        try
-        { wait ();
+        try{ 
+            wait ();
         }
-        catch (InterruptedException e)
-        { return 'S';
+        catch (InterruptedException e){ 
+            // log?
+            return 'S';
         }
       }
 
@@ -37,6 +39,13 @@ public class arrivalLounge {
 
         return 'c';
     }
+
+	public static Bag tryToCollectBag() {
+		return null;
+	}
+
+	public static void noMoreBagsToCollect() {
+	}
    
 /*  bag tryToCollectABag()
     void noMoreBagsToCollect() */

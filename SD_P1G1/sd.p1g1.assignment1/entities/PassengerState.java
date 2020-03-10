@@ -3,7 +3,7 @@ package entities;
 /**
  * State
  */
-public enum passengerState {
+public enum PassengerState {
     AT_THE_DISEMBARKING_ZONE,
     AT_THE_LUGGAGE_COLLECTION_POINT,
     AT_THE_BAGGAGE_RECLAIM_OFFICE,

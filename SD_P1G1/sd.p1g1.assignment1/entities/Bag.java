@@ -1,15 +1,17 @@
 package entities;
 
-public class bag extends Thread{
+public class Bag extends Thread{
     
     private char destination;
     private int id;
 
-    public bag (char destination, int id)
-    {
+    public Bag (char destination, int id){
         this.destination = destination;
         this.id = id;
-
     }
+
+	public char getDestination() {
+		return this.destination;
+	}
 
 }

@@ -5,7 +5,7 @@ import entities.*;
 import java.util.Queue;
 import java.util.Stack;
 
-public class departureTerminalEntrance {
+public class departureTermEntrance {
 
     private int[] leavingPass = {0,0,0,0,0};
 
@@ -20,5 +20,8 @@ public class departureTerminalEntrance {
         }
 
     }
+
+	public static void prepareNextLeg(int i) {
+	}
 
 }

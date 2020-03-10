@@ -6,7 +6,17 @@ import java.util.Stack;
 
 public class baggageCollectionPoint {
 
-    bag[] collectionMat;
+    Bag[] collectionMat;
+
+	public static boolean goCollectABag() {
+		return false;
+	}
+
+	public static void CarryItToAppropriateStore(Bag bag) {
+        
+	}
+
+
 
 
 /*  PORTER 

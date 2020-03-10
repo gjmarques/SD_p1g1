@@ -11,8 +11,8 @@ public class arrivalTermTransfQuay{
     
 
     public synchronized void takeABus(){
-        passenger p = (passenger) Thread.currentThread();
-		p.setState(passengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
+        Passenger p = (Passenger) Thread.currentThread();
+		p.setState(PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
 		waitingLine.add(p.getPassID());
 
         notifyAll();
@@ -28,8 +28,16 @@ public class arrivalTermTransfQuay{
 
     public synchronized void enterTheBus(){
 
-        
-
-
     }
+
+
+	public static void annoucingBusBoarding() {
+	}
+
+	public static void parkTheBus() {
+	}
+
+	public static char hasDaysWorkEnded() {
+		return 0;
+	}
 }
