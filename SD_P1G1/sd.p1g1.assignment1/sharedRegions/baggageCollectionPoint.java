@@ -8,10 +8,18 @@ public class baggageCollectionPoint {
 
     Bag[] collectionMat;
 
+	
+	/** 
+	 * @return boolean
+	 */
 	public static boolean goCollectABag() {
 		return false;
 	}
 
+	
+	/** 
+	 * @param bag
+	 */
 	public static void CarryItToAppropriateStore(Bag bag) {
         
 	}

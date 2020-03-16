@@ -11,6 +11,10 @@ public class arrivalLounge {
     int passengerCount;
     Stack<Bag>[] planehold;
 
+    
+    /** 
+     * @return char
+     */
     //PORTER
 
     
@@ -34,13 +38,20 @@ public class arrivalLounge {
     }
 
     //PASSENGER
-
+    /** 
+     * @param nLand
+     * @return char
+     */
     public synchronized char whatShouldIDo(int nLand){
 
         return 'c';
     }
 
-	public static Bag tryToCollectBag() {
+	
+    /** 
+     * @return Bag
+     */
+    public static Bag tryToCollectBag() {
 		return null;
 	}
 

@@ -1,5 +1,9 @@
 package mainProgram;
 
+/**
+ * Global is an auxiliar class where some variables are initialized.
+ */
+
 public class Global{
 
     static final int NR_PASSENGERS = 6;

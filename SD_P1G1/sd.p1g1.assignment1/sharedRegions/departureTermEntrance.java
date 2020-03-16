@@ -11,6 +11,10 @@ public class departureTermEntrance {
 
     private int nPass = 5;
 
+    
+    /** 
+     * @param nPlane
+     */
     //PASSENGER
 
     public synchronized void goHome(int nPlane){
@@ -21,7 +25,11 @@ public class departureTermEntrance {
 
     }
 
-	public static void prepareNextLeg(int i) {
+	
+    /** 
+     * @param i
+     */
+    public static void prepareNextLeg(int i) {
 	}
 
 }

@@ -8,7 +8,11 @@ public class tempStorageArea {
         System.out.println("Does nothing");
     }
 
-	public static void CarryItToAppropriateStore(Bag bag) {
+	
+    /** 
+     * @param bag
+     */
+    public static void CarryItToAppropriateStore(Bag bag) {
 	}
 
 

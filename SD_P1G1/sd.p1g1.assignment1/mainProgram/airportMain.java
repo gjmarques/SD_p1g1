@@ -6,10 +6,19 @@ import entities.*;
 import sharedRegions.*;
 
 /**
- * RepairShop is the main thread of the program
+ * This represents an airport, where passengers arrive from a flight and can take multiple actions.
+ * 
+ * @author Gonçalo Marques, 80327
+ * @author Joana Bernardino, 76475
+ * 
  */
 public class airportMain {
 
+	
+	/** 
+	 * @param args
+	 * @throws InterruptedException
+	 */
 	public static void main(String[] args) throws InterruptedException{
 
 		//initiatePassengers();
@@ -23,7 +32,9 @@ public class airportMain {
 	*/
 	//public static final int N = 30; 
 
-
+	/**
+	 * This method instantiates the passengers
+	*/
 	public static void initiatePassengers(){
 		ArrayList<Passenger> passengersList = new ArrayList<Passenger>();
 		for(int i = 0; i < Global.NR_PASSENGERS-1; i++){
@@ -33,6 +44,9 @@ public class airportMain {
 		}
 	}
 
+	/**
+	 * This method instantiates the number of bags per passenger
+	 */
 	public static void generateBags(){
         int[] array = {0,1,2,2};
         int val = (int) Math.floor(Math.random() * Math.floor(3));

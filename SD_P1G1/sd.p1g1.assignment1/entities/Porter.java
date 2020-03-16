@@ -16,6 +16,10 @@ public class Porter extends Thread {
         this.state = state;
     }
 
+    /**
+     * This method describes a Porter's day.
+     */
+
     @Override
     public void run(){
         // while not end of the day
@@ -42,14 +46,26 @@ public class Porter extends Thread {
         }
     }
 
+    
+    /** 
+     * @return int
+     */
     int getID(){
         return this.id;
     }
 
+    
+    /** 
+     * @param state
+     */
     void setState(PorterState state){
         this.state = state;
     }
 
+    
+    /** 
+     * @return PorterState
+     */
     PorterState getPorterState(){
         return this.state;
     }

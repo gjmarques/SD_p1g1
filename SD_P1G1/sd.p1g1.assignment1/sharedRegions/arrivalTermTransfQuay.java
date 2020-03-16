@@ -37,6 +37,12 @@ public class arrivalTermTransfQuay{
 	public static void parkTheBus() {
 	}
 
+	
+	/** 
+	 * This method checks if work day has ended
+	 * E - work day ended
+	 * @return char
+	 */
 	public static char hasDaysWorkEnded() {
 		return 0;
 	}

@@ -1,7 +1,7 @@
 package entities;
  
 /**
- * State
+ * Possible {@link BusDriver} states.
  */
 public enum BusDriverState {
     PARKING_AT_THE_ARRIVAL_TERMINAL,

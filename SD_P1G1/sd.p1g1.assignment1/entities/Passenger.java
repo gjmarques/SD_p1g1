@@ -28,6 +28,9 @@ public class Passenger extends Thread{
         this.state = state;
     }
 
+    /**
+     * This method describes a passenger's day.
+     */
     @Override
     public void run(){
         for(int i = 0; i < Global.NR_VOOS-1; i++){
@@ -56,30 +59,54 @@ public class Passenger extends Thread{
     }
 
 
+    
+    /** 
+     * @param state
+     */
     public void setState(PassengerState state) {
         this.state = state;
     }
 
+    
+    /** 
+     * @return PassengerState
+     */
     public PassengerState getPassengerState() {
         return this.state;
     }
 
+    
+    /** 
+     * @param flightNr
+     * @return PassengerState
+     */
     public PassengerState getPassengerState(int flightNr) {
         return this.state;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getPassID() {
         return this.id;
     }
 
     /*
-    * returns number of bags per flight
+    * Returns number of bags per flight
+    * @param flightNr
+    * @return int
     */
     int getBags(int flightNr){
         return flights.get(flightNr);
     }
 
 
+    
+    /** 
+     * @param o
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -91,11 +118,19 @@ public class Passenger extends Thread{
         return Objects.equals(state, passenger.state) && Objects.equals(arrivalLounge, passenger.arrivalLounge);
     }
 
+    
+    /** 
+     * @return int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(state, arrivalLounge);
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "{" +
