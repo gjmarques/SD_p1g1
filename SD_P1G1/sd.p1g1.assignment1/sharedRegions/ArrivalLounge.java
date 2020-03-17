@@ -29,7 +29,7 @@ public class ArrivalLounge {
     // PASSENGER
 
     //Passengers decide what to do based on their final destination and number of bags
-    public char whatShouldIDo(Bag[] bags, boolean finalDestination, int flight_nr) {
+    public char whatShouldIDo(Bag[] bags, boolean finalDestination) {
         rl.lock();
         char whatToDo;
         try {

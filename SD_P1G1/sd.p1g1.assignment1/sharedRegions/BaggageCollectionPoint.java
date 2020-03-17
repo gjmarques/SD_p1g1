@@ -1,5 +1,7 @@
 package sharedRegions;
 
+import java.util.*;
+
 import entities.*;
 
 public class BaggageCollectionPoint {

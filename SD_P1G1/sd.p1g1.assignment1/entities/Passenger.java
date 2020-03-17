@@ -22,13 +22,15 @@ public class Passenger extends Thread {
     private List<Integer> numBags = new ArrayList<>();
     private Bag[] bags;
     private int id;
+    private boolean finalDestination;
+    
 
     private final ArrivalLounge arrivalLounge;
     private final ExitAirport exitAirport;
     private final ArrivalTermTransfQuay arrivalTermTransfQuay;
     private final DepartureTermTransfQuay departureTermTransfQuay;
 
-    public Passenger(int id, List<Integer> numBags, ArrivalLounge arrivalLounge, ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay, ExitAirport exitAirport) {
+    public Passenger(int id, List<Integer> numBags, boolean finalDestination, ArrivalLounge arrivalLounge, ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay, ExitAirport exitAirport) {
         this.id = id;
         this.numBags = numBags;
         this.state = PassengerState.AT_THE_DISEMBARKING_ZONE;
@@ -36,6 +38,7 @@ public class Passenger extends Thread {
         this.arrivalTermTransfQuay = arrivalTermTransfQuay;
         this.departureTermTransfQuay = departureTermTransfQuay;
         this.exitAirport = exitAirport;
+        this.finalDestination = finalDestination;
     }
 
     /**
@@ -47,27 +50,20 @@ public class Passenger extends Thread {
         Random r = new Random();
         for (int i = 0; i < Global.NR_FLIGHTS; i++) {
 
-            boolean finalDestination = r.nextBoolean();
+            //boolean finalDestination = r.nextBoolean();
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
 
             for (int j = 0; j < bags.length; j++) {
-                bags[j] = new Bag(finalDestination ? 'H' : 'T', id);
+                bags[j] = new Bag(this.finalDestination ? 'H' : 'T', id);
             }
 
-<<<<<<< HEAD
-            char choice = arrivalLounge.whatShouldIDo(bags, finalDestination, i);
-            switch (choice) {
-                case ('a'):
-                    //exitAirport.goHome(i);
-=======
-            char choice = arrivalLounge.whatShouldIDo(bags, finalDestination);
+            char choice = arrivalLounge.whatShouldIDo(bags, this.finalDestination);
             
             switch (choice) {
                 case ('a'):
                     exitAirport.goHome(i);
                     break;
->>>>>>> b37d5f7efbbc7274c749c1787ab37098230ca506
 
                 case ('b'):
                     arrivalTermTransfQuay.takeABus(i);
