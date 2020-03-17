@@ -28,20 +28,9 @@ public class BusDriver extends Thread {
         }
     }
 
-    
-    /** 
-     * 
-     * Sets the state of the {@link BusDriver}
-     * 
-     * @param state
-     */
     public void setState(BusDriverState state) {
         this.state = state;
     }
-    
-    /** 
-     * @return BusDriverState
-     */
     public BusDriverState getBDriverState() {
         return this.state;
     }

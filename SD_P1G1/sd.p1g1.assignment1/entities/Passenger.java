@@ -1,142 +1,92 @@
 package entities;
 
 import sharedRegions.*;
-import entities.*;
 import mainProgram.*;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
+/**
+ * This datatype implements the Passenger thread. 
+ * In his lifecycle, the passenger arrives at the airport,
+ * and decides on his course of action:
+ * <ul>
+ * <li> Retrieves his bags, if he has any, then goes home;
+ * <li> Goes to the departure terminal if he's not at his final destination;
+ * <li> Or if he has no bags and is in his final destination, immediatly goes home.
+ * </ul>
+ */
 
-public class Passenger extends Thread{
-    
+public class Passenger extends Thread {
+
     private PassengerState state;
-    private char destination;
+    private boolean finalDestination;
     private int collectedBags;
-    private int[] numBags = {0,0,0,0,0};
+    private List<Integer> numBags = new ArrayList<>();
+    private Bag[] bags;
     private int id;
-    //number of bags per flight
-    private Hashtable<Integer, Integer> flights = new Hashtable<Integer, Integer>();
 
-    private arrivalLounge arrivalLounge;
-    private arrivalTermExit arrivalTermExit;
-    private arrivalTermTransfQuay arrivalTermTransfQuay;
- 
+    private final ArrivalLounge arrivalLounge;
+    private final ExitAirport exitAirport;
 
-    public Passenger(int id, PassengerState state) {
+    public Passenger(int id, List<Integer> numBags, boolean finalDestination, ArrivalLounge arrivalLounge, ExitAirport exitAirport) {
         this.id = id;
-        this.state = state;
+        this.numBags = numBags;
+        this.finalDestination = finalDestination;
+        this.state = PassengerState.AT_THE_DISEMBARKING_ZONE;
+        this.arrivalLounge = arrivalLounge;
+        this.exitAirport = exitAirport;
     }
 
-    /**
-     * This method describes a passenger's day.
-     */
     @Override
-    public void run(){
-        for(int i = 0; i < Global.NR_VOOS-1; i++){
-            char c  =  arrivalLounge.whatShouldIDo(i);
-            switch(c){
-                case('a'):  arrivalTermExit.goHome(i);
+    public void run() {
+        for (int i = 0; i < Global.NR_FLIGHTS; i++) {
 
-                case('b'):  arrivalTermTransfQuay.takeABus();		   
-                            arrivalTermTransfQuay.enterTheBus();
-                            departureTermTransfQuay.leaveTheBus();
-                            departureTermEntrance.prepareNextLeg(i);
+            collectedBags = 0;
+            bags = new Bag[numBags.get(i)];
+            for (int j = 0; j < bags.length; j++) {
+                bags[j] = new Bag(finalDestination ? 'H' : 'T', id);
 
-                case('c'):  collectedBags = 0;
-                            while(collectedBags != numBags[i]){
-                                if(baggageCollectionPoint.goCollectABag()){
-                                    collectedBags+=1;
-                                }else { baggageReclaimOffice.reportMissingBags(numBags[i]-collectedBags);
-                                    break;
-                                }
-                            arrivalTermExit.goHome(i);
+            }
 
+            char choice = arrivalLounge.whatShouldIDo(bags, finalDestination);
+            switch (choice) {
+                case ('a'):
+                    exitAirport.goHome(i);
 
-                }
+                case ('b'):
+                    // arrivalTermTransfQuay.takeABus();
+                    // arrivalTermTransfQuay.enterTheBus();
+                    // departureTermTransfQuay.leaveTheBus();
+                    // departureTermEntrance.prepareNextLeg(i);
+
+                case ('c'):
+                    // while (collectedBags != numBags.get(i)) {
+                    //     if (baggageCollectionPoint.goCollectABag()) {
+                    //         collectedBags += 1;
+                    //     } else {
+                    //         baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags);
+                    //         break;
+                    //     }
+                    //     arrivalTermExit.goHome(i);
+                    // }
             }
         }
     }
 
-
-    
-    /** 
-     * @param state
-     */
     public void setState(PassengerState state) {
         this.state = state;
     }
 
-    
-    /** 
-     * @return PassengerState
-     */
     public PassengerState getPassengerState() {
         return this.state;
     }
 
-    
-    /** 
-     * @param flightNr
-     * @return PassengerState
-     */
-    public PassengerState getPassengerState(int flightNr) {
-        return this.state;
-    }
-
-    
-    /** 
-     * @return int
-     */
     public int getPassID() {
         return this.id;
     }
 
-    /*
-    * Returns number of bags per flight
-    * @param flightNr
-    * @return int
-    */
-    int getBags(int flightNr){
-        return flights.get(flightNr);
-    }
-
-
-    
-    /** 
-     * @param o
-     * @return boolean
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Passenger)) {
-            return false;
-        }
-        Passenger passenger = (Passenger) o;
-        return Objects.equals(state, passenger.state) && Objects.equals(arrivalLounge, passenger.arrivalLounge);
-    }
-
-    
-    /** 
-     * @return int
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(state, arrivalLounge);
-    }
-
-    
-    /** 
-     * @return String
-     */
     @Override
     public String toString() {
-        return "{" +
-            " state='" + getState() + "'" +
-            "}";
+        return "{" + " state='" + getState() + "'" + "}";
     }
-
 
 }

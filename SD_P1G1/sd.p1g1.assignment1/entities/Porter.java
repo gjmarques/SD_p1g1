@@ -16,18 +16,14 @@ public class Porter extends Thread {
         this.state = state;
     }
 
-    /**
-     * This method describes a Porter's day.
-     */
-
     @Override
     public void run(){
         // while not end of the day
-        while(arrivalLounge.takeARest() != 'E'){ 
+        while(ArrivalLounge.takeARest() != 'E'){ 
             planeHoldEmpty = false;
 
 	        while(!planeHoldEmpty){
-                bag = arrivalLounge.tryToCollectBag();
+                bag = ArrivalLounge.tryToCollectBag();
                 // when there is no bags left to peek
                 if(bag == null){			
                     planeHoldEmpty = true;
@@ -41,31 +37,19 @@ public class Porter extends Thread {
                     baggageCollectionPoint.CarryItToAppropriateStore(bag);
                 }
 
-                arrivalLounge.noMoreBagsToCollect();		
+                ArrivalLounge.noMoreBagsToCollect();		
 	        }
         }
     }
 
-    
-    /** 
-     * @return int
-     */
     int getID(){
         return this.id;
     }
 
-    
-    /** 
-     * @param state
-     */
     void setState(PorterState state){
         this.state = state;
     }
 
-    
-    /** 
-     * @return PorterState
-     */
     PorterState getPorterState(){
         return this.state;
     }

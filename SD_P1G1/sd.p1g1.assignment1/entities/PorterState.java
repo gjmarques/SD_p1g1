@@ -1,7 +1,7 @@
 package entities;
  
 /**
- * Possible states of the porter
+ * State
  */
 public enum PorterState {
     WAITING_FOR_A_PLANE_TO_LAND,

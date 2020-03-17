@@ -1,7 +1,7 @@
 package entities;
  
 /**
- * Possible Passengers' state.
+ * State
  */
 public enum PassengerState {
     AT_THE_DISEMBARKING_ZONE,

@@ -10,13 +10,7 @@ public class Bag extends Thread{
         this.id = id;
     }
 
-	
-    /** 
-     * This method returns a bag's destination.
-     * 
-     * @return char
-     */
-    public char getDestination() {
+	public char getDestination() {
 		return this.destination;
 	}
 
