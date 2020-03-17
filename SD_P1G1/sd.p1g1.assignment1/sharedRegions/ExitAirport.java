@@ -4,6 +4,7 @@ import java.util.concurrent.locks.*;
 
 /**
  * This datatype implements the ExitAirport shared memory region. 
+ * <p>
  * In this shared region, the Passengers wait for each others lifecycle
  * to be over before moving on to the next flight simulation
  * or concluding the program execution
@@ -12,7 +13,7 @@ import java.util.concurrent.locks.*;
 public class ExitAirport {
 
     private final ReentrantLock rl;
-    private final Condition waitingEnd;
+    private final Condition waitingEndCV;
 
     private int passengers = 0;
     private int numPassengers;
@@ -20,7 +21,7 @@ public class ExitAirport {
     // Create lock and conditions
     public ExitAirport(int numPassengers) {
         rl = new ReentrantLock(true);
-        waitingEnd = rl.newCondition();
+        waitingEndCV = rl.newCondition();
         this.numPassengers = numPassengers;
     }
 
@@ -38,9 +39,9 @@ public class ExitAirport {
             if (passengers == numPassengers) {
                 passengers = 0;
                 System.out.println("VOO "+nPlane+" TERMINADO");
-                waitingEnd.signalAll();
+                waitingEndCV.signalAll();
             } else {
-                waitingEnd.await();
+                waitingEndCV.await();
             }
         } catch (Exception ex) {
         } finally {
@@ -55,9 +56,9 @@ public class ExitAirport {
             passengers++;
             if (passengers == numPassengers) {
                 passengers = 0;
-                waitingEnd.signalAll();
+                waitingEndCV.signalAll();
             } else {
-                waitingEnd.await();
+                waitingEndCV.await();
             }
         } catch (Exception ex) {
         } finally {

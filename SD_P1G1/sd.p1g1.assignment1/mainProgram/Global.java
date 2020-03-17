@@ -13,7 +13,7 @@ public class Global{
     /**
      * Number of bags per passenger
      */
-    static final int MAX_BAGS = 2;
+    static final int MAX_BAGS = 1;
     /**
      * Number of flights incoming the airport
      */

@@ -46,15 +46,15 @@ public class Passenger extends Thread {
 
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
+
             for (int j = 0; j < bags.length; j++) {
                 bags[j] = new Bag(finalDestination ? 'H' : 'T', id);
-
             }
 
-            char choice = arrivalLounge.whatShouldIDo(bags, finalDestination);
+            char choice = arrivalLounge.whatShouldIDo(bags, finalDestination, i);
             switch (choice) {
                 case ('a'):
-                    exitAirport.goHome(i);
+                    //exitAirport.goHome(i);
 
                 case ('b'):
                     // arrivalTermTransfQuay.takeABus();
