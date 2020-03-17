@@ -29,6 +29,7 @@ public class ExitAirport {
     /** 
      * @param nPlane
      */
+    
     // PASSENGER
 
     //Passengers enter a lock state while waiting for every Passenger to finish their lifecycle
@@ -38,8 +39,13 @@ public class ExitAirport {
             passengers++;
             if (passengers == numPassengers) {
                 passengers = 0;
+<<<<<<< HEAD
                 System.out.println("VOO "+nPlane+" TERMINADO");
                 waitingEndCV.signalAll();
+=======
+                System.out.println("GOHOME VOO "+nPlane+" TERMINADO");
+                waitingEnd.signalAll();
+>>>>>>> b37d5f7efbbc7274c749c1787ab37098230ca506
             } else {
                 waitingEndCV.await();
             }
@@ -47,16 +53,20 @@ public class ExitAirport {
         } finally {
             rl.unlock();
         }
-
     }
 
-    public void prepareNextLeg() {
+    public void prepareNextLeg(int nPlane) {
         rl.lock();
         try {
             passengers++;
             if (passengers == numPassengers) {
                 passengers = 0;
+<<<<<<< HEAD
                 waitingEndCV.signalAll();
+=======
+                System.out.println("NEXTLEG VOO "+nPlane+" TERMINADO");
+                waitingEnd.signalAll();
+>>>>>>> b37d5f7efbbc7274c749c1787ab37098230ca506
             } else {
                 waitingEndCV.await();
             }
@@ -65,5 +75,4 @@ public class ExitAirport {
             rl.unlock();
         }
     }
-
 }
