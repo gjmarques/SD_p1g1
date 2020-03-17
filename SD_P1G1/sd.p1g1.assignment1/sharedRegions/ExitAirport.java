@@ -24,6 +24,10 @@ public class ExitAirport {
         this.numPassengers = numPassengers;
     }
 
+    
+    /** 
+     * @param nPlane
+     */
     // PASSENGER
 
     //Passengers enter a lock state while waiting for every Passenger to finish their lifecycle

@@ -16,21 +16,31 @@ public class BusDriver extends Thread {
         //System.out.println("Does nothing");
     }
 
-
+    /**
+     * This method defines the life-cycle of the Bus Driver.
+     */
     @Override
     public void run(){
-        while(arrivalTermTransfQuay.hasDaysWorkEnded() != 'E'){
-            arrivalTermTransfQuay.annoucingBusBoarding();						
+        while(ArrivalTermTransfQuay.hasDaysWorkEnded() != 'E'){
+            ArrivalTermTransfQuay.annoucingBusBoarding();						
             goToDepartureTerminal();
-            departureTermTransfQuay.parkTheBusAndLetPassengerOff();
+            DepartureTermTransfQuay.parkTheBusAndLetPassengerOff();
             goToArrivalTerminal();
-            arrivalTermTransfQuay.parkTheBus();
+            ArrivalTermTransfQuay.parkTheBus();
         }
     }
 
+    
+    /** 
+     * @param state
+     */
     public void setState(BusDriverState state) {
         this.state = state;
     }
+    
+    /** 
+     * @return BusDriverState
+     */
     public BusDriverState getBDriverState() {
         return this.state;
     }

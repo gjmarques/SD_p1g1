@@ -16,6 +16,9 @@ public class Porter extends Thread {
         this.state = state;
     }
 
+    /**
+     * This method defines the life-cycle of the Porter.
+     */
     @Override
     public void run(){
         // while not end of the day
@@ -30,11 +33,11 @@ public class Porter extends Thread {
                 }
                 // if bag is in trasit
                 else if(bag.getDestination() == 'T'){ 
-                    tempStorageArea.CarryItToAppropriateStore(bag);
+                    TempStorageArea.CarryItToAppropriateStore(bag);
                 }
                 else{					
                     // bag is at final aeroport
-                    baggageCollectionPoint.CarryItToAppropriateStore(bag);
+                    BaggageCollectionPoint.CarryItToAppropriateStore(bag);
                 }
 
                 ArrivalLounge.noMoreBagsToCollect();		
@@ -42,14 +45,26 @@ public class Porter extends Thread {
         }
     }
 
+    
+    /** 
+     * @return int
+     */
     int getID(){
         return this.id;
     }
 
+    
+    /** 
+     * @param state
+     */
     void setState(PorterState state){
         this.state = state;
     }
 
+    
+    /** 
+     * @return PorterState
+     */
     PorterState getPorterState(){
         return this.state;
     }

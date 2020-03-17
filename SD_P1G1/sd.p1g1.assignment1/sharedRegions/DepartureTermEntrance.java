@@ -5,7 +5,7 @@ import entities.*;
 import java.util.Queue;
 import java.util.Stack;
 
-public class departureTermEntrance {
+public class DepartureTermEntrance {
 
     private int[] leavingPass = {0,0,0,0,0};
 

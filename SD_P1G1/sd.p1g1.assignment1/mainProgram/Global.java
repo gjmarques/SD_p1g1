@@ -1,8 +1,21 @@
 package mainProgram;
 
+/**
+ * This class initiates values of the entities.
+ */
+
 public class Global{
 
+    /**
+     * Number of passengers
+     */
     static final int NR_PASSENGERS = 6;
+    /**
+     * Number of bags per passenger
+     */
     static final int MAX_BAGS = 2;
+    /**
+     * Number of flights incoming the airport
+     */
 	public static final int NR_FLIGHTS = 5;
 }

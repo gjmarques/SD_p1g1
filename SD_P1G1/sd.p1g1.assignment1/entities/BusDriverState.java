@@ -1,7 +1,7 @@
 package entities;
  
 /**
- * State
+ * Possible Bus Driver's states enumerator
  */
 public enum BusDriverState {
     PARKING_AT_THE_ARRIVAL_TERMINAL,

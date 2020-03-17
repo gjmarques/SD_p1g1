@@ -10,6 +10,11 @@ import sharedRegions.*;
  */
 
 public class AirportMain {
+	
+	/** 
+	 * @param args
+	 * @throws InterruptedException
+	 */
 	public static void main(String[] args) throws InterruptedException{
 		
 		
@@ -40,9 +45,12 @@ public class AirportMain {
 
 	}
 
-	/**
-	* Generates a list with a random number of bags for each flight of a passenger
-	*/
+	/** 
+	 * Generates a list with a random number of bags for each flight of a passenger
+	 * @param nrFlights
+	 * @param maxBags
+	 * @return List<Integer>
+	 */
 	public static List<Integer> generateBags(int nrFlights, int maxBags) {
 		List<Integer> bags = new ArrayList<Integer>();
 

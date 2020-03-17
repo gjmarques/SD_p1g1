@@ -36,6 +36,10 @@ public class Passenger extends Thread {
         this.exitAirport = exitAirport;
     }
 
+    /**
+     * This method defines the life-cycle of the Passenger.
+     */
+
     @Override
     public void run() {
         for (int i = 0; i < Global.NR_FLIGHTS; i++) {
@@ -72,18 +76,34 @@ public class Passenger extends Thread {
         }
     }
 
+    
+    /** 
+     * @param state
+     */
     public void setState(PassengerState state) {
         this.state = state;
     }
 
+    
+    /** 
+     * @return PassengerState
+     */
     public PassengerState getPassengerState() {
         return this.state;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getPassID() {
         return this.id;
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "{" + " state='" + getState() + "'" + "}";

@@ -1,6 +1,6 @@
 package sharedRegions;
 
-public class departureTermTransfQuay{
+public class DepartureTermTransfQuay{
 
 	public static void parkTheBusAndLetPassengerOff() {
 

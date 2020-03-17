@@ -26,6 +26,10 @@ public class ArrivalLounge {
         this.numPassengers = numPassengers;
     }
 
+    
+    /** 
+     * @return char
+     */
     // PORTER
 
     // public synchronized char takeARest() {
@@ -75,6 +79,25 @@ public class ArrivalLounge {
             rl.unlock();
         }
     }
+
+	
+    /** 
+     * @return char
+     */
+    public static char takeARest() {
+		return 0;
+	}
+
+	
+    /** 
+     * @return Bag
+     */
+    public static Bag tryToCollectBag() {
+		return null;
+	}
+
+	public static void noMoreBagsToCollect() {
+	}
 
     // public static Bag tryToCollectBag() {
     //     return null;

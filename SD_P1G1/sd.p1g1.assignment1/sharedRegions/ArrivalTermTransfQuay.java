@@ -4,7 +4,7 @@ import entities.*;
 import java.util.Queue;
 import java.util.Stack;
 
-public class arrivalTermTransfQuay{
+public class ArrivalTermTransfQuay{
 
     private Queue<Integer> waitingLine;
     private int busCapacity;
@@ -37,6 +37,10 @@ public class arrivalTermTransfQuay{
 	public static void parkTheBus() {
 	}
 
+	
+	/** 
+	 * @return char
+	 */
 	public static char hasDaysWorkEnded() {
 		return 0;
 	}
