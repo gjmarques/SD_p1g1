@@ -1,19 +1,20 @@
 package entities;
 
-import java.util.*;
-
 import sharedRegions.*;
 
 public class BusDriver extends Thread {
-    
-    private Queue passengerQueue;
-    int timeToWait;
 
-    BusDriverState state;
+    private int timeToWait;
+    private int nPassengers = 0;
+    private boolean loop = true;
+    private BusDriverState state;
+    private final ArrivalTermTransfQuay arrivalTermTransfQuay;
+    private final DepartureTermTransfQuay departureTermTransfQuay;
 
-    BusDriver (BusDriverState state){
-        this.state = state;
-        //System.out.println("Does nothing");
+    public BusDriver (ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay){
+        this.state = BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL;
+        this.arrivalTermTransfQuay = arrivalTermTransfQuay;
+        this.departureTermTransfQuay = departureTermTransfQuay;
     }
 
     /**
@@ -21,12 +22,26 @@ public class BusDriver extends Thread {
      */
     @Override
     public void run(){
-        while(ArrivalTermTransfQuay.hasDaysWorkEnded() != 'E'){
-            ArrivalTermTransfQuay.annoucingBusBoarding();						
-            goToDepartureTerminal();
-            DepartureTermTransfQuay.parkTheBusAndLetPassengerOff();
-            goToArrivalTerminal();
-            ArrivalTermTransfQuay.parkTheBus();
+
+        while(loop){
+            System.out.println("BUSDRIVER START");
+            char choice = arrivalTermTransfQuay.hasDaysWorkEnded(); 
+            // if(timeToWait % 500 == 0) {
+            //     arrivalTermTransfQuay.departureTime();
+            // }
+
+            if(choice == 'W') {
+                nPassengers = arrivalTermTransfQuay.annoucingBusBoarding();	
+                System.out.println(" BUSDRIVER nPassengers: "+ nPassengers);			
+                goToDepartureTerminal();
+                departureTermTransfQuay.parkTheBusAndLetPassengerOff(nPassengers);
+                goToArrivalTerminal();
+                arrivalTermTransfQuay.parkTheBus();
+
+		    System.out.println("BUSDRIVER CYCLE");
+            }else if(choice == 'E'){
+                loop = false;
+            }
         }
     }
 
@@ -44,11 +59,7 @@ public class BusDriver extends Thread {
     public BusDriverState getBDriverState() {
         return this.state;
     }
-    /*
-    public BusDriverState getState() {
-        return this.state;
-    }
-    */
+
     void goToDepartureTerminal(){
 
     }

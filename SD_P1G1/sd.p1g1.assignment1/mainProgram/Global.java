@@ -15,6 +15,10 @@ public class Global{
      */
     static final int MAX_BAGS = 2;
     /**
+     * Number of seats in the transfer bus
+     */
+    public static final int BUS_SIZE = 3;
+    /**
      * Number of flights incoming the airport
      */
 	public static final int NR_FLIGHTS = 5;

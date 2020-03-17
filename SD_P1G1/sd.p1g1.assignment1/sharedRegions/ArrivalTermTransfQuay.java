@@ -1,47 +1,132 @@
 package sharedRegions;
 
-import entities.*;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.concurrent.locks.*;
 
-public class ArrivalTermTransfQuay{
+public class ArrivalTermTransfQuay {
 
-    private Queue<Integer> waitingLine;
-    private int busCapacity;
-    
+	private final ReentrantLock rl;
+	private final Condition waitLine;
+	private final Condition waitFull;
+	private final Condition waitAnnouncement;
+	private final Condition waitEnter;
+	private int flightCount;
+	private int maxFlights;
+	private int busSize;
+	private int passengers = 0;
+	private int passengersInside = 0;
+	private int passengersEntering = 0;
+	private Boolean endOfDay = false;
 
-    public synchronized void takeABus(){
-        Passenger p = (Passenger) Thread.currentThread();
-		p.setState(PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
-		waitingLine.add(p.getPassID());
+	// create lock and conditions
+	public ArrivalTermTransfQuay(int busSize, int maxFlights) {
+		rl = new ReentrantLock(true);
+		waitLine = rl.newCondition();
+		waitFull = rl.newCondition();
+		waitAnnouncement = rl.newCondition();
+		waitEnter = rl.newCondition();
+		this.busSize = busSize;
+		this.maxFlights = maxFlights;
+	}
 
-        notifyAll();
-        
-        if(waitingLine.size() == busCapacity) //signal busdrive
+	public void takeABus(int nFlight) {
+		rl.lock();
+		try {
+			flightCount = nFlight+1;
+			passengers++;
+			while (passengersEntering >= busSize) {
+				waitLine.await();
+			}
+			passengersEntering++;
+			if (passengersEntering == busSize) {
+				waitFull.signal();
+			}
 
-		while(waitingLine.contains(p.getPassID())){
-			try{
-				wait();
-			}catch(InterruptedException e){}
+			waitAnnouncement.await();
+		} catch (Exception ex) {
+		} finally {
+			rl.unlock();
 		}
-    }
-
-    public synchronized void enterTheBus(){
-
-    }
-
-
-	public static void annoucingBusBoarding() {
 	}
 
-	public static void parkTheBus() {
+	public void departureTime() {
+		rl.lock();
+		try {
+			if (passengers > 0) {
+				System.out.println("WAKE UP BUSDRIVER");
+				waitFull.signalAll();
+			}
+
+		} catch (Exception ex) {
+		} finally {
+			rl.unlock();
+		}
 	}
 
-	
-	/** 
+	public void enterTheBus() {
+		rl.lock();
+		try {
+
+			passengersInside++;
+
+			System.out.println("ENTER THE BUS->"+ passengersEntering);
+			if(passengersInside == passengersEntering){
+				passengersEntering = 0;
+				waitEnter.signal();
+			}
+
+		} catch (Exception ex) {
+		} finally {
+			rl.unlock();
+		}
+	}
+
+	public int annoucingBusBoarding() {
+		rl.lock();
+		try {
+			waitAnnouncement.signalAll();
+			waitEnter.await();
+			passengers = passengers - passengersInside;
+
+			System.out.println("PASSENGERS" + passengers);
+			return passengersInside;
+		} catch (Exception ex) {
+			return 0;
+		} finally {
+			rl.unlock();
+		}
+	}
+
+	public void parkTheBus() {
+		passengersInside = 0;
+
+		if(passengers == 0 && flightCount == maxFlights){
+			endOfDay = true;
+		}
+	}
+
+	/**
 	 * @return char
 	 */
-	public static char hasDaysWorkEnded() {
-		return 0;
+	public char hasDaysWorkEnded() {
+		rl.lock();
+		try {	
+			waitLine.signalAll();
+			if (endOfDay)
+				return 'E';	
+			waitFull.await();
+
+			if (passengers > 0)
+				return 'W';
+
+			else if (endOfDay)
+				return 'E';
+
+			return 'S';
+
+		} catch (Exception ex) {
+			return 'S';
+		} finally {
+			rl.unlock();
+		}
 	}
 }

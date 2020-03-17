@@ -18,7 +18,6 @@ import java.util.*;
 public class Passenger extends Thread {
 
     private PassengerState state;
-    private boolean finalDestination;
     private int collectedBags;
     private List<Integer> numBags = new ArrayList<>();
     private Bag[] bags;
@@ -26,13 +25,16 @@ public class Passenger extends Thread {
 
     private final ArrivalLounge arrivalLounge;
     private final ExitAirport exitAirport;
+    private final ArrivalTermTransfQuay arrivalTermTransfQuay;
+    private final DepartureTermTransfQuay departureTermTransfQuay;
 
-    public Passenger(int id, List<Integer> numBags, boolean finalDestination, ArrivalLounge arrivalLounge, ExitAirport exitAirport) {
+    public Passenger(int id, List<Integer> numBags, ArrivalLounge arrivalLounge, ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay, ExitAirport exitAirport) {
         this.id = id;
         this.numBags = numBags;
-        this.finalDestination = finalDestination;
         this.state = PassengerState.AT_THE_DISEMBARKING_ZONE;
         this.arrivalLounge = arrivalLounge;
+        this.arrivalTermTransfQuay = arrivalTermTransfQuay;
+        this.departureTermTransfQuay = departureTermTransfQuay;
         this.exitAirport = exitAirport;
     }
 
@@ -42,8 +44,10 @@ public class Passenger extends Thread {
 
     @Override
     public void run() {
+        Random r = new Random();
         for (int i = 0; i < Global.NR_FLIGHTS; i++) {
 
+            boolean finalDestination = r.nextBoolean();
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
             for (int j = 0; j < bags.length; j++) {
@@ -52,15 +56,18 @@ public class Passenger extends Thread {
             }
 
             char choice = arrivalLounge.whatShouldIDo(bags, finalDestination);
+            
             switch (choice) {
                 case ('a'):
                     exitAirport.goHome(i);
+                    break;
 
                 case ('b'):
-                    // arrivalTermTransfQuay.takeABus();
-                    // arrivalTermTransfQuay.enterTheBus();
-                    // departureTermTransfQuay.leaveTheBus();
-                    // departureTermEntrance.prepareNextLeg(i);
+                    arrivalTermTransfQuay.takeABus(i);
+                    arrivalTermTransfQuay.enterTheBus();
+                    departureTermTransfQuay.leaveTheBus();
+                    exitAirport.prepareNextLeg(i);
+                    break;
 
                 case ('c'):
                     // while (collectedBags != numBags.get(i)) {
@@ -70,8 +77,9 @@ public class Passenger extends Thread {
                     //         baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags);
                     //         break;
                     //     }
-                    //     arrivalTermExit.goHome(i);
+                    exitAirport.goHome(i);
                     // }
+                    break;
             }
         }
     }
