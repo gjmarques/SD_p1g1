@@ -4,7 +4,6 @@ import sharedRegions.*;
 
 public class BusDriver extends Thread {
 
-    private int timeToWait;
     private int nPassengers = 0;
     private boolean loop = true;
     private BusDriverState state;
@@ -24,21 +23,14 @@ public class BusDriver extends Thread {
     public void run(){
 
         while(loop){
-            System.out.println("BUSDRIVER START");
-            char choice = arrivalTermTransfQuay.hasDaysWorkEnded(); 
-            // if(timeToWait % 500 == 0) {
-            //     arrivalTermTransfQuay.departureTime();
-            // }
+            char choice = arrivalTermTransfQuay.hasDaysWorkEnded();
 
             if(choice == 'W') {
-                nPassengers = arrivalTermTransfQuay.annoucingBusBoarding();	
-                System.out.println(" BUSDRIVER nPassengers: "+ nPassengers);			
+                nPassengers = arrivalTermTransfQuay.annoucingBusBoarding();			
                 goToDepartureTerminal();
                 departureTermTransfQuay.parkTheBusAndLetPassengerOff(nPassengers);
                 goToArrivalTerminal();
                 arrivalTermTransfQuay.parkTheBus();
-
-		    System.out.println("BUSDRIVER CYCLE");
             }else if(choice == 'E'){
                 loop = false;
             }
@@ -61,9 +53,15 @@ public class BusDriver extends Thread {
     }
 
     void goToDepartureTerminal(){
+        try {
+            Thread.sleep(100);
+        } catch (Exception e) {}
 
     }
     void goToArrivalTerminal(){
+        try {
+            Thread.sleep(100);
+        } catch (Exception e) {}
 
     }
 

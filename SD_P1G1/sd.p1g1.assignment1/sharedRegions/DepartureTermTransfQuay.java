@@ -31,7 +31,7 @@ public class DepartureTermTransfQuay{
     public void leaveTheBus() {
         rl.lock();
         try {
-			waitArrival.await();
+            waitArrival.await();   
             numPassengers--;
             if(numPassengers == 0) {
                 waitEmpty.signal();

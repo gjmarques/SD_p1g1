@@ -31,25 +31,22 @@ public class ArrivalLounge {
     //Passengers decide what to do based on their final destination and number of bags
     public char whatShouldIDo(Bag[] bags, boolean finalDestination) {
         rl.lock();
-        char whatToDo;
         try {
             if (bags.length == 0) {
-                System.out.println("INFO: There is no bags to pick up!");
-                whatToDo = 'a';
+                return 'a';
             }
+
             for (int b = 0; b < bags.length; b++) {
-                //System.out.println(bags[b]);
                 this.bags.push(bags[b]);
             }
+
             passengerCount++;
             if (passengerCount == numPassengers) {
-                planeHoldEmptyCV.signal();
                 passengerCount = 0;
+                planeHoldEmptyCV.signal();
             }
-            if(finalDestination) whatToDo = 'c';
-            else whatToDo = 'b';
-            //return finalDestination ? 'c' : 'b';
-            return whatToDo;
+
+            return finalDestination ? 'c' : 'b';
         } catch (Exception ex) {
             return 'a';
         } finally {

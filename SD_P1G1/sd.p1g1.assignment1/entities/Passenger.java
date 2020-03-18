@@ -22,15 +22,13 @@ public class Passenger extends Thread {
     private List<Integer> numBags = new ArrayList<>();
     private Bag[] bags;
     private int id;
-    private boolean finalDestination;
-    
 
     private final ArrivalLounge arrivalLounge;
     private final ExitAirport exitAirport;
     private final ArrivalTermTransfQuay arrivalTermTransfQuay;
     private final DepartureTermTransfQuay departureTermTransfQuay;
 
-    public Passenger(int id, List<Integer> numBags, boolean finalDestination, ArrivalLounge arrivalLounge, ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay, ExitAirport exitAirport) {
+    public Passenger(int id, List<Integer> numBags, ArrivalLounge arrivalLounge, ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay, ExitAirport exitAirport) {
         this.id = id;
         this.numBags = numBags;
         this.state = PassengerState.AT_THE_DISEMBARKING_ZONE;
@@ -38,7 +36,6 @@ public class Passenger extends Thread {
         this.arrivalTermTransfQuay = arrivalTermTransfQuay;
         this.departureTermTransfQuay = departureTermTransfQuay;
         this.exitAirport = exitAirport;
-        this.finalDestination = finalDestination;
     }
 
     /**
@@ -50,23 +47,23 @@ public class Passenger extends Thread {
         Random r = new Random();
         for (int i = 0; i < Global.NR_FLIGHTS; i++) {
 
-            //boolean finalDestination = r.nextBoolean();
+            boolean finalDestination = r.nextBoolean();
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
-
             for (int j = 0; j < bags.length; j++) {
-                bags[j] = new Bag(this.finalDestination ? 'H' : 'T', id);
+                bags[j] = new Bag(finalDestination ? 'H' : 'T', id);
+
             }
 
-            char choice = arrivalLounge.whatShouldIDo(bags, this.finalDestination);
-            
+            char choice = arrivalLounge.whatShouldIDo(bags, finalDestination);
+            arrivalTermTransfQuay.setFlight(i);
             switch (choice) {
                 case ('a'):
                     exitAirport.goHome(i);
                     break;
 
                 case ('b'):
-                    arrivalTermTransfQuay.takeABus(i);
+                    arrivalTermTransfQuay.takeABus();
                     arrivalTermTransfQuay.enterTheBus();
                     departureTermTransfQuay.leaveTheBus();
                     exitAirport.prepareNextLeg(i);

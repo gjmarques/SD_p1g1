@@ -19,7 +19,6 @@ public class  BusTimer extends Thread {
         while (loop) {
 
             try {
-                /* System.out.println("TEMPO -> " + time); */
                 Thread.sleep(50);
                 time += 50;
 

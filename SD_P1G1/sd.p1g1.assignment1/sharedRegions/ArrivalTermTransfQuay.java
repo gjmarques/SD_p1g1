@@ -15,7 +15,6 @@ public class ArrivalTermTransfQuay {
 	private int passengers = 0;
 	private int passengersInside = 0;
 	private int passengersEntering = 0;
-	private Boolean endOfDay = false;
 
 	// create lock and conditions
 	public ArrivalTermTransfQuay(int busSize, int maxFlights) {
@@ -28,10 +27,14 @@ public class ArrivalTermTransfQuay {
 		this.maxFlights = maxFlights;
 	}
 
-	public void takeABus(int nFlight) {
+	public void setFlight(int nFlight){
+
+		flightCount = nFlight+1;
+	}
+
+	public void takeABus() {
 		rl.lock();
 		try {
-			flightCount = nFlight+1;
 			passengers++;
 			while (passengersEntering >= busSize) {
 				waitLine.await();
@@ -40,7 +43,6 @@ public class ArrivalTermTransfQuay {
 			if (passengersEntering == busSize) {
 				waitFull.signal();
 			}
-
 			waitAnnouncement.await();
 		} catch (Exception ex) {
 		} finally {
@@ -52,7 +54,6 @@ public class ArrivalTermTransfQuay {
 		rl.lock();
 		try {
 			if (passengers > 0) {
-				System.out.println("WAKE UP BUSDRIVER");
 				waitFull.signalAll();
 			}
 
@@ -67,8 +68,6 @@ public class ArrivalTermTransfQuay {
 		try {
 
 			passengersInside++;
-
-			System.out.println("ENTER THE BUS->"+ passengersEntering);
 			if(passengersInside == passengersEntering){
 				passengersEntering = 0;
 				waitEnter.signal();
@@ -87,7 +86,6 @@ public class ArrivalTermTransfQuay {
 			waitEnter.await();
 			passengers = passengers - passengersInside;
 
-			System.out.println("PASSENGERS" + passengers);
 			return passengersInside;
 		} catch (Exception ex) {
 			return 0;
@@ -97,11 +95,9 @@ public class ArrivalTermTransfQuay {
 	}
 
 	public void parkTheBus() {
-		passengersInside = 0;
+		
+		passengersInside = 0;		
 
-		if(passengers == 0 && flightCount == maxFlights){
-			endOfDay = true;
-		}
 	}
 
 	/**
@@ -109,16 +105,18 @@ public class ArrivalTermTransfQuay {
 	 */
 	public char hasDaysWorkEnded() {
 		rl.lock();
-		try {	
+		try {
 			waitLine.signalAll();
-			if (endOfDay)
+			
+			if (passengers == 0 && flightCount == maxFlights)
 				return 'E';	
+			
 			waitFull.await();
 
 			if (passengers > 0)
 				return 'W';
 
-			else if (endOfDay)
+			else if (passengers == 0 && flightCount == maxFlights)
 				return 'E';
 
 			return 'S';

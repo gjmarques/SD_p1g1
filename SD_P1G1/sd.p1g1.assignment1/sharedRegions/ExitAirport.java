@@ -36,6 +36,7 @@ public class ExitAirport {
     public void goHome(int nPlane) {
         rl.lock();
         try {
+            
             passengers++;
             if (passengers == numPassengers) {
                 passengers = 0;

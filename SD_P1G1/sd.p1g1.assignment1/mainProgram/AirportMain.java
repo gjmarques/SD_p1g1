@@ -22,9 +22,9 @@ public class AirportMain {
 		ArrivalLounge arrivalLounge = new ArrivalLounge(Global.NR_PASSENGERS);
 		TempStorageArea tempStorageArea = new TempStorageArea();
 		BaggageCollectionPoint baggageCollectionPoint = new BaggageCollectionPoint();
+		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.NR_FLIGHTS);
 		DepartureTermTransfQuay departureTermTransfQuay = new DepartureTermTransfQuay();
 		ExitAirport exitAirport = new ExitAirport(Global.NR_PASSENGERS);
-		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.NR_FLIGHTS);
 
 		// Initialize busdriver and timer
 		BusDriver busdriver = new BusDriver(arrivalTermTransfQuay, departureTermTransfQuay);
@@ -34,30 +34,30 @@ public class AirportMain {
 		timer.start();
 
 		//Itialize Porter
-		int porterID = 1;
-		Porter porter = new Porter(porterID, PorterState.WAITING_FOR_A_PLANE_TO_LAND, arrivalLounge, tempStorageArea, baggageCollectionPoint);
-		porter.start();
-		
- 		//Initialize passengers
-		Passenger[] passengers = new Passenger[Global.NR_PASSENGERS];
-		for(int i = 0; i < Global.NR_PASSENGERS-1; i++){
-			Random r = new Random();
+		// int porterID = 1;
+		// Porter porter = new Porter(porterID, PorterState.WAITING_FOR_A_PLANE_TO_LAND, arrivalLounge, tempStorageArea, baggageCollectionPoint);
+		// porter.start();
 
-			boolean finalDestination = r.nextBoolean();
-			List<Integer> numBags = generateBags(Global.NR_FLIGHTS, 1 /*Global.MAX_BAGS*/);
-			passengers[i] = new Passenger(i, numBags, finalDestination, arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, exitAirport);
+		// Initialize passengers
+		Passenger[] passengers = new Passenger[Global.NR_PASSENGERS];
+		for (int i = 0; i < Global.NR_PASSENGERS; i++) {
+			List<Integer> numBags = generateBags(Global.NR_FLIGHTS, Global.MAX_BAGS);
+			passengers[i] = new Passenger(i, numBags, arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, exitAirport);
 			passengers[i].start();
-			//System.out.println("PASSAGEIRO "+ i +" -> "+numBags.toString());
+			System.out.println("PASSAGEIRO " + i + " -> " + numBags.toString());
 		}
 
 		try {
 			for (int i = 0; i < Global.NR_PASSENGERS; i++) {
 				passengers[i].join();
-			}
+			}	
 			
+			busdriver.join();
+			//porter.join();
 			timer.stopTimer();
 			timer.join();
-			busdriver.join();
+	
+
 			
 		} catch (Exception e) {
 
@@ -79,8 +79,6 @@ public class AirportMain {
 			Random r = new Random();
 			bags.add(r.nextInt(maxBags + 1));
 		}
-
-		System.out.println(bags);
 
 		return bags;
 	}
