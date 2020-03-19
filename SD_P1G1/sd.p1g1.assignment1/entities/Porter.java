@@ -6,8 +6,6 @@ public class Porter extends Thread {
 
     Bag bag;
     Boolean planeHoldEmpty;
-
-    int id;
     PorterState state;
 
     private final ArrivalLounge arrivalLounge;
@@ -16,9 +14,8 @@ public class Porter extends Thread {
     //private final ExitAirport exitAirport;
 
     
-    public Porter (int id, PorterState state, ArrivalLounge arrivalLounge, TempStorageArea tempStorageArea, BaggageCollectionPoint baggageCollectionPoint){
-        this.id = id;
-        this.state = state;
+    public Porter (ArrivalLounge arrivalLounge, TempStorageArea tempStorageArea, BaggageCollectionPoint baggageCollectionPoint){
+        this.state = PorterState.WAITING_FOR_A_PLANE_TO_LAND;
         this.arrivalLounge = arrivalLounge;
         this.tempStorageArea = tempStorageArea;
         this.baggageCollectionPoint = baggageCollectionPoint;
@@ -57,16 +54,7 @@ public class Porter extends Thread {
 	        }
         }
     }
-
-    
-    /** 
-     * @return int
-     */
-    int getID(){
-        return this.id;
-    }
-
-    
+   
     /**
      * @param state
      */

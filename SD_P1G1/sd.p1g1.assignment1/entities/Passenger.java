@@ -60,38 +60,44 @@ public class Passenger extends Thread {
             switch (choice) {
                 case ('a'):
                     exitAirport.goHome(i);
+                    state = PassengerState.EXITING_THE_ARRIVAL_TERMINAL ;
                     break;
 
                 case ('b'):
                     arrivalTermTransfQuay.takeABus();
+                    state = PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL;
                     arrivalTermTransfQuay.enterTheBus();
+                    state = PassengerState.TERMINAL_TRANSFER;
                     departureTermTransfQuay.leaveTheBus();
+                    state = PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL;
                     exitAirport.prepareNextLeg(i);
+                    state = PassengerState.ENTERING_THE_DEPARTURE_TERMINAL;
                     break;
 
                 case ('c'):
                     // while (collectedBags != numBags.get(i)) {
+                    //     state = PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT;
                     //     if (baggageCollectionPoint.goCollectABag()) {
                     //         collectedBags += 1;
                     //     } else {
+                    //         state = PassengerState.AT_THE_BAGGAGE_RECLAIM_OFFICE;
                     //         baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags);
                     //         break;
                     //     }
                     exitAirport.goHome(i);
+                    state = PassengerState.ENTERING_THE_DEPARTURE_TERMINAL;
                     // }
                     break;
             }
         }
     }
 
-    
     /** 
      * @param state
      */
     public void setState(PassengerState state) {
         this.state = state;
     }
-
     
     /** 
      * @return PassengerState
@@ -100,15 +106,13 @@ public class Passenger extends Thread {
         return this.state;
     }
 
-    
     /** 
      * @return int
      */
     public int getPassID() {
         return this.id;
     }
-
-    
+  
     /** 
      * @return String
      */
@@ -116,5 +120,4 @@ public class Passenger extends Thread {
     public String toString() {
         return "{" + " state='" + getState() + "'" + "}";
     }
-
 }

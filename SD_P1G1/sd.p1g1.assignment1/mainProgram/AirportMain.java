@@ -1,7 +1,6 @@
 package mainProgram;
 
 import java.util.*;
-import java.util.Timer;
 
 import entities.*;
 import sharedRegions.*;
@@ -34,8 +33,7 @@ public class AirportMain {
 		timer.start();
 
 		//Itialize Porter
-		// int porterID = 1;
-		// Porter porter = new Porter(porterID, PorterState.WAITING_FOR_A_PLANE_TO_LAND, arrivalLounge, tempStorageArea, baggageCollectionPoint);
+		// Porter porter = new Porter(, arrivalLounge, tempStorageArea, baggageCollectionPoint);
 		// porter.start();
 
 		// Initialize passengers
