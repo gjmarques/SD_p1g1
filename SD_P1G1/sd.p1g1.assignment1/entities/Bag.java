@@ -16,6 +16,11 @@ public class Bag extends Thread{
      */
     public char getDestination() {
 		return this.destination;
+    }
+    
+    public int getID() {
+		return this.id;
 	}
+
 
 }

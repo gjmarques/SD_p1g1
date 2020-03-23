@@ -53,7 +53,7 @@ public class ArrivalTermTransfQuay {
 	public void departureTime() {
 		rl.lock();
 		try {
-			if (passengers > 0) {
+			if (passengers > 0 || passengers == 0 && flightCount == maxFlights) {
 				waitFull.signalAll();
 			}
 

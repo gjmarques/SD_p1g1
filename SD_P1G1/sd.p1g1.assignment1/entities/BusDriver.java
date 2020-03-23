@@ -24,14 +24,13 @@ public class BusDriver extends Thread {
 
         while(loop){
             char choice = arrivalTermTransfQuay.hasDaysWorkEnded();
-
             if(choice == 'W') {
                 nPassengers = arrivalTermTransfQuay.annoucingBusBoarding();			
                 goToDepartureTerminal();
-                state = BusDriverState.PARKING_AT_THE_DEPARTURE_TERMINAL;
+                setState(BusDriverState.PARKING_AT_THE_DEPARTURE_TERMINAL);
                 departureTermTransfQuay.parkTheBusAndLetPassengerOff(nPassengers);
                 goToArrivalTerminal();
-                state = BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL;
+                setState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
                 arrivalTermTransfQuay.parkTheBus();
             }else if(choice == 'E'){
                 loop = false;
@@ -56,14 +55,14 @@ public class BusDriver extends Thread {
 
     void goToDepartureTerminal(){
         try {
-            state = BusDriverState.DRIVING_FORWARD; 
+            setState(BusDriverState.DRIVING_FORWARD); 
             Thread.sleep(50);
         } catch (Exception e) {}
 
     }
     void goToArrivalTerminal(){
         try {
-            state = BusDriverState.DRIVING_FORWARD; 
+            setState(BusDriverState.DRIVING_BACKWARD); 
             Thread.sleep(50);
         } catch (Exception e) {}
 
