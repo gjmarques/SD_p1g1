@@ -10,10 +10,12 @@ public class BaggageCollectionPoint {
 	private final Condition waitBag;
 	private boolean noMoreBags = false;
 	private List<Bag> collectionMat = new ArrayList<>();
+	private GenInfoRepo rep;
 
-	public BaggageCollectionPoint() {
+	public BaggageCollectionPoint(GenInfoRepo rep) {
 		rl = new ReentrantLock(true);
 		waitBag = rl.newCondition();
+		this.rep = rep;
 	}
 
 	/**
@@ -21,9 +23,10 @@ public class BaggageCollectionPoint {
 	 * 
 	 * @return char
 	 */
-	public char goCollectABag(int id) {
+	public char goCollectABag(int id, int passengerID) {
 		rl.lock();
 		try {
+			rep.passengerState(passengerID, PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
 
 			//TEMPORARY CONDITION TO PREVENT DEADLOCK (STILL OCCURS SOME TIMES), SHOULD FIND BETTER SOLUTION
 			if(!noMoreBags)
@@ -32,6 +35,7 @@ public class BaggageCollectionPoint {
 			for (Bag bag : collectionMat) {
 				if (bag.getID() == id) {
 					collectionMat.remove(bag);
+					rep.collectionMat(collectionMat.size());
 					return 'S';
 				}
 			}
@@ -57,6 +61,8 @@ public class BaggageCollectionPoint {
 		try {
 				noMoreBags = false;
 				collectionMat.add(bag);
+				rep.collectionMat(collectionMat.size());
+				rep.porterState(PorterState.AT_THE_LUGGAGE_BELT_CONVEYOR);
 				waitBag.signalAll();
 		} catch (Exception ex) {
 		} finally {

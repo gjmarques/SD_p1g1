@@ -7,9 +7,10 @@ import entities.*;
 public class TempStorageArea {
 
     private Stack<Bag> tempStorageBags = new Stack<>();
+    private GenInfoRepo rep;
 
-    void tempStorageArea(){
-        System.out.println("Does nothing");
+    public TempStorageArea(GenInfoRepo rep){
+        this.rep = rep;
     }
 
 	
@@ -19,6 +20,8 @@ public class TempStorageArea {
 	 */
 	public void CarryItToAppropriateStore(Bag bag) {
         tempStorageBags.add(bag);
+        rep.bagAtStorage(tempStorageBags.size());
+        rep.porterState(PorterState.AT_THE_STOREOOM);
 	}
 
 

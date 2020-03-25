@@ -1,5 +1,6 @@
 package mainProgram;
 
+import java.io.*;
 import java.util.*;
 
 import entities.*;
@@ -15,19 +16,28 @@ public class AirportMain {
 	 * @param args
 	 * @throws InterruptedException
 	 */
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws FileNotFoundException{
+
+		// creates new logger
+		File logger = new File("logger.txt");
+		// if (logger.createNewFile()){
+		// 	System.out.println("Logger created: " + logger.getName());
+		// }else{
+		// 	System.out.println("File already exists.");
+		// }
+		GenInfoRepo genInfoRepo = new GenInfoRepo(logger);
 
 		// Initialize shared regions
-		ArrivalLounge arrivalLounge = new ArrivalLounge(Global.NR_PASSENGERS, Global.NR_FLIGHTS);
-		TempStorageArea tempStorageArea = new TempStorageArea();
-		BaggageCollectionPoint baggageCollectionPoint = new BaggageCollectionPoint();
-		BaggageReclaimOffice baggageReclaimOffice = new BaggageReclaimOffice();
-		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.NR_FLIGHTS);
-		DepartureTermTransfQuay departureTermTransfQuay = new DepartureTermTransfQuay();
-		ExitAirport exitAirport = new ExitAirport(Global.NR_PASSENGERS);
+		ArrivalLounge arrivalLounge = new ArrivalLounge(Global.NR_PASSENGERS, Global.NR_FLIGHTS, genInfoRepo);
+		TempStorageArea tempStorageArea = new TempStorageArea(genInfoRepo);
+		BaggageCollectionPoint baggageCollectionPoint = new BaggageCollectionPoint(genInfoRepo);
+		BaggageReclaimOffice baggageReclaimOffice = new BaggageReclaimOffice(genInfoRepo);
+		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.NR_FLIGHTS, genInfoRepo);
+		DepartureTermTransfQuay departureTermTransfQuay = new DepartureTermTransfQuay(genInfoRepo);
+		ExitAirport exitAirport = new ExitAirport(Global.NR_PASSENGERS, genInfoRepo);
 
 		// Initialize busdriver and timer
-		BusDriver busdriver = new BusDriver(arrivalTermTransfQuay, departureTermTransfQuay);
+		BusDriver busdriver = new BusDriver(arrivalTermTransfQuay, departureTermTransfQuay, genInfoRepo);
 		busdriver.start();
 		
 		BusTimer timer = new BusTimer(arrivalTermTransfQuay);
@@ -41,10 +51,12 @@ public class AirportMain {
 		Passenger[] passengers = new Passenger[Global.NR_PASSENGERS];
 		for (int i = 0; i < Global.NR_PASSENGERS; i++) {
 			List<Integer> numBags = generateBags(Global.NR_FLIGHTS, Global.MAX_BAGS);
-			passengers[i] = new Passenger(i, numBags, arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, baggageCollectionPoint, baggageReclaimOffice, exitAirport);
+			passengers[i] = new Passenger(i, numBags, arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, 
+										baggageCollectionPoint, baggageReclaimOffice, exitAirport, genInfoRepo);
 			passengers[i].start();
 			System.out.println("PASSAGEIRO " + i + " -> " + numBags.toString());
 		}
+
 
 		try {
 			for (int i = 0; i < Global.NR_PASSENGERS; i++) {
@@ -56,7 +68,7 @@ public class AirportMain {
 			System.out.println("PORTER OVER");
 
 			busdriver.join();
-			System.out.println("BUSMERDAS OVER");
+			System.out.println("BUSDRIVER OVER");
 
 			timer.stopTimer();
 			timer.join();

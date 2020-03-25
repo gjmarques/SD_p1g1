@@ -2,6 +2,8 @@ package sharedRegions;
 
 import java.util.concurrent.locks.*;
 
+import entities.*;
+
 public class ArrivalTermTransfQuay {
 
 	private final ReentrantLock rl;
@@ -16,8 +18,10 @@ public class ArrivalTermTransfQuay {
 	private int passengersInside = 0;
 	private int passengersEntering = 0;
 
+	private GenInfoRepo rep;
+
 	// create lock and conditions
-	public ArrivalTermTransfQuay(int busSize, int maxFlights) {
+	public ArrivalTermTransfQuay(int busSize, int maxFlights, GenInfoRepo rep) {
 		rl = new ReentrantLock(true);
 		waitLine = rl.newCondition();
 		waitFull = rl.newCondition();
@@ -25,18 +29,20 @@ public class ArrivalTermTransfQuay {
 		waitEnter = rl.newCondition();
 		this.busSize = busSize;
 		this.maxFlights = maxFlights;
+		this.rep = rep;
 	}
 
 	public void setFlight(int nFlight){
-
 		flightCount = nFlight+1;
 	}
 
-	public void takeABus() {
+	public void takeABus(int passengerID) {
 		rl.lock();
 		try {
+			rep.passengerState(passengerID, PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
 			passengers++;
 			while (passengersEntering >= busSize) {
+				rep.busWaitingQueue(passengerID);
 				waitLine.await();
 			}
 			passengersEntering++;
@@ -63,10 +69,10 @@ public class ArrivalTermTransfQuay {
 		}
 	}
 
-	public void enterTheBus() {
+	public void enterTheBus(int passengerID) {
 		rl.lock();
 		try {
-
+			rep.passengerState(passengerID, PassengerState.TERMINAL_TRANSFER);
 			passengersInside++;
 			if(passengersInside == passengersEntering){
 				passengersEntering = 0;
@@ -96,7 +102,8 @@ public class ArrivalTermTransfQuay {
 
 	public void parkTheBus() {
 		
-		passengersInside = 0;		
+		passengersInside = 0;	
+		rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);	
 
 	}
 
@@ -106,6 +113,7 @@ public class ArrivalTermTransfQuay {
 	public char hasDaysWorkEnded() {
 		rl.lock();
 		try {
+			rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
 			waitLine.signalAll();
 			
 			if (passengers == 0 && flightCount == maxFlights)
@@ -127,4 +135,13 @@ public class ArrivalTermTransfQuay {
 			rl.unlock();
 		}
 	}
+
+	public void goToArrivalTerminal(){
+        try {
+			rep.busDriverState(BusDriverState.DRIVING_BACKWARD);
+            //setState(BusDriverState.DRIVING_BACKWARD); 
+            //Thread.sleep(50);
+        } catch (Exception e) {}
+
+    }
 }

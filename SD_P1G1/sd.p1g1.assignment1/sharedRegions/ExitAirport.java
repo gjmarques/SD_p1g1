@@ -2,6 +2,8 @@ package sharedRegions;
 
 import java.util.concurrent.locks.*;
 
+import entities.PassengerState;
+
 /**
  * This datatype implements the ExitAirport shared memory region. 
  * <p>
@@ -18,11 +20,14 @@ public class ExitAirport {
     private int passengers = 0;
     private int numPassengers;
 
+    private GenInfoRepo rep;
+
     // Create lock and conditions
-    public ExitAirport(int numPassengers) {
+    public ExitAirport(int numPassengers, GenInfoRepo rep) {
         rl = new ReentrantLock(true);
         waitingEndCV = rl.newCondition();
         this.numPassengers = numPassengers;
+        this.rep = rep;
     }
 
     
@@ -33,10 +38,11 @@ public class ExitAirport {
     // PASSENGER
 
     //Passengers enter a lock state while waiting for every Passenger to finish their lifecycle
-    public void goHome(int nPlane) {
+    public void goHome(int nPlane, int passengerID, PassengerState passengerState) {
         rl.lock();
         try {
-            
+            rep.passengerState(nPlane, passengerID, passengerState);
+
             passengers++;
             if (passengers == numPassengers) {
                 passengers = 0;
@@ -51,9 +57,10 @@ public class ExitAirport {
         }
     }
 
-    public void prepareNextLeg(int nPlane) {
+    public void prepareNextLeg(int nPlane, int passengerID) {
         rl.lock();
         try {
+            rep.passengerState(passengerID, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
             passengers++;
             if (passengers == numPassengers) {
                 passengers = 0;

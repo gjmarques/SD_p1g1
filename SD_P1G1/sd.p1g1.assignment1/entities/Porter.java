@@ -15,7 +15,8 @@ public class Porter extends Thread {
 
     public Porter(ArrivalLounge arrivalLounge, TempStorageArea tempStorageArea,
             BaggageCollectionPoint baggageCollectionPoint) {
-        this.state = PorterState.WAITING_FOR_A_PLANE_TO_LAND;
+        //this.state = PorterState.WAITING_FOR_A_PLANE_TO_LAND;
+        //setState(PorterState.WAITING_FOR_A_PLANE_TO_LAND);
         this.arrivalLounge = arrivalLounge;
         this.tempStorageArea = tempStorageArea;
         this.baggageCollectionPoint = baggageCollectionPoint;
@@ -34,18 +35,18 @@ public class Porter extends Thread {
                 while (bag != null) {
                     // if bag is in trasit
                     if (bag.getDestination() == 'T') {
-                        setState(PorterState.AT_THE_STOREOOM);
+                        // setState(PorterState.AT_THE_STOREOOM);
                         tempStorageArea.CarryItToAppropriateStore(bag);
                     } else {
                         // bag is at final aeroport
-                        setState(PorterState.AT_THE_LUGGAGE_BELT_CONVEYOR);
+                        //setState(PorterState.AT_THE_LUGGAGE_BELT_CONVEYOR);
                         baggageCollectionPoint.CarryItToAppropriateStore(bag);
                     }
 
                     bag = arrivalLounge.tryToCollectBag();
                 }
                 baggageCollectionPoint.noMoreBagsToCollect();
-                setState(PorterState.AT_THE_PLANES_HOLD);
+                //setState(PorterState.AT_THE_PLANES_HOLD);
             } else if (choice == 'E') {
                 loop = false;
             }
@@ -55,14 +56,15 @@ public class Porter extends Thread {
     /**
      * @param state
      */
-    void setState(PorterState state) {
+    private void setState(PorterState state) {
         this.state = state;
+        //genInfoRep.updateState(this.state);
     }
 
     /**
      * @return PorterState
      */
-    PorterState getPorterState() {
+    public PorterState getPorterState() {
         return this.state;
     }
 

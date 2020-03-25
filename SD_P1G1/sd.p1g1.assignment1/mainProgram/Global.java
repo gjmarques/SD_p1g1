@@ -9,7 +9,7 @@ public class Global{
     /**
      * Number of passengers
      */
-    static final int NR_PASSENGERS = 6;
+    public static final int NR_PASSENGERS = 6;
     /**
      * Number of bags per passenger
      */

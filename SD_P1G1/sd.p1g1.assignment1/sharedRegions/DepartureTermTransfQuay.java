@@ -2,24 +2,29 @@ package sharedRegions;
 
 import java.util.concurrent.locks.*;
 
+import entities.*;
+
 public class DepartureTermTransfQuay{
 
 	private final ReentrantLock rl;
 	private final Condition waitArrival;
 	private final Condition waitEmpty;
 	private int numPassengers = 0;
+    private GenInfoRepo rep;
 
 
-    public DepartureTermTransfQuay() {
+    public DepartureTermTransfQuay(GenInfoRepo rep) {
         rl = new ReentrantLock(true);
 		waitEmpty = rl.newCondition();
-		waitArrival = rl.newCondition();
+        waitArrival = rl.newCondition();
+        this.rep = rep;
     }
 
     public void parkTheBusAndLetPassengerOff(int busPassengers) {
         rl.lock();
         try {
-			numPassengers += busPassengers;
+            numPassengers += busPassengers;
+            rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
 			waitArrival.signalAll();
             waitEmpty.await();
         } catch(Exception ex) {}
@@ -28,9 +33,10 @@ public class DepartureTermTransfQuay{
         }
     }
 
-    public void leaveTheBus() {
+    public void leaveTheBus(int passengerID) {
         rl.lock();
         try {
+            rep.passengerState(passengerID, PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL);
             waitArrival.await();   
             numPassengers--;
             if(numPassengers == 0) {
@@ -40,5 +46,13 @@ public class DepartureTermTransfQuay{
         finally {
             rl.unlock();
         }
+    }
+
+    public void goToDepartureTerminal(){
+        try {
+            rep.busDriverState(BusDriverState.DRIVING_FORWARD); 
+            //Thread.sleep(50);
+        } catch (Exception e) {}
+
     }
 }
