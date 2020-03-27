@@ -34,7 +34,10 @@ public class AirportMain {
 		BaggageReclaimOffice baggageReclaimOffice = new BaggageReclaimOffice(genInfoRepo);
 		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.NR_FLIGHTS, genInfoRepo);
 		DepartureTermTransfQuay departureTermTransfQuay = new DepartureTermTransfQuay(genInfoRepo);
-		ExitAirport exitAirport = new ExitAirport(Global.NR_PASSENGERS, genInfoRepo);
+		ArrivalTerminalExit arrivalTerminalExit = new ArrivalTerminalExit(Global.NR_PASSENGERS, genInfoRepo);
+		DepartureTerminalEntrance departureTerminalEntrance = new DepartureTerminalEntrance(Global.NR_PASSENGERS, genInfoRepo);
+		arrivalTerminalExit.setDepartureTerminal(departureTerminalEntrance);
+		departureTerminalEntrance.setArrivalTerminal(arrivalTerminalExit);
 
 		// Initialize busdriver and timer
 		BusDriver busdriver = new BusDriver(arrivalTermTransfQuay, departureTermTransfQuay, genInfoRepo);
@@ -52,7 +55,7 @@ public class AirportMain {
 		for (int i = 0; i < Global.NR_PASSENGERS; i++) {
 			List<Integer> numBags = generateBags(Global.NR_FLIGHTS, Global.MAX_BAGS);
 			passengers[i] = new Passenger(i, numBags, arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, 
-										baggageCollectionPoint, baggageReclaimOffice, exitAirport, genInfoRepo);
+										baggageCollectionPoint, baggageReclaimOffice, arrivalTerminalExit, departureTerminalEntrance, genInfoRepo);
 			System.out.println("Passenger id: " + i + "nr bags: " + numBags.toString());
 			
 			passengers[i].start();

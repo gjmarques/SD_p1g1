@@ -24,7 +24,8 @@ public class Passenger extends Thread {
     private int id;
 
     private final ArrivalLounge arrivalLounge;
-    private final ExitAirport exitAirport;
+    private final ArrivalTerminalExit arrivalTerminalExit;
+    private final DepartureTerminalEntrance departureTerminalEntrance;
     private final ArrivalTermTransfQuay arrivalTermTransfQuay;
     private final DepartureTermTransfQuay departureTermTransfQuay;
     private final BaggageCollectionPoint baggageCollectionPoint;
@@ -38,7 +39,7 @@ public class Passenger extends Thread {
     public Passenger(int id, List<Integer> numBags, ArrivalLounge arrivalLounge,
             ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay,
             BaggageCollectionPoint baggageCollectionPoint, BaggageReclaimOffice baggageReclaimOffice,
-            ExitAirport exitAirport, GenInfoRepo rep) {
+            ArrivalTerminalExit arrivalTerminalExit, DepartureTerminalEntrance departureTerminalEntrance, GenInfoRepo rep) {
         this.id = id;
         this.numBags = numBags;
         //rep.passengerState(PassengerState.AT_THE_DISEMBARKING_ZONE);
@@ -48,7 +49,8 @@ public class Passenger extends Thread {
         this.departureTermTransfQuay = departureTermTransfQuay;
         this.baggageCollectionPoint = baggageCollectionPoint;
         this.baggageReclaimOffice = baggageReclaimOffice;
-        this.exitAirport = exitAirport;
+        this.arrivalTerminalExit = arrivalTerminalExit;
+        this.departureTerminalEntrance = departureTerminalEntrance;
         Random r = new Random();
         int high = 2;
         int low = 0;
@@ -79,7 +81,7 @@ public class Passenger extends Thread {
             switch (choice) {
                 case ('a'):
                     //System.out.println("PASSENGER GONE HOME");
-                    exitAirport.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
+                    arrivalTerminalExit.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     //setState(PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     break;
 
@@ -90,13 +92,11 @@ public class Passenger extends Thread {
                     //setState(PassengerState.TERMINAL_TRANSFER);
                     departureTermTransfQuay.leaveTheBus(this.id);
                     // setState(PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL);
-                    exitAirport.prepareNextLeg(i, this.id);
+                    departureTerminalEntrance.prepareNextLeg(i, this.id);
                     //setState(PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
                     break;
 
                 case ('c'):
-                    if(this.numBags.size() == 0) exitAirport.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
-                    else{
                         while (collectedBags < numBags.get(i)) {
                             //setState(PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
                             char status = baggageCollectionPoint.goCollectABag(this.id);
@@ -109,9 +109,9 @@ public class Passenger extends Thread {
                                 break;
                             }
                         }
-                    }
+
                     //System.out.println("PASSENGER GOT ALL BAGS");
-                    exitAirport.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
+                    arrivalTerminalExit.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     //setState(PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
                     break;
             }
