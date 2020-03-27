@@ -33,14 +33,14 @@ public class BaggageCollectionPoint {
 			rep.passengerState(passengerID, PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
 
 			//TEMPORARY CONDITION TO PREVENT DEADLOCK (STILL OCCURS SOME TIMES), SHOULD FIND BETTER SOLUTION
+			System.out.println("NOMOREBAGS-"+ noMoreBags+"  CollectionMat-"+collectionMat.size() + collectionMat.isEmpty());
 
-			waitBag.await();
 
 			if (noMoreBags && collectionMat.isEmpty())
 			// 	// bag is missing; there's no bags in collection mat
 			return 'E';
 
-
+			
 			for (Bag bag : collectionMat) {
 				if (bag.getID() == passengerID) {
 					collectionMat.remove(bag);
@@ -50,6 +50,14 @@ public class BaggageCollectionPoint {
 					return 'S';
 				}
 			}
+
+			waitBag.await();
+
+			if (noMoreBags && collectionMat.isEmpty())
+			// 	// bag is missing; there's no bags in collection mat
+			return 'E';
+
+
 
 			return 'F';
 		} catch (Exception ex) {

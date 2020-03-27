@@ -277,30 +277,22 @@ public class GenInfoRepo {
     }
 
     private void updateStatePorterOrBDriver(){
-        //if(this.q == null) this.q = " -  -  -  -  -  -";
-        //if(this.s == null) this.s = " -  -  - ";
-
-
         String info1 = " " + this.fn + "  " + this.bn[this.fn] + "  " + porterStates[this.porterState.ordinal()] + "  " + this.cb + "  " + this.sr  + "   " 
-                           + bDriverStates[this.bDriverState.ordinal()] + "  " 
+                           + bDriverStates[this.bDriverState.ordinal()] + "   " 
                            + this.q[0] + "  " + this.q[1] + "  " + this.q[2] + "  " + this.q[3] + "  " + this.q[4] + "  " + this.q[5] + "  " 
                            + this.s[0] + "  " + this.s[1] + "  " + this.s[2];
-
         String info2 = "";
         String tmp;
         for(int i = 0; i < Global.NR_PASSENGERS; i++){
             tmp = "";
-            if(this.passengerState[i] == null) tmp = "--- ---  -   - ";
+            if(this.passengerState[i] == null) tmp = "--- ---  -   -";
             else{
                 tmp = passengerStates[this.passengerState[i].ordinal()] + " " + this.passengerDest[i] + "  " + this.nr[i] + "   " + this.na[i];
             }
-            info2 += tmp + " ";
+            info2 += tmp + "  ";
         }
-
         writeToLogger(info1);
         writeToLogger(info2);
-        
-
     }
 
     public synchronized void finalReport(){

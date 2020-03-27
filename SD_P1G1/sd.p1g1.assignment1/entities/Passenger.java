@@ -95,11 +95,8 @@ public class Passenger extends Thread {
                 case ('c'):
                         while (collectedBags < numBags.get(i)) {
                             //setState(PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
-                            
-                System.out.println("--IN--");
+                        
                             char status = baggageCollectionPoint.goCollectABag(this.id);
-                            
-                        System.out.println("--OUT--");
                             
                             if ( status == 'S') {
                                 // bag collected
