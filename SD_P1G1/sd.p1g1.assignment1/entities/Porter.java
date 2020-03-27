@@ -27,6 +27,7 @@ public class Porter extends Thread {
      */
     @Override
     public void run() {
+        int passengerID;
         while (loop) {
             char choice = arrivalLounge.takeARest();
             if (choice == 'W') {
@@ -36,11 +37,11 @@ public class Porter extends Thread {
                     // if bag is in trasit
                     if (bag.getDestination() == 'T') {
                         // setState(PorterState.AT_THE_STOREOOM);
-                        tempStorageArea.CarryItToAppropriateStore(bag);
+                        tempStorageArea.carryItToAppropriateStore(bag);
                     } else {
                         // bag is at final aeroport
                         //setState(PorterState.AT_THE_LUGGAGE_BELT_CONVEYOR);
-                        baggageCollectionPoint.CarryItToAppropriateStore(bag);
+                        baggageCollectionPoint.carryItToAppropriateStore(bag);
                     }
 
                     bag = arrivalLounge.tryToCollectBag();

@@ -28,7 +28,7 @@ public class AirportMain {
 		GenInfoRepo genInfoRepo = new GenInfoRepo(logger);
 
 		// Initialize shared regions
-		ArrivalLounge arrivalLounge = new ArrivalLounge(Global.NR_PASSENGERS, Global.NR_FLIGHTS, genInfoRepo);
+		ArrivalLounge arrivalLounge = new ArrivalLounge(genInfoRepo);
 		TempStorageArea tempStorageArea = new TempStorageArea(genInfoRepo);
 		BaggageCollectionPoint baggageCollectionPoint = new BaggageCollectionPoint(genInfoRepo);
 		BaggageReclaimOffice baggageReclaimOffice = new BaggageReclaimOffice(genInfoRepo);
@@ -53,8 +53,10 @@ public class AirportMain {
 			List<Integer> numBags = generateBags(Global.NR_FLIGHTS, Global.MAX_BAGS);
 			passengers[i] = new Passenger(i, numBags, arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, 
 										baggageCollectionPoint, baggageReclaimOffice, exitAirport, genInfoRepo);
+			System.out.println("Passenger id: " + i + "nr bags: " + numBags.toString());
+			
 			passengers[i].start();
-			System.out.println("PASSAGEIRO " + i + " -> " + numBags.toString());
+			//System.out.println("PASSAGEIRO " + i + " -> " + numBags.toString());
 		}
 
 
@@ -69,6 +71,8 @@ public class AirportMain {
 
 			busdriver.join();
 			System.out.println("BUSDRIVER OVER");
+
+			genInfoRepo.finalReport();
 
 			timer.stopTimer();
 			timer.join();

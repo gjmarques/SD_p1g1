@@ -39,6 +39,7 @@ public class DepartureTermTransfQuay{
             rep.passengerState(passengerID, PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL);
             waitArrival.await();   
             numPassengers--;
+            rep.leaveBus(passengerID);
             if(numPassengers == 0) {
                 waitEmpty.signal();
             }

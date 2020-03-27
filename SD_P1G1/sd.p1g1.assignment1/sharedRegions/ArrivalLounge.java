@@ -1,6 +1,8 @@
 package sharedRegions;
 
 import entities.*;
+import mainProgram.Global;
+
 import java.util.*;
 import java.util.concurrent.locks.*;
 
@@ -21,15 +23,15 @@ public class ArrivalLounge {
     private GenInfoRepo rep;
 
     // Create lock and conditions
-    public ArrivalLounge(int numPassengers, int maxFlights , GenInfoRepo rep) {
+    public ArrivalLounge(GenInfoRepo rep) {
         rl = new ReentrantLock(true);
         planeHoldEmptyCV = rl.newCondition();
-        this.numPassengers = numPassengers;
-        this.maxFlights = maxFlights;
+        this.numPassengers = Global.NR_PASSENGERS;
+        this.maxFlights = Global.NR_FLIGHTS;
 
         this.rep = rep;
 
-        rep.nrFlights(this.maxFlights);
+        //rep.nrFlights(this.maxFlights);
 
     }
 
@@ -41,11 +43,12 @@ public class ArrivalLounge {
 
     // Passengers decide what to do based on their final destination and number of
     // bags
-    public char whatShouldIDo(int passengerID, Bag[] bags, boolean finalDestination) {
+    public char whatShouldIDo(int nr_flight, int passengerID, Bag[] bags, boolean finalDestination) {
         rl.lock();
         
-        try {            
-            rep.passengerState(passengerID, PassengerState.AT_THE_DISEMBARKING_ZONE, finalDestination, bags.length);
+        try {    
+            //rep.nrFlight(nr_flight);        
+            rep.passengerState(nr_flight, passengerID, PassengerState.AT_THE_DISEMBARKING_ZONE, finalDestination, bags.length);
             
             passengerCount++;
             if (passengerCount == numPassengers) {
@@ -58,9 +61,10 @@ public class ArrivalLounge {
             for (int b = 0; b < bags.length; b++) {
                 this.bags.push(bags[b]);
             }
+            rep.nrBagsPlanesHold(this.bags.size());
 
             return finalDestination ? 'c' : 'b';
-        } catch (Exception ex) {
+        } catch (NullPointerException ex) {
             System.out.println("ERROR: whatShouldIDo");
             return 'a';
         } finally {

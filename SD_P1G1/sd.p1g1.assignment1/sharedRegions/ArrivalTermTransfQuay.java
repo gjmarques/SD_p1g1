@@ -38,17 +38,24 @@ public class ArrivalTermTransfQuay {
 
 	public void takeABus(int passengerID) {
 		rl.lock();
+		//boolean entered = true;
 		try {
+			System.out.println("ArrivalTermTransfQuay.takeaBus");
 			rep.passengerState(passengerID, PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
 			passengers++;
+			
+			rep.busWaitingLine(passengerID);
+			
 			while (passengersEntering >= busSize) {
-				rep.busWaitingQueue(passengerID);
+				//entered = false;
 				waitLine.await();
 			}
 			passengersEntering++;
 			if (passengersEntering == busSize) {
 				waitFull.signal();
 			}
+			//if(entered) rep.busSitting(passengerID);
+	
 			waitAnnouncement.await();
 		} catch (Exception ex) {
 		} finally {
@@ -74,6 +81,8 @@ public class ArrivalTermTransfQuay {
 		try {
 			rep.passengerState(passengerID, PassengerState.TERMINAL_TRANSFER);
 			passengersInside++;
+
+			rep.busSitting(passengerID);
 			if(passengersInside == passengersEntering){
 				passengersEntering = 0;
 				waitEnter.signal();
@@ -124,13 +133,13 @@ public class ArrivalTermTransfQuay {
 			if (passengers > 0)
 				return 'W';
 
-			else if (passengers == 0 && flightCount == maxFlights)
-				return 'E';
+			// else if (passengers == 0 && flightCount == maxFlights)
+			// 	return 'E';
 
-			return 'S';
+			return 'F';
 
 		} catch (Exception ex) {
-			return 'S';
+			return 'F';
 		} finally {
 			rl.unlock();
 		}

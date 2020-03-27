@@ -35,7 +35,6 @@ public class Passenger extends Thread {
     private GenInfoRepo rep;
 
 
-
     public Passenger(int id, List<Integer> numBags, ArrivalLounge arrivalLounge,
             ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay,
             BaggageCollectionPoint baggageCollectionPoint, BaggageReclaimOffice baggageReclaimOffice,
@@ -50,7 +49,12 @@ public class Passenger extends Thread {
         this.baggageCollectionPoint = baggageCollectionPoint;
         this.baggageReclaimOffice = baggageReclaimOffice;
         this.exitAirport = exitAirport;
-        this.finalDestination = true;
+        Random r = new Random();
+        int high = 2;
+        int low = 0;
+        int result = r.nextInt(high-low) + low;
+        if(result == 0) this.finalDestination = true;
+        else this.finalDestination = false;
 
         
     }
@@ -61,22 +65,20 @@ public class Passenger extends Thread {
 
     @Override
     public void run() {
-        Random r = new Random();
         for (int i = 0; i < Global.NR_FLIGHTS; i++) {
-            this.finalDestination = true; //r.nextBoolean();
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
             for (int j = 0; j < bags.length; j++) {
-                bags[j] = new Bag(this.finalDestination ? 'H' : 'T', id);
+                bags[j] = new Bag(this.finalDestination ? 'H' : 'T', this.id);
 
             }
 
-            char choice = arrivalLounge.whatShouldIDo(this.id, bags, this.finalDestination);
+            char choice = arrivalLounge.whatShouldIDo(i, this.id, bags, this.finalDestination);
             arrivalTermTransfQuay.setFlight(i);
             arrivalLounge.setFlight(i);
             switch (choice) {
                 case ('a'):
-                    System.out.println("PASSENGER GONE HOME");
+                    //System.out.println("PASSENGER GONE HOME");
                     exitAirport.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     //setState(PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     break;
@@ -93,15 +95,19 @@ public class Passenger extends Thread {
                     break;
 
                 case ('c'):
-                    while (collectedBags < numBags.get(i)) {
-                        //setState(PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
-                        char status = baggageCollectionPoint.goCollectABag(id, this.id);
-                        if ( status == 'S') {
-                            collectedBags += 1;
-                        } else if (status == 'E') {
-                            //setState(PassengerState.AT_THE_BAGGAGE_RECLAIM_OFFICE);
-                            baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags, this.id);
-                            break;
+                    if(this.numBags.size() == 0) exitAirport.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
+                    else{
+                        while (collectedBags < numBags.get(i)) {
+                            //setState(PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
+                            char status = baggageCollectionPoint.goCollectABag(this.id);
+                            if ( status == 'S') {
+                                // bag collected
+                                collectedBags += 1;
+                            } else if (status == 'E') {
+                                // bag is missing
+                                baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags, this.id);
+                                break;
+                            }
                         }
                     }
                     //System.out.println("PASSENGER GOT ALL BAGS");

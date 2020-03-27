@@ -18,9 +18,10 @@ public class TempStorageArea {
 	 * Adds a bag to the mat in the collection point.
 	 * @param bag
 	 */
-	public void CarryItToAppropriateStore(Bag bag) {
+	public void carryItToAppropriateStore(Bag bag) {
         tempStorageBags.add(bag);
-        rep.bagAtStorage(tempStorageBags.size());
+        // rep.bagAtStoreRoom(tempStorageBags.size());
+        rep.bagAtStoreRoom(1);
         rep.porterState(PorterState.AT_THE_STOREOOM);
 	}
 
