@@ -4,8 +4,6 @@ import java.util.concurrent.locks.*;
 
 import entities.PassengerState;
 
-import sharedRegions.ArrivalTerminalExit;
-
 /**
  * This datatype implements the DepartureTerminalEntrance shared memory region.
  * <p>

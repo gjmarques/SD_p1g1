@@ -3,7 +3,6 @@ package sharedRegions;
 import java.util.concurrent.locks.*;
 
 import entities.PassengerState;
-import sharedRegions.DepartureTerminalEntrance;
 
 /**
  * This datatype implements the ArrivalTerminalExit shared memory region.

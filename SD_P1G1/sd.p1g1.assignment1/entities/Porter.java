@@ -27,7 +27,6 @@ public class Porter extends Thread {
      */
     @Override
     public void run() {
-        int passengerID;
         while (loop) {
             char choice = arrivalLounge.takeARest();
             if (choice == 'W') {

@@ -112,13 +112,11 @@ public class GenInfoRepo {
      * Number of pieces of luggage presently at the plane's hold.
      */
     public void nrBagsPlanesHold(int[] bagsPerFlight){
+        for(int i = 0; i< bagsPerFlight.length;i++){
+        this.bn[i] = bagsPerFlight[i];
+        this.bn_total += this.bn[i];
+    }
 
-        this.bn[0] = bagsPerFlight[0];
-        this.bn[1] = bagsPerFlight[1];
-        this.bn[2] = bagsPerFlight[2];
-        this.bn[3] = bagsPerFlight[3];
-        this.bn[4] = bagsPerFlight[4];
-        this.bn_total = this.bn[0] + this.bn[1] + this.bn[2] + this.bn[3] + this.bn[4];
 
         //updateStatePorterOrBDriver();
     }

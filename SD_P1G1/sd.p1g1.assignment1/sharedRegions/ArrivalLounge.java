@@ -112,8 +112,9 @@ public class ArrivalLounge {
     public Bag tryToCollectBag() {
         rl.lock();
         try {
-            if (bags.empty())
+            if (bags.empty()){
                 return null;
+            }
             else{
                 rep.porterState(PorterState.AT_THE_PLANES_HOLD);
                 return bags.pop();

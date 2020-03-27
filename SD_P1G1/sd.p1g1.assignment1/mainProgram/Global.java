@@ -21,5 +21,5 @@ public class Global{
     /**
      * Number of flights incoming the airport
      */
-	public static final int NR_FLIGHTS = 5;
+	public static final int NR_FLIGHTS = 1;
 }

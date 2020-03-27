@@ -50,15 +50,7 @@ public class Passenger extends Thread {
         this.baggageCollectionPoint = baggageCollectionPoint;
         this.baggageReclaimOffice = baggageReclaimOffice;
         this.arrivalTerminalExit = arrivalTerminalExit;
-        this.departureTerminalEntrance = departureTerminalEntrance;
-        Random r = new Random();
-        int high = 2;
-        int low = 0;
-        int result = r.nextInt(high-low) + low;
-        if(result == 0) this.finalDestination = true;
-        else this.finalDestination = false;
-
-        
+        this.departureTerminalEntrance = departureTerminalEntrance;        
     }
 
     /**
@@ -67,7 +59,9 @@ public class Passenger extends Thread {
 
     @Override
     public void run() {
+        Random r = new Random();
         for (int i = 0; i < Global.NR_FLIGHTS; i++) {
+            this.finalDestination = true;//r.nextBoolean();
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
             for (int j = 0; j < bags.length; j++) {
@@ -101,14 +95,19 @@ public class Passenger extends Thread {
                 case ('c'):
                         while (collectedBags < numBags.get(i)) {
                             //setState(PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
+                            
+                System.out.println("--IN--");
                             char status = baggageCollectionPoint.goCollectABag(this.id);
+                            
+                        System.out.println("--OUT--");
+                            
                             if ( status == 'S') {
                                 // bag collected
                                 collectedBags += 1;
                             } else if (status == 'E') {
                                 // bag is missing
                                 baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags, this.id);
-                                break;
+                                collectedBags = numBags.get(i);
                             }
                         }
 
