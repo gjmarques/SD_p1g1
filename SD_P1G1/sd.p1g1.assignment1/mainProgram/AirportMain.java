@@ -16,15 +16,18 @@ public class AirportMain {
 	 * @param args
 	 * @throws InterruptedException
 	 */
-	public static void main(String[] args) throws FileNotFoundException{
+	public static void main(String[] args) throws IOException{
 
 		// creates new logger
 		File logger = new File("logger.txt");
-		// if (logger.createNewFile()){
-		// 	System.out.println("Logger created: " + logger.getName());
-		// }else{
-		// 	System.out.println("File already exists.");
-		// }
+		if (logger.createNewFile()){
+			System.out.println("Logger created: " + logger.getName());
+		}else{
+			logger.delete();
+			logger.createNewFile();
+			// System.out.println("File already exists.");
+			
+		}
 		GenInfoRepo genInfoRepo = new GenInfoRepo(logger);
 
 		// Initialize shared regions
@@ -50,14 +53,17 @@ public class AirportMain {
 		Porter porter = new Porter(arrivalLounge, tempStorageArea, baggageCollectionPoint);
 		porter.start();
 
+		List<List<Integer>> bags = generateBags(genInfoRepo, Global.NR_PASSENGERS, Global.NR_FLIGHTS, Global.MAX_BAGS);
+		
+
 		// Initialize passengers
 		Passenger[] passengers = new Passenger[Global.NR_PASSENGERS];
 		for (int i = 0; i < Global.NR_PASSENGERS; i++) {
-			List<Integer> numBags = generateBags(Global.NR_FLIGHTS, Global.MAX_BAGS);
-			passengers[i] = new Passenger(i, numBags, arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, 
+			//List<Integer> numBags = generateBags(Global.NR_FLIGHTS, Global.MAX_BAGS);
+			passengers[i] = new Passenger(i, bags.get(i), arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, 
 										baggageCollectionPoint, baggageReclaimOffice, arrivalTerminalExit, departureTerminalEntrance, genInfoRepo);
-			System.out.println("Passenger id: " + i + "nr bags: " + numBags.toString());
-			
+
+			//genInfoRepo.nrBagsPlanesHold(numBags);
 			passengers[i].start();
 			//System.out.println("PASSAGEIRO " + i + " -> " + numBags.toString());
 		}
@@ -95,14 +101,28 @@ public class AirportMain {
 	 * @param maxBags
 	 * @return List<Integer>
 	 */
-	public static List<Integer> generateBags(int nrFlights, int maxBags) {
-		List<Integer> bags = new ArrayList<Integer>();
+	public static List<List<Integer>> generateBags(GenInfoRepo genInfoRepo, int nrPassengers, int nrFlights, int maxBags) {
 
-		for (int i = 0; i < nrFlights; i++) {
-			Random r = new Random();
-			bags.add(r.nextInt(maxBags + 1));
+		
+		List<List<Integer>> bagsPerPassenger = new ArrayList<List<Integer>>(nrPassengers);
+		int[] bagsPerFlight = new int[nrFlights];
+
+		for (int j= 0; j < nrPassengers; j++){
+			List<Integer> bags = new ArrayList<Integer>();
+			for (int i = 0; i < nrFlights; i++) {
+				Random r = new Random();
+				int result = r.nextInt(maxBags + 1);
+				bags.add(result);
+				bagsPerFlight[i] += result;
+			}
+			bagsPerPassenger.add(bags);
+
 		}
+		genInfoRepo.nrBagsPlanesHold(bagsPerFlight);
+		System.out.println(bagsPerPassenger);
 
-		return bags;
+
+		return bagsPerPassenger;
+
 	}
 }

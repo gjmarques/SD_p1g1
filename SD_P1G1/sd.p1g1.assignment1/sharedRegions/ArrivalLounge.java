@@ -47,6 +47,8 @@ public class ArrivalLounge {
         rl.lock();
         
         try {    
+			//rep.nrBagsPlanesHold(nr_flight, bags); 
+
             //rep.nrFlight(nr_flight);        
             rep.passengerState(nr_flight, passengerID, PassengerState.AT_THE_DISEMBARKING_ZONE, finalDestination, bags.length);
             
@@ -61,7 +63,6 @@ public class ArrivalLounge {
             for (int b = 0; b < bags.length; b++) {
                 this.bags.push(bags[b]);
             }
-            rep.nrBagsPlanesHold(this.bags.size());
 
             return finalDestination ? 'c' : 'b';
         } catch (NullPointerException ex) {

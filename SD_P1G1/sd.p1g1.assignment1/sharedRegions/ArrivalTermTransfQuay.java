@@ -40,7 +40,6 @@ public class ArrivalTermTransfQuay {
 		rl.lock();
 		//boolean entered = true;
 		try {
-			System.out.println("ArrivalTermTransfQuay.takeaBus");
 			rep.passengerState(passengerID, PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
 			passengers++;
 			

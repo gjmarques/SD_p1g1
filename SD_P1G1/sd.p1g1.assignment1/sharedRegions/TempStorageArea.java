@@ -19,10 +19,12 @@ public class TempStorageArea {
 	 * @param bag
 	 */
 	public void carryItToAppropriateStore(Bag bag) {
-        tempStorageBags.add(bag);
-        // rep.bagAtStoreRoom(tempStorageBags.size());
-        rep.bagAtStoreRoom(1);
         rep.porterState(PorterState.AT_THE_STOREOOM);
+
+        tempStorageBags.add(bag);
+
+        rep.lessBagsOnPlanesHold(bag);
+        rep.bagAtStoreRoom(bag);
 	}
 
 

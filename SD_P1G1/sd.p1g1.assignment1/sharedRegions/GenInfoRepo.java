@@ -20,7 +20,7 @@ public class GenInfoRepo {
     /**
      * Number of pieces of luggage presently at the plane's hold
      */
-    private int bn;
+    private int[] bn = {0, 1, 2, 3, 4};
     /**
      * State of the porter
      */
@@ -74,7 +74,11 @@ public class GenInfoRepo {
     /**
      * Counter for total of number of bags lost.
      */
-    private int missingBags = 1;
+    private int missingBags = 0;
+    /**
+     * Total number of bags that passed by the planes'hold.
+     */
+    private int bn_total;
 
     // Abbreviations of the porter and driver states, in order
     private  String[] porterStates = {"WPTL", "APLH", "ALCB", "ASTR"};
@@ -102,11 +106,33 @@ public class GenInfoRepo {
         this.porterState = PorterState.WAITING_FOR_A_PLANE_TO_LAND;
         this.bDriverState = BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL;
 
-        //this.passengerDest[0] = "hello";
-        // this.nr[0] = 1;
-        // this.na[0] = 1;
-
     }
+
+    /**
+     * Number of pieces of luggage presently at the plane's hold.
+     */
+    public void nrBagsPlanesHold(int[] bagsPerFlight){
+
+        this.bn[0] = bagsPerFlight[0];
+        this.bn[1] = bagsPerFlight[1];
+        this.bn[2] = bagsPerFlight[2];
+        this.bn[3] = bagsPerFlight[3];
+        this.bn[4] = bagsPerFlight[4];
+        this.bn_total = this.bn[0] + this.bn[1] + this.bn[2] + this.bn[3] + this.bn[4];
+
+        //updateStatePorterOrBDriver();
+    }
+
+
+    /**
+     * Porter taking bags out of planes' hold.
+     */
+    public synchronized void lessBagsOnPlanesHold(Bag bag){
+
+        this.bn[bag.getFlightNR()]-= 1;
+        updateStatePorterOrBDriver();
+    }
+
 
     /**
      * Report missing bags.
@@ -115,13 +141,6 @@ public class GenInfoRepo {
         this.missingBags +=1;
     }
 
-    /**
-     * Number of pieces of luggage presently at the plane's hold.
-     */
-    public synchronized void nrBagsPlanesHold(int nrOfBags){
-        this.bn += nrOfBags;
-        updateStatePorterOrBDriver();
-    }
    
     /**
      * Update state of the passenger
@@ -186,7 +205,6 @@ public class GenInfoRepo {
                 this.q[i] = "-";
                 break;
             }
-            System.out.println("this.q: " + this.q[i] + "this to delete!: " + passengerID);
         }
         // passenger is sitting in the bus
         for(int i = 0; i < this.s.length; i++){
@@ -195,7 +213,6 @@ public class GenInfoRepo {
                 break;
             } 
         }
-        //System.out.println("THIS.q: " + this.q);
         updateStatePorterOrBDriver();
     }
 
@@ -222,7 +239,6 @@ public class GenInfoRepo {
                 break;
             } 
         }
-        //System.out.println("THIS.q: " + this.q);
         updateStatePorterOrBDriver();
     }
 
@@ -230,10 +246,11 @@ public class GenInfoRepo {
      * Number of pieces of luggage belonging to passengers in transit presently stored at the storeroom
      * @param int
      */
-    synchronized void bagAtStoreRoom(int nrBagsAtStoreRoom){
-        this.sr += nrBagsAtStoreRoom;
-        this.bn +=1 ;
-        updateStatePorterOrBDriver();
+    synchronized void bagAtStoreRoom(Bag bag){
+        if(bag.getDestination() == 'T'){
+            this.sr += 1;
+            updateStatePorterOrBDriver();
+        }
     }
 
     /**
@@ -250,41 +267,23 @@ public class GenInfoRepo {
      * @param int
      */
     synchronized void collectionMatConveyorBelt( int nrLuggageConvBelt){
-        this.cb += nrLuggageConvBelt;
-        this.bn += nrLuggageConvBelt;
+        this.cb = nrLuggageConvBelt;
         updateStatePorterOrBDriver();
     }
-    
+
 
     synchronized void passengerCollectedBags(Bag bag){
         int bag_passengers_id = bag.getID();
         this.na[bag_passengers_id] += 1;
         updateStatePorterOrBDriver();
     }
-    // private void updateStatePassengers(){
-
-    //     String info2 = "";
-    //     String tmp;
-    //     for(int i = 0; i < Global.NR_PASSENGERS; i++){
-    //         tmp = "";
-    //         if(this.passengerState[i] == null) tmp = "--- ---  -   - ";
-    //         else{
-    //             // System.out.println("PASSENGER state update to: " + this.passengerState[i] );
-    //             // System.out.println("I'm updating state to: " + passengerStates[this.passengerState[i].ordinal()] );
-    //             //getAbrv();
-    //             tmp = passengerStates[this.passengerState[i].ordinal()] + " " + this.passengerDest[i] + "  " + this.nr[i] + "   " + this.na[i];
-    //         }
-    //         info2 += tmp + " ";
-    //     }
-    //     writeToLogger(info2);
-    // }
 
     private void updateStatePorterOrBDriver(){
         //if(this.q == null) this.q = " -  -  -  -  -  -";
         //if(this.s == null) this.s = " -  -  - ";
 
 
-        String info1 = " " + this.fn + "  " + this.bn + "  " + porterStates[this.porterState.ordinal()] + "  " + this.cb + "  " + this.sr  + "   " 
+        String info1 = " " + this.fn + "  " + this.bn[this.fn] + "  " + porterStates[this.porterState.ordinal()] + "  " + this.cb + "  " + this.sr  + "   " 
                            + bDriverStates[this.bDriverState.ordinal()] + "  " 
                            + this.q[0] + "  " + this.q[1] + "  " + this.q[2] + "  " + this.q[3] + "  " + this.q[4] + "  " + this.q[5] + "  " 
                            + this.s[0] + "  " + this.s[1] + "  " + this.s[2];
@@ -295,9 +294,6 @@ public class GenInfoRepo {
             tmp = "";
             if(this.passengerState[i] == null) tmp = "--- ---  -   - ";
             else{
-                // System.out.println("PASSENGER state update to: " + this.passengerState[i] );
-                // System.out.println("I'm updating state to: " + passengerStates[this.passengerState[i].ordinal()] );
-                //getAbrv();
                 tmp = passengerStates[this.passengerState[i].ordinal()] + " " + this.passengerDest[i] + "  " + this.nr[i] + "   " + this.na[i];
             }
             info2 += tmp + " ";
@@ -315,11 +311,9 @@ public class GenInfoRepo {
         for(int i = 0; i < Global.NR_PASSENGERS; i++){
             if(this.passengerDest[i] == "FDT") final_dest_passengers +=1;
         }
-        System.out.println("this.bn = " + (this.bn));
-        System.out.println("this.missingbags = " + (this.missingBags));
         writeToLogger("N. of passengers which have this airport as their final destination = " + final_dest_passengers);
         writeToLogger("N. of passengers which are in transit = " + (Global.NR_PASSENGERS - final_dest_passengers));
-        writeToLogger("N. of bags that should have been transported in the planes hold = " + this.bn);
+        writeToLogger("N. of bags that should have been transported in the planes hold = " + this.bn_total);
         writeToLogger("N. of bags that were lost = " + this.missingBags);
     }
 

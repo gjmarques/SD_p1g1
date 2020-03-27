@@ -19,7 +19,7 @@ public class BaggageCollectionPoint {
 		this.rep = rep;
 		Random r = new Random();
 		random_lost_bag = r.nextInt(6);
-		System.out.println("RESULT: " + random_lost_bag);
+		System.out.println("Passenger " + random_lost_bag + " lost his bags!");
 	}
 
 	/**
@@ -74,12 +74,15 @@ public class BaggageCollectionPoint {
 		try {
 			noMoreBags = false;
 			if(bag.getID() != random_lost_bag){
-					collectionMat.add(bag);
-					// rep.collectionMatConveyorBelt(collectionMat.size());
 					rep.porterState(PorterState.AT_THE_LUGGAGE_BELT_CONVEYOR);
+
+					collectionMat.add(bag);
+					rep.lessBagsOnPlanesHold(bag);
+					rep.collectionMatConveyorBelt(collectionMat.size());
+
+
 					waitBag.signalAll();
 			}
-			rep.collectionMatConveyorBelt(1);
 		} catch (Exception ex) {
 			System.out.println("ERROR: BaggageCollectionPoint.carryItToAppropriateStore");
 		} finally {

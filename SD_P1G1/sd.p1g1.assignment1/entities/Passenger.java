@@ -71,9 +71,11 @@ public class Passenger extends Thread {
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
             for (int j = 0; j < bags.length; j++) {
-                bags[j] = new Bag(this.finalDestination ? 'H' : 'T', this.id);
+                bags[j] = new Bag(this.finalDestination ? 'H' : 'T', this.id, i);
 
             }
+
+            // rep.nrBagsPlanesHold(i)
 
             char choice = arrivalLounge.whatShouldIDo(i, this.id, bags, this.finalDestination);
             arrivalTermTransfQuay.setFlight(i);
