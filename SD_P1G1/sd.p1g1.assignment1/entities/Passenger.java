@@ -141,20 +141,20 @@ public class Passenger extends Thread {
                    
                     break;
                 case ('c'):
-                        // while (collectedBags < numBags.get(i)) {
-                        //     char status = baggageCollectionPoint.goCollectABag(this.id);
-                        //     if ( status == 'S') {
-                        //         // bag collected
-                        //         collectedBags += 1;
-                        //     } else if (status == 'E') {
-                        //         // bag is missing
-                        //         baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags, this.id);
-                        //         collectedBags = numBags.get(i);
-                        //     }
-                        // }
-                    //arrivalTerminalExit.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
+                        while (collectedBags < numBags.get(i)) {
+                            char status = baggageCollectionPoint.goCollectABag(this.id);
+                            if ( status == 'S') {
+                                // bag collected
+                                collectedBags += 1;
+                            } else if (status == 'E') {
+                                // bag is missing
+                                baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags, this.id);
+                                collectedBags = numBags.get(i);
+                            }
+                        }
+                    arrivalTerminalExit.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     
-                    departureTerminalEntrance.prepareNextLeg(i, this.id); 
+                    //departureTerminalEntrance.prepareNextLeg(i, this.id); 
                    
                     break;
             }
