@@ -112,10 +112,10 @@ public class Passenger extends Thread {
     public void run() {
         Random r;
         for (int i = 0; i < Global.NR_FLIGHTS; i++) {
-            System.out.println("NEXTLEG VOO " + i + " INICIADO" + " by passenger nr: " + this.id);
             r = new Random();
             int result = r.nextInt(2);
             if(result == 1) this.finalDestination = true;
+            System.out.println("VOO " + i + " INICIADO by passenger nr: " + this.id+ " destination ->"+finalDestination+"; numBags->"+numBags.get(i));
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
             for (int j = 0; j < bags.length; j++) {
@@ -133,24 +133,29 @@ public class Passenger extends Thread {
 
                 case ('b'):
                     arrivalTermTransfQuay.takeABus(this.id);
+                    System.out.println("PASSENGER nr: " + this.id+ " takeABus");
                     arrivalTermTransfQuay.enterTheBus(this.id);
                     departureTermTransfQuay.leaveTheBus(this.id);
-                    System.out.println("hello p" + this.id + " flight nr: " + i);
-                    departureTerminalEntrance.prepareNextLeg(i, this.id);
+                    System.out.println("PASSENGER nr: " + this.id+ " leaveTheBus");
+                    departureTerminalEntrance.prepareNextLeg(i, this.id); 
+                   
                     break;
                 case ('c'):
-                        while (collectedBags < numBags.get(i)) {
-                            char status = baggageCollectionPoint.goCollectABag(this.id);
-                            if ( status == 'S') {
-                                // bag collected
-                                collectedBags += 1;
-                            } else if (status == 'E') {
-                                // bag is missing
-                                baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags, this.id);
-                                collectedBags = numBags.get(i);
-                            }
-                        }
-                    arrivalTerminalExit.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
+                        // while (collectedBags < numBags.get(i)) {
+                        //     char status = baggageCollectionPoint.goCollectABag(this.id);
+                        //     if ( status == 'S') {
+                        //         // bag collected
+                        //         collectedBags += 1;
+                        //     } else if (status == 'E') {
+                        //         // bag is missing
+                        //         baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags, this.id);
+                        //         collectedBags = numBags.get(i);
+                        //     }
+                        // }
+                    //arrivalTerminalExit.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
+                    
+                    departureTerminalEntrance.prepareNextLeg(i, this.id); 
+                   
                     break;
             }
         }

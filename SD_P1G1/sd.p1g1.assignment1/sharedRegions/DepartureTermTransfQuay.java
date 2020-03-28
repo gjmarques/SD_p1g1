@@ -60,7 +60,7 @@ public class DepartureTermTransfQuay{
     public void goToDepartureTerminal(){
         try {
             rep.busDriverState(BusDriverState.DRIVING_FORWARD); 
-            //Thread.sleep(50);
+            Thread.sleep(50);
         } catch (Exception e) {
             System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
 			System.out.println("Error: " + e.getMessage());

@@ -159,7 +159,7 @@ public class ArrivalTermTransfQuay {
 	public void goToArrivalTerminal(){
         try {
 			rep.busDriverState(BusDriverState.DRIVING_BACKWARD);
-            //Thread.sleep(50);
+            Thread.sleep(50);
         } catch (Exception e) {
 			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
 			System.out.println("Error: " + e.getMessage());

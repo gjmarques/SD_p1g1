@@ -18,7 +18,9 @@ public class ArrivalTerminalExit {
     private final Condition waitingEndCV;
 
     private DepartureTerminalEntrance departureTerminalEntrance;
+
     private int passengers = 0;
+    private int departurePassengers = 0;
     private int numPassengers;
 
     private GenInfoRepo rep;
@@ -40,6 +42,7 @@ public class ArrivalTerminalExit {
         rl.lock();
         try {
             passengers = 0;
+            departurePassengers = 0;
             waitingEndCV.signalAll();
         } catch (Exception e) {
             System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
@@ -52,16 +55,17 @@ public class ArrivalTerminalExit {
     }
 
     public void signalPassenger() {
-        rl.lock();
-        try {
-            passengers++;
-        } catch (Exception e) {
-            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
-			System.out.println("Error: " + e.getMessage());
-			System.exit(1);
-        } finally {
-            rl.unlock();
-        }
+        departurePassengers++;
+        // rl.lock();
+        // try {
+        //     departurePassengers++;
+        // } catch (Exception e) {
+        //     System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+		// 	System.out.println("Error: " + e.getMessage());
+		// 	System.exit(1);
+        // } finally {
+        //     rl.unlock();
+        // }
     }
 
 
@@ -74,16 +78,19 @@ public class ArrivalTerminalExit {
     public void goHome(int nPlane, int passengerID, PassengerState passengerState) {
         rl.lock();
         try {
-            System.out.println("Passenger nr: " + passengerID + " went home.");
+            System.out.println("Passenger nr: " + passengerID + " GOHOME.");
             rep.passengerState(nPlane, passengerID, passengerState);
 
             passengers++;
             departureTerminalEntrance.signalPassenger();
-            if (passengers == numPassengers) {
+            System.out.println("Passenger nr: " + passengerID + " GOHOME. SIGNAL");
+            if (passengers + departurePassengers == numPassengers) {
                 passengers = 0;
+                departurePassengers = 0;
                 departureTerminalEntrance.signalCompletion();
                 waitingEndCV.signalAll();
             } else {
+                System.out.println("Passenger nr: " + passengerID + " GOHOME. WAIT");
                 waitingEndCV.await();
             }
         } catch (Exception e) {

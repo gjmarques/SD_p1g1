@@ -20,6 +20,7 @@ public class DepartureTerminalEntrance {
     private ArrivalTerminalExit arrivalTerminalExit;
 
     private int passengers = 0;
+    private int arrivalPassengers = 0;
     private int numPassengers;
 
     private GenInfoRepo rep;
@@ -40,6 +41,8 @@ public class DepartureTerminalEntrance {
     public void signalCompletion() {
         rl.lock();
         try {
+            passengers = 0;
+            arrivalPassengers = 0;
             waitingEndCV.signalAll();
         } catch (Exception e) {
             System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
@@ -52,16 +55,17 @@ public class DepartureTerminalEntrance {
     }
 
     public void signalPassenger() {
-        rl.lock();
-        try {
-            passengers++;
-        } catch (Exception e) {
-            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
-			System.out.println("Error: " + e.getMessage());
-			System.exit(1);
-        } finally {
-            rl.unlock();
-        }
+        arrivalPassengers++;
+        // rl.lock();
+        // try {
+        //     arrivalPassengers++;
+        // } catch (Exception e) {
+        //     System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+		// 	System.out.println("Error: " + e.getMessage());
+		// 	System.exit(1);
+        // } finally {
+        //     rl.unlock();
+        // }
     }
 
     /**
@@ -72,16 +76,20 @@ public class DepartureTerminalEntrance {
     public void prepareNextLeg(int nPlane, int passengerID) {
         rl.lock();
         try {
+            System.out.println("Passenger nr: " + passengerID + " NEXTLEG.");
             rep.passengerState(passengerID, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
             passengers++;
             arrivalTerminalExit.signalPassenger();
-            if (passengers == numPassengers) {
+            System.out.println("Passenger nr: " + passengerID + " NEXTLEG. SIGNAL");
+            if (passengers + arrivalPassengers == numPassengers) {
                 passengers = 0;
+                arrivalPassengers = 0;
                 arrivalTerminalExit.signalCompletion();
                 waitingEndCV.signalAll();
 
                 System.out.println("NEXTLEG VOO " + nPlane + " TERMINADO");
             } else {
+                System.out.println("Passenger nr: " + passengerID + " NEXTLEG. WAITING");
                 waitingEndCV.await();
             }
         } catch (Exception e) {
