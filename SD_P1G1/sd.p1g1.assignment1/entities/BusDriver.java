@@ -9,11 +9,8 @@ public class BusDriver extends Thread {
     private BusDriverState state;
     private final ArrivalTermTransfQuay arrivalTermTransfQuay;
     private final DepartureTermTransfQuay departureTermTransfQuay;
-    private GenInfoRepo rep;
 
-    public BusDriver (ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay, GenInfoRepo rep){
-        //this.state = BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL;
-        rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
+    public BusDriver (ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay){
         this.arrivalTermTransfQuay = arrivalTermTransfQuay;
         this.departureTermTransfQuay = departureTermTransfQuay;
     }
@@ -29,27 +26,17 @@ public class BusDriver extends Thread {
             if(choice == 'W') {
                 nPassengers = arrivalTermTransfQuay.annoucingBusBoarding();			
                 departureTermTransfQuay.goToDepartureTerminal();
-                //setState(BusDriverState.PARKING_AT_THE_DEPARTURE_TERMINAL);
                 departureTermTransfQuay.parkTheBusAndLetPassengerOff(nPassengers);
                 arrivalTermTransfQuay.goToArrivalTerminal();
-                //setState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
                 arrivalTermTransfQuay.parkTheBus();
             }else if(choice == 'E'){
+        // rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
                 loop = false;
             }
         }
     }
-
-    
-    // /** 
-    //  * @param {@link BusDriverState}
-    //  */
-    // private void setState(BusDriverState state) {
-    //     this.state = state;
-    // }
-    
     /** 
-     * @return BusDriverState
+     * @return {@link BusDriverState}
      */
     public BusDriverState getBDriverState() {
         return this.state;

@@ -27,7 +27,11 @@ public class DepartureTermTransfQuay{
             rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
 			waitArrival.signalAll();
             waitEmpty.await();
-        } catch(Exception ex) {}
+        } catch(Exception e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+        }
         finally {
             rl.unlock();
         }
@@ -43,7 +47,11 @@ public class DepartureTermTransfQuay{
             if(numPassengers == 0) {
                 waitEmpty.signal();
             }
-        } catch(Exception ex) {}
+        } catch(Exception e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+        }
         finally {
             rl.unlock();
         }
@@ -53,7 +61,11 @@ public class DepartureTermTransfQuay{
         try {
             rep.busDriverState(BusDriverState.DRIVING_FORWARD); 
             //Thread.sleep(50);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+        }
 
     }
 }

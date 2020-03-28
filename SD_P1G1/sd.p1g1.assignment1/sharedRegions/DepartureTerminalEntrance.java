@@ -41,7 +41,10 @@ public class DepartureTerminalEntrance {
         rl.lock();
         try {
             waitingEndCV.signalAll();
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
         } finally {
             rl.unlock();
         }
@@ -52,20 +55,20 @@ public class DepartureTerminalEntrance {
         rl.lock();
         try {
             passengers++;
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
         } finally {
             rl.unlock();
         }
     }
 
     /**
+     * Passengers enter a lock state while waiting for every Passenger to finish their lifecycle
      * @param nPlane
+     * @param passengerID
      */
-
-    // PASSENGER
-
-    // Passengers enter a lock state while waiting for every Passenger to finish
-    // their lifecycle
     public void prepareNextLeg(int nPlane, int passengerID) {
         rl.lock();
         try {
@@ -81,7 +84,10 @@ public class DepartureTerminalEntrance {
             } else {
                 waitingEndCV.await();
             }
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
         } finally {
             rl.unlock();
         }

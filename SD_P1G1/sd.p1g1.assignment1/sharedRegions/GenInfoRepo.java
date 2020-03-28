@@ -113,12 +113,9 @@ public class GenInfoRepo {
      */
     public void nrBagsPlanesHold(int[] bagsPerFlight){
         for(int i = 0; i< bagsPerFlight.length;i++){
-        this.bn[i] = bagsPerFlight[i];
-        this.bn_total += this.bn[i];
-    }
-
-
-        //updateStatePorterOrBDriver();
+            this.bn[i] = bagsPerFlight[i];
+            this.bn_total += this.bn[i];
+        }
     }
 
 
@@ -317,8 +314,9 @@ public class GenInfoRepo {
             myWriter.write(toWrite + '\n');
             myWriter.close();
         } catch ( IOException e) {
-            System.out.println("ERROR: An error occurred writting to logger.");
-            e.printStackTrace();
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
         } 
 
     }
@@ -332,8 +330,9 @@ public class GenInfoRepo {
             myWriter.write(toWrite + '\n');
             myWriter.close();
         } catch ( IOException e) {
-            System.out.println("ERROR: An error occurred writting to logger.");
-            e.printStackTrace();
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
         } 
 
     }

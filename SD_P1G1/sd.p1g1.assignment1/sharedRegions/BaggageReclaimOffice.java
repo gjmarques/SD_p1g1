@@ -10,8 +10,10 @@ public class BaggageReclaimOffice {
 		this.rep = rep;
 	}
 
-	/** 
+	/**
+	 * 
 	 * @param i
+	 * @param passengerID
 	 */
 	public void reportMissingBags(int i, int passengerID) {
 		rep.passengerState(passengerID, PassengerState.AT_THE_BAGGAGE_RECLAIM_OFFICE);

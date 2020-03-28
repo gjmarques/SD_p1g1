@@ -17,33 +17,84 @@ import java.util.*;
 
 public class Passenger extends Thread {
 
+    /**
+     * Passenger's state
+     * {@link PassengerState}
+     */
     private PassengerState state;
+    /**
+     * Count of bags collected by the passenger
+     */
     private int collectedBags;
+    /**
+     * List of {@link Bag}s of the passenger
+     */
     private List<Integer> numBags = new ArrayList<>();
+    /**
+     * Number of passenger's {@link Bag}s per flight
+     */
     private Bag[] bags;
+    /**
+     * This Passenger's identification
+     */
     private int id;
-
+    /**
+     * Arrival Lounge
+     * {@link sharedRegions.ArrivalLounge}
+     */
     private final ArrivalLounge arrivalLounge;
+    /**
+     * Arrival Terminal Exit
+     * {@link sharedRegions.ArrivalTerminalExit}
+     */
     private final ArrivalTerminalExit arrivalTerminalExit;
+    /**
+     * Departure Terminal Entrance
+     * {@link sharedRegions.DepartureTerminalEntrance}
+     */
     private final DepartureTerminalEntrance departureTerminalEntrance;
+    /**
+     * Arrival Terminal Transfer Quay
+     * {@link sharedRegions.ArrivalTermTransfQuay}
+     */
     private final ArrivalTermTransfQuay arrivalTermTransfQuay;
+    /**
+     * Departure Terminal Transfer Quay
+     * {@link sharedRegions.DepartureTermTransfQuay}
+     */
     private final DepartureTermTransfQuay departureTermTransfQuay;
+    /**
+     * Baggage Collection Point
+     * {@link sharedRegions.BaggageCollectionPoint}
+     */
     private final BaggageCollectionPoint baggageCollectionPoint;
+    /**
+     * Baggage Reclaim Office
+     * {@link sharedRegions.BaggageReclaimOffice}
+     */
     private final BaggageReclaimOffice baggageReclaimOffice;
-
+    /**
+     * If this airport is passenger's final destination 
+     */    
     private boolean finalDestination;
-
-    private GenInfoRepo rep;
-
-
+    /**
+     * Instantiates Passenger entity
+     * @param id
+     * @param numBags
+     * @param arrivalLounge
+     * @param arrivalTermTransfQuay
+     * @param departureTermTransfQuay
+     * @param baggageCollectionPoint
+     * @param baggageReclaimOffice
+     * @param arrivalTerminalExit
+     * @param departureTerminalEntrance
+     */
     public Passenger(int id, List<Integer> numBags, ArrivalLounge arrivalLounge,
             ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay,
             BaggageCollectionPoint baggageCollectionPoint, BaggageReclaimOffice baggageReclaimOffice,
-            ArrivalTerminalExit arrivalTerminalExit, DepartureTerminalEntrance departureTerminalEntrance, GenInfoRepo rep) {
+            ArrivalTerminalExit arrivalTerminalExit, DepartureTerminalEntrance departureTerminalEntrance) {
         this.id = id;
         this.numBags = numBags;
-        //rep.passengerState(PassengerState.AT_THE_DISEMBARKING_ZONE);
-        //this.state = PassengerState.AT_THE_DISEMBARKING_ZONE;
         this.arrivalLounge = arrivalLounge;
         this.arrivalTermTransfQuay = arrivalTermTransfQuay;
         this.departureTermTransfQuay = departureTermTransfQuay;
@@ -59,9 +110,12 @@ public class Passenger extends Thread {
 
     @Override
     public void run() {
-        Random r = new Random();
+        Random r;
         for (int i = 0; i < Global.NR_FLIGHTS; i++) {
-            this.finalDestination = true;//r.nextBoolean();
+            System.out.println("NEXTLEG VOO " + i + " INICIADO" + " by passenger nr: " + this.id);
+            r = new Random();
+            int result = r.nextInt(2);
+            if(result == 1) this.finalDestination = true;
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
             for (int j = 0; j < bags.length; j++) {
@@ -69,35 +123,24 @@ public class Passenger extends Thread {
 
             }
 
-            // rep.nrBagsPlanesHold(i)
-
             char choice = arrivalLounge.whatShouldIDo(i, this.id, bags, this.finalDestination);
             arrivalTermTransfQuay.setFlight(i);
             arrivalLounge.setFlight(i);
             switch (choice) {
                 case ('a'):
-                    //System.out.println("PASSENGER GONE HOME");
                     arrivalTerminalExit.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
-                    //setState(PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     break;
 
                 case ('b'):
                     arrivalTermTransfQuay.takeABus(this.id);
-                    //setState(PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
                     arrivalTermTransfQuay.enterTheBus(this.id);
-                    //setState(PassengerState.TERMINAL_TRANSFER);
                     departureTermTransfQuay.leaveTheBus(this.id);
-                    // setState(PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL);
+                    System.out.println("hello p" + this.id + " flight nr: " + i);
                     departureTerminalEntrance.prepareNextLeg(i, this.id);
-                    //setState(PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
                     break;
-
                 case ('c'):
                         while (collectedBags < numBags.get(i)) {
-                            //setState(PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
-                        
                             char status = baggageCollectionPoint.goCollectABag(this.id);
-                            
                             if ( status == 'S') {
                                 // bag collected
                                 collectedBags += 1;
@@ -107,23 +150,14 @@ public class Passenger extends Thread {
                                 collectedBags = numBags.get(i);
                             }
                         }
-
-                    //System.out.println("PASSENGER GOT ALL BAGS");
                     arrivalTerminalExit.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
-                    //setState(PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
                     break;
             }
         }
     }
 
     /**
-     * @param state
-     */
-    public void setState(PassengerState state) {
-        this.state = state;
-    }
-
-    /**
+     * Gets passenger state
      * @return PassengerState
      */
     public PassengerState getPassengerState() {
@@ -132,7 +166,7 @@ public class Passenger extends Thread {
 
     /**
      * Situation of passenger: true = final destination; false = in transit
-     * @return true if passengers' final destination
+     * @return boolean 
      */
     public boolean getSituation(){
         if(this.finalDestination) return true;
@@ -157,6 +191,7 @@ public class Passenger extends Thread {
 
 
     /**
+     * Gets this passenger's id
      * @return int
      */
     public int getPassID() {

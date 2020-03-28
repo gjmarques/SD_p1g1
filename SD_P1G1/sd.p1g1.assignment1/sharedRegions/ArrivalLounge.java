@@ -7,9 +7,9 @@ import java.util.*;
 import java.util.concurrent.locks.*;
 
 /**
- * This datatype implements the ArrivalLounge shared memory region. In this
+ * This datatype implements the Arrival Lounge shared memory region. In this
  * shared region, the Passengers decide on their course of action and the Porter
- * ..........
+ * comes here to try to collect the passengers' bags.
  */
 public class ArrivalLounge {
 
@@ -30,26 +30,24 @@ public class ArrivalLounge {
         this.maxFlights = Global.NR_FLIGHTS;
 
         this.rep = rep;
-
-        //rep.nrFlights(this.maxFlights);
-
     }
-
-    // PASSENGER
 
     public void setFlight(int nFlight) {
         flightCount = nFlight + 1;
     }
 
-    // Passengers decide what to do based on their final destination and number of
-    // bags
+    /**
+     * Passengers decide what to do based on their final destination and number of bags
+     * @param nr_flight
+     * @param passengerID
+     * @param bags
+     * @param finalDestination
+     * @return
+     */
     public char whatShouldIDo(int nr_flight, int passengerID, Bag[] bags, boolean finalDestination) {
         rl.lock();
         
         try {    
-			//rep.nrBagsPlanesHold(nr_flight, bags); 
-
-            //rep.nrFlight(nr_flight);        
             rep.passengerState(nr_flight, passengerID, PassengerState.AT_THE_DISEMBARKING_ZONE, finalDestination, bags.length);
             
             passengerCount++;
@@ -65,9 +63,11 @@ public class ArrivalLounge {
             }
 
             return finalDestination ? 'c' : 'b';
-        } catch (NullPointerException ex) {
-            System.out.println("ERROR: whatShouldIDo");
-            return 'a';
+        } catch (NullPointerException e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+            System.exit(1);
+            return 'z';
         } finally {
             rl.unlock();
         }
@@ -95,8 +95,11 @@ public class ArrivalLounge {
 
             return 'W';
 
-        } catch (Exception ex) {
-            return 'E';
+        } catch (Exception e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+            System.exit(1);
+            return 'z';
         } finally {
             rl.unlock();
         }
@@ -121,7 +124,9 @@ public class ArrivalLounge {
             }
 
         } catch (Exception e) {
-            System.out.println("ERROR: tryToCollectBag()");
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+            System.exit(1);
             return null;
         } finally {
             rl.unlock();

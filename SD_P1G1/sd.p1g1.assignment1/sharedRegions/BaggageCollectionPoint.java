@@ -4,6 +4,10 @@ import java.util.*;
 import java.util.concurrent.locks.*;
 import entities.*;
 
+/**
+ * This datatype implements the Baggage Colelction Point shared memory region. In this
+ * shared region, the Porter stores the passengers' bags. The passengers come here to colelct their bags.
+ */
 public class BaggageCollectionPoint {
 
 	private final ReentrantLock rl;
@@ -30,8 +34,8 @@ public class BaggageCollectionPoint {
 
 			// TEMPORARY CONDITION TO PREVENT DEADLOCK (STILL OCCURS SOME TIMES), SHOULD
 			// FIND BETTER SOLUTION
-			System.out.println(
-					"NOMOREBAGS-" + noMoreBags + "  CollectionMat-" + collectionMat.size() + collectionMat.isEmpty());
+			//System.out.println(
+			//		"NOMOREBAGS-" + noMoreBags + "  CollectionMat-" + collectionMat.size() + collectionMat.isEmpty());
 
 			if (noMoreBags && collectionMat.isEmpty())
 				//bag is missing; there's no bags in collection mat
@@ -53,10 +57,12 @@ public class BaggageCollectionPoint {
 				//bag is missing; there's no bags in collection mat
 				return 'E';
 
-			return 'F';
-		} catch (Exception ex) {
-			System.out.println("ERROR: BaggageCollectionPoint.goCollectABag");
-			return 'F';
+			return 'z';
+		} catch (Exception e) {
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+			return 'z';
 		} finally {
 			rl.unlock();
 		}
@@ -71,19 +77,17 @@ public class BaggageCollectionPoint {
 		rl.lock();
 		try {
 			rep.porterState(PorterState.AT_THE_LUGGAGE_BELT_CONVEYOR);
-			Random r = new Random();
-			int answer = r.nextInt(10);
-			//10% chance of losing a bag
-			if (answer < 9) {
-				collectionMat.add(bag);
-				noMoreBags = false;
-				rep.lessBagsOnPlanesHold(bag);
-				rep.collectionMatConveyorBelt(collectionMat.size());
-				waitBag.signalAll();
-			}
+		
+			collectionMat.add(bag);
+			noMoreBags = false;
+			rep.lessBagsOnPlanesHold(bag);
+			rep.collectionMatConveyorBelt(collectionMat.size());
+			waitBag.signalAll();
 
-		} catch (Exception ex) {
-			System.out.println("ERROR: BaggageCollectionPoint.carryItToAppropriateStore");
+		}catch (Exception e) {
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
 		} finally {
 			rl.unlock();
 		}
@@ -94,9 +98,10 @@ public class BaggageCollectionPoint {
 		try {
 			noMoreBags = true;
 			waitBag.signalAll();
-			System.out.println("INFO: noMoreBagsToCollect()");
 		} catch (Exception e) {
-			System.out.println("ERROR: noMoreBagsToCollect()");
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
 		} finally {
 			rl.unlock();
 		}

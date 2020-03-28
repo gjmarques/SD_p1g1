@@ -21,7 +21,7 @@ public class AirportMain {
 		// creates new logger
 		File logger = new File("logger.txt");
 		if (logger.createNewFile()){
-			System.out.println("Logger created: " + logger.getName());
+			//System.out.println("Logger created: " + logger.getName());
 		}else{
 			logger.delete();
 			logger.createNewFile();
@@ -43,7 +43,7 @@ public class AirportMain {
 		departureTerminalEntrance.setArrivalTerminal(arrivalTerminalExit);
 
 		// Initialize busdriver and timer
-		BusDriver busdriver = new BusDriver(arrivalTermTransfQuay, departureTermTransfQuay, genInfoRepo);
+		BusDriver busdriver = new BusDriver(arrivalTermTransfQuay, departureTermTransfQuay);
 		busdriver.start();
 		
 		BusTimer timer = new BusTimer(arrivalTermTransfQuay);
@@ -59,13 +59,9 @@ public class AirportMain {
 		// Initialize passengers
 		Passenger[] passengers = new Passenger[Global.NR_PASSENGERS];
 		for (int i = 0; i < Global.NR_PASSENGERS; i++) {
-			//List<Integer> numBags = generateBags(Global.NR_FLIGHTS, Global.MAX_BAGS);
 			passengers[i] = new Passenger(i, bags.get(i), arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, 
-										baggageCollectionPoint, baggageReclaimOffice, arrivalTerminalExit, departureTerminalEntrance, genInfoRepo);
-
-			//genInfoRepo.nrBagsPlanesHold(numBags);
+										baggageCollectionPoint, baggageReclaimOffice, arrivalTerminalExit, departureTerminalEntrance);
 			passengers[i].start();
-			//System.out.println("PASSAGEIRO " + i + " -> " + numBags.toString());
 		}
 
 
@@ -89,7 +85,9 @@ public class AirportMain {
 
 			
 		} catch (Exception e) {
-
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
 		}
 
 	}
@@ -119,10 +117,7 @@ public class AirportMain {
 
 		}
 		genInfoRepo.nrBagsPlanesHold(bagsPerFlight);
-		System.out.println(bagsPerPassenger);
-
 
 		return bagsPerPassenger;
-
 	}
 }

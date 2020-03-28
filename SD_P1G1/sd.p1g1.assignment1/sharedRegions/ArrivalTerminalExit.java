@@ -39,8 +39,12 @@ public class ArrivalTerminalExit {
     public void signalCompletion() {
         rl.lock();
         try {
+            passengers = 0;
             waitingEndCV.signalAll();
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
         } finally {
             rl.unlock();
         }
@@ -51,23 +55,26 @@ public class ArrivalTerminalExit {
         rl.lock();
         try {
             passengers++;
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
         } finally {
             rl.unlock();
         }
     }
 
+
     /**
+     * Passengers enter a lock state while waiting for every Passenger to finish their lifecycle
      * @param nPlane
+     * @param passengerID
+     * @param passengerState
      */
-
-    // PASSENGER
-
-    // Passengers enter a lock state while waiting for every Passenger to finish
-    // their lifecycle
     public void goHome(int nPlane, int passengerID, PassengerState passengerState) {
         rl.lock();
         try {
+            System.out.println("Passenger nr: " + passengerID + " went home.");
             rep.passengerState(nPlane, passengerID, passengerState);
 
             passengers++;
@@ -76,11 +83,13 @@ public class ArrivalTerminalExit {
                 passengers = 0;
                 departureTerminalEntrance.signalCompletion();
                 waitingEndCV.signalAll();
-                System.out.println("GOHOME VOO " + nPlane + " TERMINADO");
             } else {
                 waitingEndCV.await();
             }
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
         } finally {
             rl.unlock();
         }

@@ -38,7 +38,6 @@ public class ArrivalTermTransfQuay {
 
 	public void takeABus(int passengerID) {
 		rl.lock();
-		//boolean entered = true;
 		try {
 			rep.passengerState(passengerID, PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
 			passengers++;
@@ -46,17 +45,18 @@ public class ArrivalTermTransfQuay {
 			rep.busWaitingLine(passengerID);
 			
 			while (passengersEntering >= busSize) {
-				//entered = false;
 				waitLine.await();
 			}
 			passengersEntering++;
 			if (passengersEntering == busSize) {
 				waitFull.signal();
 			}
-			//if(entered) rep.busSitting(passengerID);
 	
 			waitAnnouncement.await();
-		} catch (Exception ex) {
+		} catch (Exception e) {
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
 		} finally {
 			rl.unlock();
 		}
@@ -69,7 +69,10 @@ public class ArrivalTermTransfQuay {
 				waitFull.signalAll();
 			}
 
-		} catch (Exception ex) {
+		} catch (Exception e) {
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
 		} finally {
 			rl.unlock();
 		}
@@ -87,7 +90,10 @@ public class ArrivalTermTransfQuay {
 				waitEnter.signal();
 			}
 
-		} catch (Exception ex) {
+		} catch (Exception e) {
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
 		} finally {
 			rl.unlock();
 		}
@@ -101,8 +107,11 @@ public class ArrivalTermTransfQuay {
 			passengers = passengers - passengersInside;
 
 			return passengersInside;
-		} catch (Exception ex) {
-			return 0;
+		} catch (Exception e) {
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+			return -1;
 		} finally {
 			rl.unlock();
 		}
@@ -135,10 +144,13 @@ public class ArrivalTermTransfQuay {
 			// else if (passengers == 0 && flightCount == maxFlights)
 			// 	return 'E';
 
-			return 'F';
+			return 'z';
 
-		} catch (Exception ex) {
-			return 'F';
+		} catch (Exception e) {
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+			return 'z';
 		} finally {
 			rl.unlock();
 		}
@@ -147,9 +159,12 @@ public class ArrivalTermTransfQuay {
 	public void goToArrivalTerminal(){
         try {
 			rep.busDriverState(BusDriverState.DRIVING_BACKWARD);
-            //setState(BusDriverState.DRIVING_BACKWARD); 
             //Thread.sleep(50);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		}
 
     }
 }

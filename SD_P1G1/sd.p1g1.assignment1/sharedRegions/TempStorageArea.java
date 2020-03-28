@@ -4,6 +4,10 @@ import java.util.*;
 
 import entities.*;
 
+/**
+ * This datatype implements the Temporary Storage Area shared memory region. In this
+ * shared region, the Porter stores the passengers' bags.
+ */
 public class TempStorageArea {
 
     private Stack<Bag> tempStorageBags = new Stack<>();

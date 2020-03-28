@@ -21,5 +21,9 @@ public class Global{
     /**
      * Number of flights incoming the airport
      */
-	public static final int NR_FLIGHTS = 2;
+    public static final int NR_FLIGHTS = 5;
+    /**
+     * Probability of losing a bag
+     */
+    public static final int LOST_BAG_PERCENTAGE = 10; 
 }
