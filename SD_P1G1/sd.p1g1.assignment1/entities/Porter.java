@@ -16,7 +16,8 @@ public class Porter extends Thread {
      */
     Bag bag;
     /**
-     * Defines if {@link Porter} rests
+    * Boolean variable set to false to signal when the {@link Porter} has completed 
+    * his lifecycle
      */
     private boolean rest = true;
     /*
@@ -39,7 +40,9 @@ public class Porter extends Thread {
      * {@link sharedRegions.BaggageCollectionPoint}
      */
     private final BaggageCollectionPoint baggageCollectionPoint;
-
+    /**
+     * General Information Repository {@link sharedRegions.GenInfoRepo}.
+     */
     private GenInfoRepo rep;
 
     /**

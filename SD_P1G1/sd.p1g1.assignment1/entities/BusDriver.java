@@ -8,10 +8,32 @@ import sharedRegions.*;
  */
 public class BusDriver extends Thread {
 
+    /*
+    * Number of {@link Passenger}s inside the bus
+    */
     private int nPassengers = 0;
+    
+    /*
+    * Boolean variable set to false to signal when the {@link Busdriver} has completed 
+    * his lifecycle
+    */
     private boolean loop = true;
+
+    /*
+    * BusDriver state
+    * {@link BusDriverState}
+    */
     private BusDriverState state;
+
+    /**
+     * Arrival Terminal Transfer Quay {@link sharedRegions.ArrivalTermTransfQuay}
+     */
     private final ArrivalTermTransfQuay arrivalTermTransfQuay;
+
+    /**
+     * Departure Terminal Transfer Quay
+     * {@link sharedRegions.DepartureTermTransfQuay}
+     */
     private final DepartureTermTransfQuay departureTermTransfQuay;
 
     public BusDriver (ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay){
@@ -34,7 +56,6 @@ public class BusDriver extends Thread {
                 arrivalTermTransfQuay.goToArrivalTerminal();
                 arrivalTermTransfQuay.parkTheBus();
             }else if(choice == 'E'){
-        // rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
                 loop = false;
             }
         }
