@@ -14,14 +14,20 @@ public class BaggageCollectionPoint {
 	private final Condition waitBag;
 	private final Condition noMoreBagsToCollect;
 	private boolean noMoreBags = false;
-	private List<Bag> collectionMat = new ArrayList<>();
+	private int entered = 0;
+	private int exited = 0;
+	//private List<Bag> collectionMat = new ArrayList<>();
+	private HashMap<Integer, List<Bag>> collectionMat = new HashMap<>();
 	private GenInfoRepo rep;
 
-	public BaggageCollectionPoint(GenInfoRepo rep) {
+	public BaggageCollectionPoint(int numPassengers, GenInfoRepo rep) {
 		rl = new ReentrantLock(true);
 		waitBag = rl.newCondition();
 		noMoreBagsToCollect = rl.newCondition();
 		this.rep = rep;
+		for(int i=0; i<numPassengers; i++){
+			collectionMat.put(i, new ArrayList<Bag>());
+		}
 	}
 
 	/**
@@ -29,56 +35,23 @@ public class BaggageCollectionPoint {
 	 * 
 	 * @return char
 	 */
-	public char goCollectABag(int passengerID) {
+	public int goCollectABag(int passengerID) {
 		rl.lock();
 		try {
 			rep.passengerState(passengerID, PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
-			// TEMPORARY CONDITION TO PREVENT DEADLOCK (STILL OCCURS SOME TIMES), SHOULD
-			// FIND BETTER SOLUTION
-			//System.out.println(
-			//		"NOMOREBAGS-" + noMoreBags + "  CollectionMat-" + collectionMat.size() + collectionMat.isEmpty());
-
-			waitBag.await();
-			System.out.println("Passenger " + passengerID + " goColelctBag. WAITING NO MORE BAGS ON MAT.");
-
-			if(collectionMat.isEmpty()) return 'E';
-			else if(!collectionMat.isEmpty()){
-				for(Bag bag : collectionMat){
-					if (bag.getID() == passengerID) {
-						collectionMat.remove(bag);
-						rep.collectionMatConveyorBelt(collectionMat.size());
-						rep.passengerCollectedBags(bag);
-						// bag collected
-						return 'S';
-					}
-				}
-				System.out.println("Passenger " + passengerID + " goColelctBag. WAITING NO MORE BAGS TO COLLECT.");
-				noMoreBagsToCollect.await();
-				return 'E';
+			int  collectedBags = 0;
+			entered++;
+			while(!noMoreBags){
+				waitBag.await();
+				collectedBags = collectionMat.get(passengerID).size();
 			}
-			return 'z';
+			collectionMat.get(passengerID).clear();
+			exited++;
+			if(entered==exited){
+				noMoreBags = false;
+			}
+			return collectedBags;
 
-			// if (noMoreBags && collectionMat.isEmpty())
-			// 	//bag is missing; there's no bags in collection mat
-			// 	return 'E';
-
-			// for (Bag bag : collectionMat) {
-			// 	if (bag.getID() == passengerID) {
-			// 		collectionMat.remove(bag);
-			// 		rep.collectionMatConveyorBelt(collectionMat.size());
-			// 		rep.passengerCollectedBags(bag);
-			// 		// bag collected
-			// 		return 'S';
-			// 	}
-			// }
-
-			// waitBag.await();
-
-			// if (noMoreBags && collectionMat.isEmpty())
-			// 	//bag is missing; there's no bags in collection mat
-			// 	return 'E';
-
-			// return 'z';
 		} catch (Exception e) {
 			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
 			System.out.println("Error: " + e.getMessage());
@@ -99,11 +72,10 @@ public class BaggageCollectionPoint {
 		try {
 			rep.porterState(PorterState.AT_THE_LUGGAGE_BELT_CONVEYOR);
 		
-			collectionMat.add(bag);
+			collectionMat.get(bag.getID()).add(bag);
 			noMoreBags = false;
 			rep.lessBagsOnPlanesHold(bag);
 			rep.collectionMatConveyorBelt(collectionMat.size());
-
 			waitBag.signalAll();
 
 		}catch (Exception e) {

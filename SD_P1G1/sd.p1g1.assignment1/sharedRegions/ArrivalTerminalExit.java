@@ -78,19 +78,17 @@ public class ArrivalTerminalExit {
     public void goHome(int nPlane, int passengerID, PassengerState passengerState) {
         rl.lock();
         try {
-            System.out.println("Passenger nr: " + passengerID + " GOHOME.");
             rep.passengerState(nPlane, passengerID, passengerState);
 
             passengers++;
             departureTerminalEntrance.signalPassenger();
-            System.out.println("Passenger nr: " + passengerID + " GOHOME. SIGNAL");
             if (passengers + departurePassengers == numPassengers) {
                 passengers = 0;
                 departurePassengers = 0;
                 departureTerminalEntrance.signalCompletion();
                 waitingEndCV.signalAll();
+                System.out.println("VOO " + nPlane + " TERMINADO");
             } else {
-                System.out.println("Passenger nr: " + passengerID + " GOHOME. WAIT");
                 waitingEndCV.await();
             }
         } catch (Exception e) {

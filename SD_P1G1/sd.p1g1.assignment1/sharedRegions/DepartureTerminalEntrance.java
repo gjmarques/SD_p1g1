@@ -56,16 +56,6 @@ public class DepartureTerminalEntrance {
 
     public void signalPassenger() {
         arrivalPassengers++;
-        // rl.lock();
-        // try {
-        //     arrivalPassengers++;
-        // } catch (Exception e) {
-        //     System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
-		// 	System.out.println("Error: " + e.getMessage());
-		// 	System.exit(1);
-        // } finally {
-        //     rl.unlock();
-        // }
     }
 
     /**
@@ -76,20 +66,16 @@ public class DepartureTerminalEntrance {
     public void prepareNextLeg(int nPlane, int passengerID) {
         rl.lock();
         try {
-            System.out.println("Passenger nr: " + passengerID + " NEXTLEG.");
             rep.passengerState(passengerID, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
             passengers++;
             arrivalTerminalExit.signalPassenger();
-            System.out.println("Passenger nr: " + passengerID + " NEXTLEG. SIGNAL");
             if (passengers + arrivalPassengers == numPassengers) {
                 passengers = 0;
                 arrivalPassengers = 0;
                 arrivalTerminalExit.signalCompletion();
                 waitingEndCV.signalAll();
-
-                System.out.println("NEXTLEG VOO " + nPlane + " TERMINADO");
+                System.out.println("VOO " + nPlane + " TERMINADO");
             } else {
-                System.out.println("Passenger nr: " + passengerID + " NEXTLEG. WAITING");
                 waitingEndCV.await();
             }
         } catch (Exception e) {

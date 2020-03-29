@@ -33,7 +33,7 @@ public class AirportMain {
 		// Initialize shared regions
 		ArrivalLounge arrivalLounge = new ArrivalLounge(genInfoRepo);
 		TempStorageArea tempStorageArea = new TempStorageArea(genInfoRepo);
-		BaggageCollectionPoint baggageCollectionPoint = new BaggageCollectionPoint(genInfoRepo);
+		BaggageCollectionPoint baggageCollectionPoint = new BaggageCollectionPoint(Global.NR_PASSENGERS, genInfoRepo);
 		BaggageReclaimOffice baggageReclaimOffice = new BaggageReclaimOffice(genInfoRepo);
 		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.NR_FLIGHTS, genInfoRepo);
 		DepartureTermTransfQuay departureTermTransfQuay = new DepartureTermTransfQuay(genInfoRepo);

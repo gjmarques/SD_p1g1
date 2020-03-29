@@ -67,6 +67,7 @@ public class Porter extends Thread {
                 while (bag != null) {
                     Random r = new Random();
                     int answer = r.nextInt(Global.LOST_BAG_PERCENTAGE);
+                    if(answer==9){ System.out.println("LOST BAG FROM PASSENGER"+ bag.getID());}
                     if (answer < 9) {
                         // if bag is in trasit
                         if (bag.getDestination() == 'T') {
