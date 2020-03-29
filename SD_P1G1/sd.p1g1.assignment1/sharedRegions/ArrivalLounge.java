@@ -32,6 +32,10 @@ public class ArrivalLounge {
         this.rep = rep;
     }
 
+    
+    /** 
+     * @param nFlight
+     */
     public void setFlight(int nFlight) {
         flightCount = nFlight + 1;
     }

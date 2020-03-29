@@ -14,18 +14,41 @@ import entities.PassengerState;
 
 public class DepartureTerminalEntrance {
 
+    /**
+     * A reentrant mutual exclusion Lock with the same basic behavior and semantics as the implicit monitor lock 
+     * accessed using synchronized methods and statements
+     */
     private final ReentrantLock rl;
+    /**
+     * Synchronization point where the {@link entities.Passenger}s wait each others.
+     */
     private final Condition waitingEndCV;
-
+    /**
+     * Instance of {@link ArrivalTerminalExit}.
+     */
     private ArrivalTerminalExit arrivalTerminalExit;
-
+    /**
+     * Count of {@link entities.Passenger}s ready to leave the airport.
+     */
     private int passengers = 0;
+    /**
+     * 
+     */
     private int arrivalPassengers = 0;
+    /**
+     * Final number of {@link entities.Passenger}s per flight.
+     */
     private int numPassengers;
-
+    /**
+     * Instance fo General repository of Information.
+     */
     private GenInfoRepo rep;
 
-    // Create lock and conditions
+    /**
+     * Instantiates the Departure Terminal Entrance.
+     * @param numPassengers Number of {@link entities.Passenger}s.
+     * @param rep {@link GenInfoRepo}.
+     */
     public DepartureTerminalEntrance(int numPassengers, GenInfoRepo rep) {
         rl = new ReentrantLock(true);
         waitingEndCV = rl.newCondition();
@@ -33,6 +56,10 @@ public class DepartureTerminalEntrance {
         this.rep = rep;
     }
 
+    
+    /** 
+     * @param arrivalTerminalExit
+     */
     public void setArrivalTerminal(ArrivalTerminalExit arrivalTerminalExit) {
 
         this.arrivalTerminalExit = arrivalTerminalExit;

@@ -4,15 +4,39 @@ import java.util.concurrent.locks.*;
 
 import entities.*;
 
+/**
+ * A synchronization point for the {@link entities.BusDriver} where he blocks while waiting for
+ * all the {@link entities.Passenger}s to leave the bus.
+ */
 public class DepartureTermTransfQuay{
 
-	private final ReentrantLock rl;
-	private final Condition waitArrival;
-	private final Condition waitEmpty;
-	private int numPassengers = 0;
+    /**
+     * A reentrant mutual exclusion Lock with the same basic behavior and semantics as the implicit monitor lock 
+     * accessed using synchronized methods and statements
+     */
+    private final ReentrantLock rl;
+    /**
+     * Synchronization point where the {@link entities.Passenger}s wait for the {@link entities.BusDriver} to arrive.
+     */
+    private final Condition waitArrival;
+    /**
+     * Synchronization point where the {@link entities.BusDriver} waits for the {@link entities.Passenger}s to leave the bus.
+     */
+    private final Condition waitEmpty;
+    /**
+     * Count of {@link entities.Passenger}s inside the bus.
+     */
+    private int numPassengers = 0;
+    /**
+     * Instance fo General repository of Information.
+     */
     private GenInfoRepo rep;
 
 
+    /**
+     * Instantiates the Departure Terminal Tranfer Quay.
+     * @param rep {@link GenInfoRepo}.
+     */
     public DepartureTermTransfQuay(GenInfoRepo rep) {
         rl = new ReentrantLock(true);
 		waitEmpty = rl.newCondition();
@@ -20,6 +44,10 @@ public class DepartureTermTransfQuay{
         this.rep = rep;
     }
 
+    /**
+     * When the {@link entities.BusDriver} arrives at this shared region he stops and let the passengers get off the bus.
+     * @param busPassengers Number of passengers inside the bus.
+     */
     public void parkTheBusAndLetPassengerOff(int busPassengers) {
         rl.lock();
         try {
@@ -37,6 +65,10 @@ public class DepartureTermTransfQuay{
         }
     }
 
+    /**
+     * {@link entities.Passenger}s leave the bus at this shared region.
+     * @param passengerID {@link entities.Passenger}'s identification.
+     */
     public void leaveTheBus(int passengerID) {
         rl.lock();
         try {
@@ -57,6 +89,9 @@ public class DepartureTermTransfQuay{
         }
     }
 
+    /**
+     * This method tells the {@link GenInfoRepo} that the {@link entities.BusDriver} is driving forward during 50 miliseconds.
+     */
     public void goToDepartureTerminal(){
         try {
             rep.busDriverState(BusDriverState.DRIVING_FORWARD); 
