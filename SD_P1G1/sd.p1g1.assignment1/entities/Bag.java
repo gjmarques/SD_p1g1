@@ -1,5 +1,9 @@
 package entities;
 
+/**
+ * Implementation of Bag. Represents the passengers' luggage.
+ */
+
 public class Bag extends Thread{
     
   /**
@@ -16,10 +20,10 @@ public class Bag extends Thread{
   private int flightNR;
 
   /**
-   * Creates a Bag
-   * @param destinationgetPass
-   * @param id
-   * @param flight
+   * Creates a Bag with identification, destination, and number of flight.
+   * @param destination destination of Bag: 'T' - in transit, 'H' - final destination.
+   * @param id identification of the Bag. Connects a Bag with the owner/{@link Passenger}.
+   * @param flight number in which this Bag corresponds.
    */
   public Bag (char destination, int id, int flight){
       this.destination = destination;

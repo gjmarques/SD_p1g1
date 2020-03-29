@@ -2,6 +2,10 @@ package entities;
 
 import sharedRegions.*;
 
+/**
+ * Implementation of the Bus Driver whom is responsible for getting the {@link Passenger}s from
+ * {@link sharedRegions.ArrivalTermTransfQuay} and leaving them at {@link sharedRegions.DepartureTermTransfQuay}.
+ */
 public class BusDriver extends Thread {
 
     private int nPassengers = 0;

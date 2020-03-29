@@ -70,27 +70,30 @@ public class Passenger extends Thread {
      * If this airport is passenger's final destination
      */
     private boolean finalDestination;
-
+    /**
+     * General Information Repository {@link sharedRegions.GenInfoRepo}.
+     */
     private GenInfoRepo rep;
 
     /**
      * Instantiates Passenger entity
      * 
-     * @param id
-     * @param numBags
-     * @param arrivalLounge
-     * @param arrivalTermTransfQuay
-     * @param departureTermTransfQuay
-     * @param baggageCollectionPoint
-     * @param baggageReclaimOffice
-     * @param arrivalTerminalExit
-     * @param departureTerminalEntrance
+     * @param identification of the passenger.
+     * @param numBags list of number of passengers' {@link Bag}s, per flight.
+     * @param arrivalLounge {@link sharedRegions.ArrivalLounge}.
+     * @param arrivalTermTransfQuay {@link sharedRegions.ArrivalTermTransfQuay}.
+     * @param departureTermTransfQuay {@link sharedRegions.DepartureTermTransfQuay}.
+     * @param baggageCollectionPoint {@link sharedRegions.BaggageCollectionPoint}.
+     * @param baggageReclaimOffice {@link sharedRegions.BaggageReclaimOffice}.
+     * @param arrivalTerminalExit {@link sharedRegions.ArrivalTerminalExit}.
+     * @param departureTerminalEntrance {@link sharedRegions.DepartureTerminalEntrance}.
+     * @param rep {@link sharedRegions.GenInfoRepo}.
      */
-    public Passenger(int id, List<Integer> numBags, ArrivalLounge arrivalLounge,
+    public Passenger(int identification, List<Integer> numBags, ArrivalLounge arrivalLounge,
             ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay,
             BaggageCollectionPoint baggageCollectionPoint, BaggageReclaimOffice baggageReclaimOffice,
             ArrivalTerminalExit arrivalTerminalExit, DepartureTerminalEntrance departureTerminalEntrance, GenInfoRepo rep) {
-        this.id = id;
+        this.id = identification;
         this.numBags = numBags;
         this.arrivalLounge = arrivalLounge;
         this.arrivalTermTransfQuay = arrivalTermTransfQuay;
@@ -105,7 +108,6 @@ public class Passenger extends Thread {
     /**
      * This method defines the life-cycle of the Passenger.
      */
-
     @Override
     public void run() {
         Random r;
@@ -114,12 +116,10 @@ public class Passenger extends Thread {
             this.finalDestination = r.nextBoolean();
             rep.countDest(this.finalDestination);
             rep.initPassenger(i, this.id);
-            System.out.println("VOO " + i + " STARTED BY PASSENGER: " +this.id+"; DESTINATION ->"+ finalDestination + "; numBags->" + numBags.get(i));
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
             for (int j = 0; j < bags.length; j++) {
                 bags[j] = new Bag(this.finalDestination ? 'H' : 'T', this.id, i);
-
             }
 
             char choice = arrivalLounge.whatShouldIDo(i, this.id, bags, this.finalDestination);
@@ -140,11 +140,9 @@ public class Passenger extends Thread {
                 case ('c'):
                     collectedBags = baggageCollectionPoint.goCollectABag(this.id);
                     if (collectedBags < numBags.get(i)) {
-                        System.out.println("PASSENGER "+this.id+" REPORTED "+(numBags.get(i) - collectedBags) +" MISSING BAGS");
                         baggageReclaimOffice.reportMissingBags(numBags.get(i) - collectedBags, this.id);
                     }
                     arrivalTerminalExit.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
-
                     break;
             }
         }
@@ -153,7 +151,7 @@ public class Passenger extends Thread {
     /**
      * Gets passenger state
      * 
-     * @return PassengerState
+     * @return PassengerState.
      */
     public PassengerState getPassengerState() {
         return this.state;
@@ -162,7 +160,7 @@ public class Passenger extends Thread {
     /**
      * Situation of passenger: true = final destination; false = in transit
      * 
-     * @return boolean
+     * @return true if this airport is the final destination of the passenger. False, otherwise.
      */
     public boolean getSituation() {
         if (this.finalDestination)
