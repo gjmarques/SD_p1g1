@@ -114,7 +114,6 @@ public class DepartureTerminalEntrance {
                 arrivalPassengers = 0;
                 arrivalTerminalExit.signalCompletion();
                 waitingEndCV.signalAll();
-                System.out.println("VOO " + nPlane + " TERMINADO");
             } else {
                 waitingEndCV.await();
             }

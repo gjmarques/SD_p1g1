@@ -68,13 +68,10 @@ public class AirportMain {
 			for (int i = 0; i < Global.NR_PASSENGERS; i++) {
 				passengers[i].join();
 			}	
-			System.out.println("PASSENGER OVER");
 
 			porter.join();
-			System.out.println("PORTER OVER");
 
 			busdriver.join();
-			System.out.println("BUSDRIVER OVER");
 
 			genInfoRepo.finalReport();
 
