@@ -61,6 +61,7 @@ public class ArrivalTerminalExit {
 
     /**
      * Instantiate {@link DepartureTerminalEntrance} 
+     * @param departureTerminalEntrance
      */
     public void setDepartureTerminal(DepartureTerminalEntrance departureTerminalEntrance) {
 

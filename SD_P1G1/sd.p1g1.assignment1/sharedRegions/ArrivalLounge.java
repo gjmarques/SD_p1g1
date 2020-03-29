@@ -69,6 +69,7 @@ public class ArrivalLounge {
 
     /**
      * This method updates internal flight count.
+     * @param nr_flight
      */
     public void setFlight(int nFlight) {
         flightCount = nFlight + 1;
@@ -80,7 +81,7 @@ public class ArrivalLounge {
      * @param passengerID
      * @param bags
      * @param finalDestination
-     * @return
+     * @return char
      */
     public char whatShouldIDo(int nr_flight, int passengerID, Bag[] bags, boolean finalDestination) {
         rl.lock();
@@ -116,7 +117,7 @@ public class ArrivalLounge {
      * <p>
      * Returns true in case of rest; false in case of wake up.
      * 
-     * @return boolean
+     * @return char
      */
     public char takeARest() {
         rl.lock();
