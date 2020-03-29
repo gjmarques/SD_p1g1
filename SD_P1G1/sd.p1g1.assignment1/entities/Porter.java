@@ -74,7 +74,6 @@ public class Porter extends Thread {
                     Random r = new Random();
                     int answer = r.nextInt(Global.LOST_BAG_PERCENTAGE);
                     if(answer==9){ 
-                        System.out.println("LOST BAG FROM PASSENGER"+ bag.getID());
                         rep.lessBagsOnPlanesHold(bag);
                     }
                     else if (answer < 9) {
