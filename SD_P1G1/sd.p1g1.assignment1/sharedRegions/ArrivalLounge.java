@@ -13,16 +13,51 @@ import java.util.concurrent.locks.*;
  */
 public class ArrivalLounge {
 
+    /**
+     * A reentrant mutual exclusion Lock with the same basic behavior and semantics as the implicit monitor lock 
+     * accessed using synchronized methods and statements
+     */
     protected final ReentrantLock rl;
+
+    /**
+     * Synchronization point where the {@link Porter} waits for all {@link Passenger}s to make their decision
+     * before starting to collect {@link Bag}s
+     */
     protected final Condition planeHoldEmptyCV;
+
+    /**
+     * Current flight count
+     */
     private int flightCount;
+    /**
+     * Total number of flights to be simulated
+     */
     private int maxFlights;
+    /**
+     * Total number of {@link Passenger}s
+     */    
     private int numPassengers;
+    /**
+     * Count of the {@link Passenger}s that have left the plane
+     */
     private int passengerCount = 0;
+
+    /**
+     * Stack of {@link Bag}s which the {@link Porter} will attempt to collect
+     */
     private Stack<Bag> bags = new Stack<>();
+
+    /**
+     * General Information Repository {@link sharedRegions.GenInfoRepo}
+     */
     private GenInfoRepo rep;
 
-    // Create lock and conditions
+    /**
+     * Instantiates ArrivalLounge shared region
+     * 
+     * @param rep {@link sharedRegions.GenInfoRepo}.
+     */
+
     public ArrivalLounge(GenInfoRepo rep) {
         rl = new ReentrantLock(true);
         planeHoldEmptyCV = rl.newCondition();
@@ -32,6 +67,9 @@ public class ArrivalLounge {
         this.rep = rep;
     }
 
+    /**
+     * This method updates internal flight count.
+     */
     public void setFlight(int nFlight) {
         flightCount = nFlight + 1;
     }

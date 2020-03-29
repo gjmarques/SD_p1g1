@@ -7,7 +7,8 @@ import entities.*;
 import sharedRegions.*;
 
 /**
- * AirportMain is the main thread of the program
+ * AirportMain is the main thread of the program where all entities and shared regions are instantiated and terminated.
+ * It is also where the logger file is created.
  */
 
 public class AirportMain {

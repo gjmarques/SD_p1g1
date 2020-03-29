@@ -56,16 +56,6 @@ public class ArrivalTerminalExit {
 
     public void signalPassenger() {
         departurePassengers++;
-        // rl.lock();
-        // try {
-        //     departurePassengers++;
-        // } catch (Exception e) {
-        //     System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
-		// 	System.out.println("Error: " + e.getMessage());
-		// 	System.exit(1);
-        // } finally {
-        //     rl.unlock();
-        // }
     }
 
 
