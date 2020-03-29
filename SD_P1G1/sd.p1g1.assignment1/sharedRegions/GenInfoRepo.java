@@ -32,7 +32,7 @@ public class GenInfoRepo {
     /**
      * Number of pieces of luggage belonging to passengers in transit presently stored at the storeroom
      */
-    private int sr;
+    private int[] sr = {0, 0, 0, 0, 0};
     /**
      * State of the driver
      */
@@ -243,7 +243,7 @@ public class GenInfoRepo {
      */
     synchronized void bagAtStoreRoom(Bag bag){
         if(bag.getDestination() == 'T'){
-            this.sr += 1;
+            this.sr[bag.getFlightNR()] += 1;
             updateStatePorterOrBDriver();
         }
     }
@@ -274,7 +274,7 @@ public class GenInfoRepo {
     }
 
     private void updateStatePorterOrBDriver(){
-        String info1 = " " + this.fn + "  " + this.bn[this.fn] + "  " + porterStates[this.porterState.ordinal()] + "  " + this.cb + "  " + this.sr  + "   " 
+        String info1 = " " + this.fn + "  " + this.bn[this.fn] + "  " + porterStates[this.porterState.ordinal()] + "  " + this.cb + "  " + this.sr[this.fn]  + "   " 
                            + bDriverStates[this.bDriverState.ordinal()] + "   " 
                            + this.q[0] + "  " + this.q[1] + "  " + this.q[2] + "  " + this.q[3] + "  " + this.q[4] + "  " + this.q[5] + "  " 
                            + this.s[0] + "  " + this.s[1] + "  " + this.s[2];
