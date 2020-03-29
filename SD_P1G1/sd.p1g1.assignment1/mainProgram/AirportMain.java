@@ -50,7 +50,7 @@ public class AirportMain {
 		timer.start();
 
 		//Itialize Porter
-		Porter porter = new Porter(arrivalLounge, tempStorageArea, baggageCollectionPoint);
+		Porter porter = new Porter(arrivalLounge, tempStorageArea, baggageCollectionPoint, genInfoRepo);
 		porter.start();
 
 		List<List<Integer>> bags = generateBags(genInfoRepo, Global.NR_PASSENGERS, Global.NR_FLIGHTS, Global.MAX_BAGS);

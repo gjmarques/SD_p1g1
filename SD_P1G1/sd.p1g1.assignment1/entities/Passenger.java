@@ -108,8 +108,7 @@ public class Passenger extends Thread {
         Random r;
         for (int i = 0; i < Global.NR_FLIGHTS; i++) {
             r = new Random();
-            int result = r.nextInt(2);
-            if (result == 1){this.finalDestination = true;}
+            this.finalDestination = r.nextBoolean();
             System.out.println("VOO " + i + " STARTED BY PASSENGER: " +this.id+"; DESTINATION ->"+ finalDestination + "; numBags->" + numBags.get(i));
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];

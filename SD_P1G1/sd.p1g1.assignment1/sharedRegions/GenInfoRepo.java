@@ -9,10 +9,6 @@ public class GenInfoRepo {
     
 
     private  File loggerF;
-    private Porter porter;
-    private BusDriver bDriver;
-    private Passenger[] passengers;
-
     /**
      * Flight number
      */
@@ -32,7 +28,7 @@ public class GenInfoRepo {
     /**
      * Number of pieces of luggage belonging to passengers in transit presently stored at the storeroom
      */
-    private int[] sr = {0, 0, 0, 0, 0};
+    private int sr;
     /**
      * State of the driver
      */
@@ -50,10 +46,6 @@ public class GenInfoRepo {
      */
     private PassengerState[] passengerState = new PassengerState[Global.NR_PASSENGERS];
     /**
-     * Situation of passenger # (# - 0 .. 5) – TRT (in transit) / FDT (has this airport as her  destination)
-     */
-    private String si;
-    /**
      * Number of pieces of luggage the passenger # (# - 0 .. 5) carried at the start of her journey
      */
     private int[] nr = new int[Global.NR_PASSENGERS]; 
@@ -70,6 +62,10 @@ public class GenInfoRepo {
      * Counter for number of passengers with final destination
      */
     private int final_dest_passengers = 0;
+    /**
+     * Counter for number of passengers in transit
+     */
+    private int inTransit_dest_passengers = 0;
 
     /**
      * Counter for total of number of bags lost.
@@ -145,8 +141,12 @@ public class GenInfoRepo {
      * @param nr_bags
      */
     public synchronized void passengerState(int flight_nr, int passengerID, PassengerState passengerState,  boolean Dest,  int nr_bags){
-        if(Dest) this.passengerDest[passengerID] = "FDT";
-        else this.passengerDest[passengerID] = "TRT";
+        if(Dest){
+            this.passengerDest[passengerID] = "FDT";
+            this.final_dest_passengers++;  
+        } else 
+            this.passengerDest[passengerID] = "TRT";
+            this.inTransit_dest_passengers++;
         this.nr[passengerID] = nr_bags;
         this.na[passengerID] = 0;
         this.passengerState[passengerID] = passengerState;
@@ -243,7 +243,7 @@ public class GenInfoRepo {
      */
     synchronized void bagAtStoreRoom(Bag bag){
         if(bag.getDestination() == 'T'){
-            this.sr[bag.getFlightNR()] += 1;
+            this.sr += 1;
             updateStatePorterOrBDriver();
         }
     }
@@ -274,7 +274,8 @@ public class GenInfoRepo {
     }
 
     private void updateStatePorterOrBDriver(){
-        String info1 = " " + this.fn + "  " + this.bn[this.fn] + "  " + porterStates[this.porterState.ordinal()] + "  " + this.cb + "  " + this.sr[this.fn]  + "   " 
+
+        String info1 = " " + this.fn + "  " + this.bn[this.fn] + "  " + porterStates[this.porterState.ordinal()] + "  " + this.cb + "  " + this.sr  + "   " 
                            + bDriverStates[this.bDriverState.ordinal()] + "   " 
                            + this.q[0] + "  " + this.q[1] + "  " + this.q[2] + "  " + this.q[3] + "  " + this.q[4] + "  " + this.q[5] + "  " 
                            + this.s[0] + "  " + this.s[1] + "  " + this.s[2];
@@ -295,11 +296,9 @@ public class GenInfoRepo {
     public synchronized void finalReport(){
         writeToLogger("");
         writeToLogger("Final report");
-        for(int i = 0; i < Global.NR_PASSENGERS; i++){
-            if(this.passengerDest[i] == "FDT") final_dest_passengers +=1;
-        }
+   
         writeToLogger("N. of passengers which have this airport as their final destination = " + final_dest_passengers);
-        writeToLogger("N. of passengers which are in transit = " + (Global.NR_PASSENGERS - final_dest_passengers));
+        writeToLogger("N. of passengers which are in transit = " + inTransit_dest_passengers);
         writeToLogger("N. of bags that should have been transported in the planes hold = " + this.bn_total);
         writeToLogger("N. of bags that were lost = " + this.missingBags);
     }

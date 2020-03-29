@@ -40,6 +40,8 @@ public class Porter extends Thread {
      */
     private final BaggageCollectionPoint baggageCollectionPoint;
 
+    private GenInfoRepo rep;
+
     /**
      * Instantiates entity {@link Porter}
      * @param {@link sharedRegions.ArrivalLounge}
@@ -47,10 +49,11 @@ public class Porter extends Thread {
      * @param {@link sharedRegions.BaggageCollectionPoint}
      */
     public Porter(ArrivalLounge arrivalLounge, TempStorageArea tempStorageArea,
-            BaggageCollectionPoint baggageCollectionPoint) {
+            BaggageCollectionPoint baggageCollectionPoint, GenInfoRepo rep) {
         this.arrivalLounge = arrivalLounge;
         this.tempStorageArea = tempStorageArea;
         this.baggageCollectionPoint = baggageCollectionPoint;
+        this.rep = rep;
     }
 
     /**
@@ -67,8 +70,11 @@ public class Porter extends Thread {
                 while (bag != null) {
                     Random r = new Random();
                     int answer = r.nextInt(Global.LOST_BAG_PERCENTAGE);
-                    if(answer==9){ System.out.println("LOST BAG FROM PASSENGER"+ bag.getID());}
-                    if (answer < 9) {
+                    if(answer==9){ 
+                        System.out.println("LOST BAG FROM PASSENGER"+ bag.getID());
+                        rep.lessBagsOnPlanesHold(bag);
+                    }
+                    else if (answer < 9) {
                         // if bag is in trasit
                         if (bag.getDestination() == 'T') {
                             tempStorageArea.carryItToAppropriateStore(bag);
