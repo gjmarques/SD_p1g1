@@ -20,8 +20,8 @@ public class ArrivalLounge {
     protected final ReentrantLock rl;
 
     /**
-     * Synchronization point where the {@link Porter} waits for all {@link Passenger}s to make their decision
-     * before starting to collect {@link Bag}s
+     * Synchronization point where the {@link entities.Porter} waits for all {@link entities.Passenger}s to make their decision
+     * before starting to collect {@link entities.Bag}s
      */
     protected final Condition planeHoldEmptyCV;
 
@@ -34,28 +34,28 @@ public class ArrivalLounge {
      */
     private int maxFlights;
     /**
-     * Total number of {@link Passenger}s
+     * Total number of {@link entities.Passenger}s
      */    
     private int numPassengers;
     /**
-     * Count of the {@link Passenger}s that have left the plane
+     * Count of the {@link entities.Passenger}s that have left the plane
      */
     private int passengerCount = 0;
 
     /**
-     * Stack of {@link Bag}s which the {@link Porter} will attempt to collect
+     * Stack of {@link Bag}s which the {@link entities.Porter} will attempt to collect
      */
     private Stack<Bag> bags = new Stack<>();
 
     /**
-     * General Information Repository {@link sharedRegions.GenInfoRepo}
+     * General Information Repository {@link GenInfoRepo}
      */
     private GenInfoRepo rep;
 
     /**
      * Instantiates ArrivalLounge shared region
      * 
-     * @param rep {@link sharedRegions.GenInfoRepo}.
+     * @param rep {@link GenInfoRepo}.
      */
 
     public ArrivalLounge(GenInfoRepo rep) {
