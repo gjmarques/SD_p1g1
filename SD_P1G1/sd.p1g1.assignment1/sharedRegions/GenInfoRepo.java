@@ -267,9 +267,9 @@ public class GenInfoRepo {
     }
 
 
-    synchronized void passengerCollectedBags(Bag bag){
-        int bag_passengers_id = bag.getID();
-        this.na[bag_passengers_id] += 1;
+    synchronized void passengerCollectedBags(int passengerID, int nBags){
+        int bag_passengers_id = passengerID;
+        this.na[bag_passengers_id] += nBags;
         updateStatePorterOrBDriver();
     }
 

@@ -46,7 +46,7 @@ public class BaggageCollectionPoint {
 				collectedBags = collectionMat.get(passengerID).size();
 			}
 
-			
+			rep.passengerCollectedBags(passengerID, collectedBags);
 			rep.collectionMatConveyorBelt(collectionMat.values().stream().mapToInt(List::size).sum());
 
 			collectionMat.get(passengerID).clear();
