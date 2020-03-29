@@ -104,6 +104,7 @@ public class GenInfoRepo {
 
     }
 
+   
     /**
      * Number of pieces of luggage presently at the plane's hold.
      */
@@ -143,15 +144,25 @@ public class GenInfoRepo {
     public synchronized void passengerState(int flight_nr, int passengerID, PassengerState passengerState,  boolean Dest,  int nr_bags){
         if(Dest){
             this.passengerDest[passengerID] = "FDT";
-            this.final_dest_passengers++;  
         } else 
             this.passengerDest[passengerID] = "TRT";
-            this.inTransit_dest_passengers++;
         this.nr[passengerID] = nr_bags;
         this.na[passengerID] = 0;
         this.passengerState[passengerID] = passengerState;
         this.fn = flight_nr;
         updateStatePorterOrBDriver();    
+    }
+    public synchronized void initPassenger(int flight_nr, int pass_id){
+        if(flight_nr != this.fn){
+            this.passengerState[pass_id] = null;
+        }
+    }
+
+    public synchronized void countDest(boolean dest){
+        if(dest){
+            this.final_dest_passengers++;  
+        } else 
+            this.inTransit_dest_passengers++;
     }
     public synchronized void passengerState(int nPlane, int passengerID, PassengerState passengerState){
         if(this.passengerState[passengerID] != passengerState){

@@ -71,6 +71,8 @@ public class Passenger extends Thread {
      */
     private boolean finalDestination;
 
+    private GenInfoRepo rep;
+
     /**
      * Instantiates Passenger entity
      * 
@@ -87,7 +89,7 @@ public class Passenger extends Thread {
     public Passenger(int id, List<Integer> numBags, ArrivalLounge arrivalLounge,
             ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay,
             BaggageCollectionPoint baggageCollectionPoint, BaggageReclaimOffice baggageReclaimOffice,
-            ArrivalTerminalExit arrivalTerminalExit, DepartureTerminalEntrance departureTerminalEntrance) {
+            ArrivalTerminalExit arrivalTerminalExit, DepartureTerminalEntrance departureTerminalEntrance, GenInfoRepo rep) {
         this.id = id;
         this.numBags = numBags;
         this.arrivalLounge = arrivalLounge;
@@ -97,6 +99,7 @@ public class Passenger extends Thread {
         this.baggageReclaimOffice = baggageReclaimOffice;
         this.arrivalTerminalExit = arrivalTerminalExit;
         this.departureTerminalEntrance = departureTerminalEntrance;
+        this.rep = rep;
     }
 
     /**
@@ -109,6 +112,8 @@ public class Passenger extends Thread {
         for (int i = 0; i < Global.NR_FLIGHTS; i++) {
             r = new Random();
             this.finalDestination = r.nextBoolean();
+            rep.countDest(this.finalDestination);
+            rep.initPassenger(i, this.id);
             System.out.println("VOO " + i + " STARTED BY PASSENGER: " +this.id+"; DESTINATION ->"+ finalDestination + "; numBags->" + numBags.get(i));
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];

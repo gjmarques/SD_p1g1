@@ -60,7 +60,7 @@ public class AirportMain {
 		Passenger[] passengers = new Passenger[Global.NR_PASSENGERS];
 		for (int i = 0; i < Global.NR_PASSENGERS; i++) {
 			passengers[i] = new Passenger(i, bags.get(i), arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, 
-										baggageCollectionPoint, baggageReclaimOffice, arrivalTerminalExit, departureTerminalEntrance);
+										baggageCollectionPoint, baggageReclaimOffice, arrivalTerminalExit, departureTerminalEntrance, genInfoRepo);
 			passengers[i].start();
 		}
 
