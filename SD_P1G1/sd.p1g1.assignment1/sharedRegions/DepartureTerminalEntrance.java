@@ -19,28 +19,35 @@ public class DepartureTerminalEntrance {
      * accessed using synchronized methods and statements
      */
     private final ReentrantLock rl;
+
     /**
-     * Synchronization point where the {@link entities.Passenger}s wait each others.
+     * Synchronization point where the {@link entities.Passenger}s wait for each other
+     * to complete their lifecycle before moving on to the next flight
      */
     private final Condition waitingEndCV;
+
     /**
-     * Instance of {@link ArrivalTerminalExit}.
+     * Arrival Terminal Exit {@link ArrivalTerminalExit}
      */
     private ArrivalTerminalExit arrivalTerminalExit;
+
     /**
-     * Count of {@link entities.Passenger}s ready to leave the airport.
-     */
+     * Total number of {@link entities.Passenger}s who finished their execution in the Arrival Terminal Exit
+     */  
     private int passengers = 0;
+
     /**
-     * 
-     */
+     * Total number of {@link entities.Passenger}s who finished their execution in the Arrival Terminal Exit
+     */  
     private int arrivalPassengers = 0;
+
     /**
-     * Final number of {@link entities.Passenger}s per flight.
-     */
+     * Total number of {@link entities.Passenger}s
+     */  
     private int numPassengers;
+
     /**
-     * Instance fo General repository of Information.
+     * General Information Repository {@link GenInfoRepo}
      */
     private GenInfoRepo rep;
 
@@ -56,8 +63,8 @@ public class DepartureTerminalEntrance {
         this.rep = rep;
     }
 
-    
-    /** 
+    /**
+     * Instantiate {@link ArrivalTerminalExit} 
      * @param arrivalTerminalExit
      */
     public void setArrivalTerminal(ArrivalTerminalExit arrivalTerminalExit) {
@@ -65,6 +72,9 @@ public class DepartureTerminalEntrance {
         this.arrivalTerminalExit = arrivalTerminalExit;
     }
 
+    /**
+     * Signal {@link ArrivalTerminalExit} that all {@link entities.Passenger} have completed their lifecycle
+     */
     public void signalCompletion() {
         rl.lock();
         try {
@@ -81,6 +91,9 @@ public class DepartureTerminalEntrance {
 
     }
 
+    /**
+     * Signal {@link ArrivalTerminalExit} that a {@link entities.Passenger} has entered the Arrival Terminal Exit
+     */
     public void signalPassenger() {
         arrivalPassengers++;
     }

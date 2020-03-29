@@ -22,11 +22,9 @@ public class AirportMain {
 		// creates new logger
 		File logger = new File("logger.txt");
 		if (logger.createNewFile()){
-			//System.out.println("Logger created: " + logger.getName());
 		}else{
 			logger.delete();
 			logger.createNewFile();
-			// System.out.println("File already exists.");
 			
 		}
 		GenInfoRepo genInfoRepo = new GenInfoRepo(logger);
@@ -98,6 +96,8 @@ public class AirportMain {
 	 * 
 	 * @param nrFlights
 	 * @param maxBags
+	 * @param nrPassengers
+	 * @param genInfoRepo
 	 * @return List<Integer>
 	 */
 	public static List<List<Integer>> generateBags(GenInfoRepo genInfoRepo, int nrPassengers, int nrFlights, int maxBags) {
