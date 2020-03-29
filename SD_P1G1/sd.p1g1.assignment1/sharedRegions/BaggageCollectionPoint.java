@@ -16,7 +16,6 @@ public class BaggageCollectionPoint {
 	private boolean noMoreBags = false;
 	private int entered = 0;
 	private int exited = 0;
-	//private List<Bag> collectionMat = new ArrayList<>();
 	private HashMap<Integer, List<Bag>> collectionMat = new HashMap<>();
 	private GenInfoRepo rep;
 
