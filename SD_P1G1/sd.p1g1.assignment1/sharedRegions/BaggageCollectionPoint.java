@@ -80,7 +80,6 @@ public class BaggageCollectionPoint {
 			while(!noMoreBags){
 				waitBag.await();
 				if(collectionMat.get(passengerID).size() != 0){
-					System.out.println("PASSENGER "+ passengerID+" COLLECTED A BAG");
 					collectedBags += 1;
 					collectionMat.get(passengerID).remove(0);			
 					rep.passengerCollectedBags(passengerID, 1);
@@ -114,7 +113,6 @@ public class BaggageCollectionPoint {
 		try {
 			rep.porterState(PorterState.AT_THE_LUGGAGE_BELT_CONVEYOR);
 			
-			System.out.println("ADDED BAG FROM PASSENGER"+ bag.getID());
 			collectionMat.get(bag.getID()).add(bag);
 			noMoreBags = false;
 			rep.lessBagsOnPlanesHold(bag);

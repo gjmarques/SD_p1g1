@@ -94,7 +94,7 @@ public class ArrivalTermTransfQuay {
 
     /**
      * This method updates internal flight count.
-     * @param nr_flight
+     * @param nFlight
      */
 	public void setFlight(int nFlight){
 		flightCount = nFlight+1;

@@ -27,35 +27,70 @@ public class AirportMain {
 			logger.createNewFile();
 			
 		}
+
 		GenInfoRepo genInfoRepo = new GenInfoRepo(logger);
 
 		// Initialize shared regions
+		/**
+		 * {@link sharedRegions.ArrivalLounge}
+		 */
 		ArrivalLounge arrivalLounge = new ArrivalLounge(genInfoRepo);
+		/**
+		 * {@link sharedRegions.TempStorageArea}
+		 */
 		TempStorageArea tempStorageArea = new TempStorageArea(genInfoRepo);
+		/**
+		 * {@link sharedRegions.BaggageCollectionPoint}
+		 */
 		BaggageCollectionPoint baggageCollectionPoint = new BaggageCollectionPoint(Global.NR_PASSENGERS, genInfoRepo);
+		/**
+		 * {@link sharedRegions.BaggageReclaimOffice}
+		 */
 		BaggageReclaimOffice baggageReclaimOffice = new BaggageReclaimOffice(genInfoRepo);
+		/**
+		 * {@link sharedRegions.ArrivalTermTransfQuay}
+		 */
 		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.NR_FLIGHTS, genInfoRepo);
+		/**
+		 * {@link sharedRegions.DepartureTermTransfQuay}
+		 */
 		DepartureTermTransfQuay departureTermTransfQuay = new DepartureTermTransfQuay(genInfoRepo);
+		/**
+		 * {@link sharedRegions.ArrivalTerminalExit}
+		 */
 		ArrivalTerminalExit arrivalTerminalExit = new ArrivalTerminalExit(Global.NR_PASSENGERS, genInfoRepo);
+		/**
+		 * {@link sharedRegions.DepartureTerminalEntrance}
+		 */
 		DepartureTerminalEntrance departureTerminalEntrance = new DepartureTerminalEntrance(Global.NR_PASSENGERS, genInfoRepo);
+		
 		arrivalTerminalExit.setDepartureTerminal(departureTerminalEntrance);
 		departureTerminalEntrance.setArrivalTerminal(arrivalTerminalExit);
 
-		// Initialize busdriver and timer
+		/**
+		 *{@link entities.BusDriver}
+		 */
 		BusDriver busdriver = new BusDriver(arrivalTermTransfQuay, departureTermTransfQuay);
 		busdriver.start();
-		
+		/**
+		 *{@link entities.BusTimer}
+		 */
 		BusTimer timer = new BusTimer(arrivalTermTransfQuay);
 		timer.start();
-
-		//Itialize Porter
+		/**
+		 *{@link entities.Porter}
+		 */
 		Porter porter = new Porter(arrivalLounge, tempStorageArea, baggageCollectionPoint, genInfoRepo);
 		porter.start();
 
+		/**
+		 * List of every {@link Bag} of every flight occurring in this airport.
+		 */
 		List<List<Integer>> bags = generateBags(genInfoRepo, Global.NR_PASSENGERS, Global.NR_FLIGHTS, Global.MAX_BAGS);
 		
-
-		// Initialize passengers
+		/**
+		 * List of {@link entities.Passenger}s.
+		 */
 		Passenger[] passengers = new Passenger[Global.NR_PASSENGERS];
 		for (int i = 0; i < Global.NR_PASSENGERS; i++) {
 			passengers[i] = new Passenger(i, bags.get(i), arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay, 
@@ -68,20 +103,15 @@ public class AirportMain {
 			for (int i = 0; i < Global.NR_PASSENGERS; i++) {
 				passengers[i].join();
 			}	
-			System.out.println("PASSENGER OVER");
 
 			porter.join();
-			System.out.println("PORTER OVER");
 
 			busdriver.join();
-			System.out.println("BUSDRIVER OVER");
-
-			genInfoRepo.finalReport();
 
 			timer.stopTimer();
 			timer.join();
-	
 
+			genInfoRepo.finalReport();
 			
 		} catch (Exception e) {
 			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
