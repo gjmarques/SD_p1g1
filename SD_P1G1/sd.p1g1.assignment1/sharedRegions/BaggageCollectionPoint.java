@@ -43,13 +43,15 @@ public class BaggageCollectionPoint {
 			entered++;
 			while(!noMoreBags){
 				waitBag.await();
-				collectedBags = collectionMat.get(passengerID).size();
+				if(collectionMat.get(passengerID).size() != 0){
+					System.out.println("PASSENGER "+ passengerID+" COLLECTED A BAG");
+					collectedBags += 1;
+					collectionMat.get(passengerID).remove(0);			
+					rep.passengerCollectedBags(passengerID, 1);
+					rep.collectionMatConveyorBelt(collectionMat.values().stream().mapToInt(List::size).sum());
+				}
+		
 			}
-
-			rep.passengerCollectedBags(passengerID, collectedBags);
-			rep.collectionMatConveyorBelt(collectionMat.values().stream().mapToInt(List::size).sum());
-
-			collectionMat.get(passengerID).clear();
 			exited++;
 			if(entered==exited){
 				noMoreBags = false;
