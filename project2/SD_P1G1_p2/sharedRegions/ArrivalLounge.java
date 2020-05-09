@@ -62,7 +62,7 @@ public class ArrivalLounge {
         rl = new ReentrantLock(true);
         planeHoldEmptyCV = rl.newCondition();
         this.numPassengers = Global.NR_PASSENGERS;
-        this.maxFlights = Global.NR_FLIGHTS;
+        this.maxFlights = Global.flight_nrS;
 
         this.rep = rep;
     }
@@ -77,17 +77,17 @@ public class ArrivalLounge {
 
     /**
      * Passengers decide what to do based on their final destination and number of bags
-     * @param nr_flight
+     * @param flight_nr
      * @param passengerID
      * @param bags
      * @param finalDestination
      * @return char
      */
-    public char whatShouldIDo(int nr_flight, int passengerID, Bag[] bags, boolean finalDestination) {
+    public char whatShouldIDo(int flight_nr, int passengerID, Bag[] bags, boolean finalDestination) {
         rl.lock();
         
         try {    
-            rep.passengerState(nr_flight, passengerID, PassengerState.AT_THE_DISEMBARKING_ZONE, finalDestination, bags.length);
+            rep.passengerState(flight_nr, passengerID, PassengerState.AT_THE_DISEMBARKING_ZONE, finalDestination, bags.length);
             
             passengerCount++;
             if (passengerCount == numPassengers) {

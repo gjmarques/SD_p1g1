@@ -111,7 +111,7 @@ public class Passenger extends Thread {
     @Override
     public void run() {
         Random r;
-        for (int i = 0; i < Global.NR_FLIGHTS; i++) {
+        for (int i = 0; i < Global.flight_nrS; i++) {
             r = new Random();
             this.finalDestination = r.nextBoolean();
             rep.countDest(this.finalDestination);

@@ -181,11 +181,11 @@ public class GenInfoRepo {
     /** 
      * Initializes {@link entities.Passenger}s to {@code null}, to fix logger at the beggining of each flight.
      * @param flight_nr Flight number.
-     * @param pass_id {@link entities.Passenger}'s identification.
+     * @param passengerID {@link entities.Passenger}'s identification.
      */
-    public synchronized void initPassenger(int flight_nr, int pass_id){
+    public synchronized void initPassenger(int flight_nr, int passengerID){
         if(flight_nr != this.fn){
-            this.passengerState[pass_id] = null;
+            this.passengerState[passengerID] = null;
         }
     }
 

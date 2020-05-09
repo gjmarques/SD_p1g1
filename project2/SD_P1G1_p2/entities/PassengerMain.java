@@ -29,7 +29,7 @@ public class PassengerMain{
         /**
          * List of every {@link Bag} of every flight occurring in this airport.
          */
-        List<List<Integer>> bags = generateBags(repoStub, Global.NR_PASSENGERS, Global.NR_FLIGHTS, Global.MAX_BAGS);
+        List<List<Integer>> bags = generateBags(repoStub, Global.NR_PASSENGERS, Global.flight_nrS, Global.MAX_BAGS);
         
         /**
          * List of Passengers
@@ -52,7 +52,7 @@ public class PassengerMain{
      * @param genInfoRepo
      * @return List<Integer>
      */
-    public static List<List<Integer>> generateBags(GenInfoRepo genInfoRepo, int nrPassengers, int nrFlights, int maxBags) {
+    public static List<List<Integer>> generateBags(GenInfoRepoStub repoStub, int nrPassengers, int nrFlights, int maxBags) {
 
 
         List<List<Integer>> bagsPerPassenger = new ArrayList<List<Integer>>(nrPassengers);
@@ -70,6 +70,7 @@ public class PassengerMain{
 
         }
         // genInfoRepo.nrBagsPlanesHold(bagsPerFlight);
+        repoStub.nrBagsPlanesHold(bagsPerFlight);
         // send bagsPerFlight to GeneralRepo
 
         return bagsPerPassenger;

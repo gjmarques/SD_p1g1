@@ -10,17 +10,31 @@ public class ArrivalLoungeInterface {
     public ArrivalLoungeInterface(ArrivalLounge arrivalLounge){
         this.arrivalLounge = arrivalLounge;
     }
-
+    /**
+     * Processing of messages by executing the corresponding task.
+     * Generation of a reply message.
+     * 
+     * @param inMessage incoming message with request
+     * @param passengerID passenger identification
+     * @return reply message
+     * @throws MessageException if the message with the request is found to be invalid
+     */
     public Message ProcessAndReply(Message inMessage, int passengerID) throws MessageException {
+       
         Message outMessage = null;
-        // process new inMessage, treat all exception
 
+        // process message arguments by type and throw MessageException if necessary
+        // TODO
+        
         // process new inMessage and answer server with new outMessage
         switch(inMessage.getType()){
+            case Message.SET_FLIGHT_al:
+                this.arrivalLounge.setFlight(inMessage.get_setFlightCount_al());
+                outMessage = new Message(Message.ACK);
             case Message.WSID:
-                char res = this.arrivalLounge.whatShouldIDo(inMessage.get_nr_flight(), inMessage.get_passengerID(), inMessage.get_bags(), inMessage.get_finalDestination());
-                switch(res){
-                    try{
+                char res = this.arrivalLounge.whatShouldIDo(inMessage.get_flight(), inMessage.get_passengerID(), inMessage.get_bags(), inMessage.get_destination());
+                try{ 
+                    switch(res){
                         case 'a':
                             outMessage = new Message(Message.GOHOME);
                             break;
@@ -31,12 +45,11 @@ public class ArrivalLoungeInterface {
                         case 'c':
                             outMessage = new Message(Message.TAKEBUS);
                             break;
-                     catch(Exception e){
-                         e.exit(0);
-                     }
-
+                    }
+                }catch(Exception e){
+                        //System.exit(0);
                 }
         }
-
+        return outMessage;
     }
 }

@@ -50,7 +50,7 @@ public class AirportMain {
 		/**
 		 * {@link sharedRegions.ArrivalTermTransfQuay}
 		 */
-		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.NR_FLIGHTS, genInfoRepo);
+		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.flight_nrS, genInfoRepo);
 		/**
 		 * {@link sharedRegions.DepartureTermTransfQuay}
 		 */
@@ -83,6 +83,7 @@ public class AirportMain {
 		Porter porter = new Porter(arrivalLounge, tempStorageArea, baggageCollectionPoint, genInfoRepo);
 		porter.start();
 
+		// passar os stubs como argumento!!!
 		PassengerMain passengerMain = new PassengerMain(arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay,
 		baggageCollectionPoint, baggageReclaimOffice, arrivalTerminalExit, departureTerminalEntrance, genInfoRepo);
 
