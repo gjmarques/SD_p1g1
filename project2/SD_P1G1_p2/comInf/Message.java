@@ -59,11 +59,30 @@ public class Message implements Serializable {
      * Signal that passenger is preparing next leg
      */
     public static final int PNEXTLEG = 12;
+    /**
+     * Signal that passenger is going to collect a bag
+     */
+    public static final int GOCOLLECTBAG = 13;
+    /**
+     * Message type notification that a bag has been collected
+     */
+    public static final int BAG_COLLECTED = 14;
+    /**
+     * Signal Porter to carry bag to appropriate store
+     */
+    public static final int CARRYTOAPPSTORE = 15;
+    /**
+     * Report missing bag
+     */
+    public static final int REPORT_MISSING = 16;
 
 
     /* Other variables */
     /**
      * What should I do option
+     * go home - h (a)
+     * taking a bus - t (b)
+     * collect a bag - c (c)
      */
     public static final char WSID_ANSWER = 'z';
     /**
@@ -109,18 +128,43 @@ public class Message implements Serializable {
      * Passenger state
      */
     private PassengerState passengerState;
+    /**
+     * Bag identification collected
+     */
+    public int bag_id;
+    /**
+     * Bag (destination, id, flight number)
+     */
+    public Bag bag;
 
     /* Messages type */
 
-    public Message(int type, int nPlane, int passengerID, PassengerState passengerState){
+    /**
+     * Message type 7
+     * @param type message type
+     * @param bag Bag
+     */
+    public Message(int type, Bag bag){
+        msgType = type;
+        if (msgType == CARRYTOAPPSTORE){
+            this.bag = bag;
+        }
+    }
+    /**
+     * Message type 6
+     * @param type message type
+     * @param flight_number passenger flight number
+     * @param passengerID passenger identification
+     * @param passengerState passenger state
+     */
+    public Message(int type, int flight_number, int passengerID, PassengerState passengerState){
         msgType = type;
         if(msgType == GOINGHOME){
-            this.flight_nr = nPlane;
+            this.flight_nr = flight_number;
             this.passengerID = passengerID;
             this.passengerState = passengerState;
         }
     }
-
     /**
      * Message type 5
      * @param type message type
@@ -147,7 +191,7 @@ public class Message implements Serializable {
      */ 
     public Message (int type, int id, int flight_nr){
         msgType = type;
-        if(type == INITP || msgType == PNEXTLEG){
+        if(type == INITP || msgType == PNEXTLEG || msgType == REPORT_MISSING){
             this.passengerID = id;
             this.flight_nr = flight_nr;
         }
@@ -200,6 +244,10 @@ public class Message implements Serializable {
             this.set_count_flights_attq = i+1;
         }else if(msgType == SET_FLIGHT_al){
             this.set_count_flights_al = i+1;
+        }else if(msgType == BAG_COLLECTED){
+            this.bag_id = i;
+        }else if(msgType == GOCOLLECTBAG){
+            this.passengerID = i;
         }
 
     }
@@ -273,6 +321,20 @@ public class Message implements Serializable {
      */
     public PassengerState get_passengerState(){
         return this.passengerState;
+    }
+    /**
+     * Get passenger bags id
+     * @return bag identification
+     */
+    public int get_Bag_id(){
+        return this.bag_id;
+    }
+    /**
+     * Get passenger bags
+     * @return bag Bag
+     */
+    public Bag get_Bag(){
+        return this.bag;
     }
 
 }

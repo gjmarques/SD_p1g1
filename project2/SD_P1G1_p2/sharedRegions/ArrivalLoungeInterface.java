@@ -19,7 +19,7 @@ public class ArrivalLoungeInterface {
      * @return reply message
      * @throws MessageException if the message with the request is found to be invalid
      */
-    public Message ProcessAndReply(Message inMessage, int passengerID) throws MessageException {
+    public Message ProcessAndReply(Message inMessage) throws MessageException {
        
         Message outMessage = null;
 

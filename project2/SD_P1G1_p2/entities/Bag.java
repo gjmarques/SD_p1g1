@@ -17,7 +17,7 @@ public class Bag extends Thread{
   /**
    * Bag's flight number
    */
-  private int flightNR;
+  private int flight_number;
 
   /**
    * Creates a Bag with identification, destination, and number of flight.
@@ -25,10 +25,10 @@ public class Bag extends Thread{
    * @param id identification of the Bag. Connects a Bag with the owner/{@link Passenger}.
    * @param flight number in which this Bag corresponds.
    */
-  public Bag (char destination, int id, int flight){
+  public Bag (char destination, int id, int flight_number){
       this.destination = destination;
       this.id = id;
-      this.flightNR = flight;
+      this.flight_number = flight_number;
   }
 
 
@@ -52,8 +52,8 @@ public class Bag extends Thread{
    * Gets this bag's flight number
    * @return bag's flight number
    */
-  public int getFlightNR() {
-    return this.flightNR;
+  public int getflightNR() {
+    return this.flight_number;
   }
 
 }

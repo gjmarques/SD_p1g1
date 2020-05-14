@@ -2,14 +2,15 @@ package sharedRegions;
 
 import comInf.*;
 
-public class ArrivalTerminalExitInterface {
+public class BaggageCollectionPointInterface {
+    
+    private BaggageCollectionPoint baggageCollectionPoint;
 
-    private ArrivalTerminalExit arrivalTermExit;
-
-    public ArrivalTerminalExitInterface(ArrivalTerminalExit arrivalTermExit){
-        this.arrivalTermExit = arrivalTermExit;
+    public BaggageCollectionPointInterface(BaggageCollectionPoint baggageCollectionPoint){
+        this.baggageCollectionPoint = baggageCollectionPoint;
     }
-    /**
+
+     /**
      * Processing of messages by executing the corresponding task.
      * Generation of a reply message.
      * 
@@ -27,10 +28,13 @@ public class ArrivalTerminalExitInterface {
         
         // process new inMessage and answer server with new outMessage
         switch(inMessage.getType()){
-            case Message.GOINGHOME:
-                this.arrivalTermExit.goHome(inMessage.get_flight(), inMessage.get_passengerID(), inMessage.get_passengerState());
+            case Message.GOCOLLECTBAG:
+                int bag_id = this.baggageCollectionPoint.goCollectABag(inMessage.get_passengerID());
+                outMessage = new Message(Message.BAG_COLLECTED, bag_id);
+            case Message.CARRYTOAPPSTORE:
+                this.baggageCollectionPoint.carryItToAppropriateStore(inMessage.get_Bag());
                 outMessage = new Message(Message.ACK);
-           
+            
         }
         return outMessage;
     }
