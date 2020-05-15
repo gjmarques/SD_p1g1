@@ -67,25 +67,40 @@ public class AirportMain {
 		arrivalTerminalExit.setDepartureTerminal(departureTerminalEntrance);
 		departureTerminalEntrance.setArrivalTerminal(arrivalTerminalExit);
 
+		String hostname = null;
+		/**
+         * Inicialization Stub Areas
+         */
+        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);
+        ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalTerminalExitStub_PORT);
+        DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(hostname, Global.departureTermTransfQuayStub_PORT);
+        BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(hostname, Global.baggageCollectionPointStub_PORT);
+        BaggageReclaimOfficeStub baggageReclaimOfficeStub = new BaggageReclaimOfficeStub(hostname, Global.baggageReclaimOfficeStub_PORT);
+        ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(hostname, Global.arrivalTerminalExitStub_PORT);
+        DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(hostname, Global.departureTermTransfQuayStub_PORT);
+		GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
+		TempStorageAreaStub tempStorageAreaStub = new TempStorageAreaStub(hostname, Global.tempStorageArea_PORT);
+
+
 		/**
 		 *{@link entities.BusDriver}
 		 */
-		BusDriver busdriver = new BusDriver(arrivalTermTransfQuay, departureTermTransfQuay);
-		busdriver.start();
+		//BusDriver busdriver = new BusDriver(arrivalTermTransfQuay, departureTermTransfQuay);
+		//busdriver.start();
 		/**
 		 *{@link entities.BusTimer}
 		 */
-		BusTimer timer = new BusTimer(arrivalTermTransfQuay);
-		timer.start();
+		//BusTimer timer = new BusTimer(arrivalTermTransfQuay);
+		//timer.start();
 		/**
 		 *{@link entities.Porter}
 		 */
-		Porter porter = new Porter(arrivalLounge, tempStorageArea, baggageCollectionPoint, genInfoRepo);
-		porter.start();
+		//PorterMain porter = new PorterMain(arrivalLoungeStub, tempStorageAreaStub, baggageCollectionPointStub, repoStub);
+		//porter.start();
 
 		// passar os stubs como argumento!!!
-		PassengerMain passengerMain = new PassengerMain(arrivalLounge, arrivalTermTransfQuay, departureTermTransfQuay,
-		baggageCollectionPoint, baggageReclaimOffice, arrivalTerminalExit, departureTerminalEntrance, genInfoRepo);
+		//PassengerMain passengerMain = new PassengerMain(arrivalLoungeStub, arrivalTermTransfQuayStub, departureTermTransfQuayStub,
+		//baggageCollectionPointStub, baggageReclaimOfficeStub, arrivalTerminalExitStub, departureTerminalEntranceStub, repoStub);
 
 
 

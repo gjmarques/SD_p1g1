@@ -20,11 +20,17 @@ public class GenInfoRepoInterface {
             case Message.BAGS_PL: 
                 this.genRepo.nrBagsPlanesHold(inMessage.get_nrBagsPerFlight());
                 outMessage = new Message(Message.ACK);
+            case Message.BAGS_P_FLIGHT:
+                this.genRepo.nrBagsPlanesHold(inMessage.get_nrBagsPerFlight());
+                outMessage = new Message(Message.ACK);
             case Message.DEST:
                 this.genRepo.countDest(inMessage.get_destination());
                 outMessage = new Message(Message.ACK);
             case Message.INITP:
                 this.genRepo.initPassenger(inMessage.get_flight(), inMessage.get_passengerID());
+                outMessage = new Message(Message.ACK);
+            case Message.LESSBAGS:
+                this.genRepo.lessBagsOnPlanesHold(inMessage.get_Bag());
                 outMessage = new Message(Message.ACK);
         }
 

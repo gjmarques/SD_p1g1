@@ -1,6 +1,9 @@
 package comInf;
 
 import java.io.*;
+
+import javax.lang.model.util.ElementScanner6;
+
 import entities.*;
 
 public class Message implements Serializable {
@@ -75,7 +78,70 @@ public class Message implements Serializable {
      * Report missing bag
      */
     public static final int REPORT_MISSING = 16;
-
+    /**
+     * Send bags per flight to repository
+     */
+    public static final int BAGS_P_FLIGHT = 17;
+    /**
+     * Signal Porter whether to take a rest or not
+     */
+    public static final int REST = 18;
+    /**
+     * Mesage to signal Porter to take a rest
+     */
+    public static final int REST_Y = 19;
+    /**
+     * Message to signal Porter to not take a rest
+     */
+    public static final int REST_N = 20;
+    /**
+     * Message to signal Porter to go pick up a bag
+     */
+    public static final int COLLECTBAG_PORTER = 21;
+    /**
+     * Message to signal Porter that there is not more bags to collect
+     */
+    public static final int NO_BAGS_TO_COLLECT = 22;
+    /**
+     * Signal General Information Repository that there is one less bag at the plane's hold
+     */
+    public static final int LESSBAGS = 23;
+    /**
+     * Check if Bus Driver's work days ended
+     */
+    public static final int WORK_END = 24;
+    /**
+     * Signal Bus Driver that his work days ended
+     */
+    public static final int WORK_ENDED = 25;
+    /**
+     * Signal Bus Driver that his work days are not over
+     */
+    public static final int WORK_NOT_ENDED = 26;
+    /**
+     * Signal Bus Driver how many passengers there is to get on board of the bus
+     */
+    public static final int BUSBOARD = 27;
+    /**
+     * Signal Bus Driver to go to the Departure Terminal Transfer Quay
+     */
+    public static final int GOTO_DTTQ = 28;
+    /**
+     * Signal Bus Driver to park the bus and let the passengers out
+     */
+    public static final int PARKBUS = 29;
+    /**
+     * Signal Bus Driver to go to the arrival terminal transfer quay
+     */
+    public static final int GOTO_ATTQ = 30;
+    /**
+     * Signal Bus Driver to park the bus (at the attq)
+     */
+    public static final int PARK = 31;
+    /**
+     * Signal Bus Timer
+     */
+    public static final int D_TIME = 32;
 
     /* Other variables */
     /**
@@ -92,7 +158,23 @@ public class Message implements Serializable {
     /**
      * List of bags per flight
      */
-    public static final int[] bagsPerFlight = {0, 1, 2, 4};
+    public static final int[] bagsPerFlight = {0, 1, 2, 4};/**
+    /*
+     * Tell Porter to take a rest
+     */
+    public boolean do_rest = false;
+    /**
+    * Tell Porter to not take a rest
+    */
+    public boolean no_rest = false;
+    /**
+     * Whether Bus driver ended ('E') (or not ('W')) his work day
+     */
+    public char busDriver_workDay;
+    /**
+     * Number of passengers that the Bus Driver has to let out of the bus
+     */
+    public int busPassengers;
 
 
     /* Messages arguments */
@@ -105,7 +187,7 @@ public class Message implements Serializable {
      */
     private int passengerID;
     /**
-     * Passenger destination (final or not)
+     * Passenger destination (final or not) (related to bags)
      */
     private boolean final_destination;
     /**
@@ -136,9 +218,30 @@ public class Message implements Serializable {
      * Bag (destination, id, flight number)
      */
     public Bag bag;
+    /**
+     * Number of passengers boarding a bus
+     */
+    public int bus_number_passengers;
+    /**
+     * Final destination boolean (related to general information repository)
+     */
+    public boolean final_dest = false;
+
 
     /* Messages type */
 
+    /**
+     * Message type 7
+     * @param type message type
+     * @param final_dest final destination (related to general information repository)
+     */
+    public Message(int type, boolean final_dest){
+        msgType = type;
+        if(msgType == DEST){
+            // related to general information repository 
+            final_dest = true;
+        }
+    }
     /**
      * Message type 7
      * @param type message type
@@ -146,7 +249,7 @@ public class Message implements Serializable {
      */
     public Message(int type, Bag bag){
         msgType = type;
-        if (msgType == CARRYTOAPPSTORE){
+        if (msgType == CARRYTOAPPSTORE || msgType == COLLECTBAG_PORTER || msgType == LESSBAGS){
             this.bag = bag;
         }
     }
@@ -179,7 +282,7 @@ public class Message implements Serializable {
             this.flight_nr = flight_number;
             this.passengerID = passengerID;
             this.bags = bags;
-            this.final_destination = finalDestination;
+            this.final_destination = finalDestination; // related to bags
         }
     }
     /**
@@ -197,23 +300,21 @@ public class Message implements Serializable {
         }
     }
     /**
-     *  Message type 3
-     *
-     *    @param type message type
-     */ 
-    public Message (int type, boolean final_destination){
-        msgType = type;
-        if(type == DEST){
-            this.final_destination = final_destination;
-        }
-    }
-    /**
-     *  Message type 3
-     *
-     *    @param type message type
+     *  Message type 3COLLECTBAG_PORTER
      */ 
     public Message (int type){
         msgType = type;
+        if(msgType == REST_Y){
+            this.do_rest = true;
+            this.no_rest = false;
+        }else if(msgType == REST_N){
+            this.do_rest = false;
+            this.no_rest = true;
+        }else if(msgType == WORK_ENDED){
+            this.busDriver_workDay = 'E';
+        }else if(msgType == WORK_NOT_ENDED){
+            this.busDriver_workDay = 'W';
+        }
     }
     /**
      *  Message type 2
@@ -223,7 +324,7 @@ public class Message implements Serializable {
      */ 
     public Message (int type, int[] bagsPerFlight){
         msgType = type;
-        if (msgType == BAGS_PL){
+        if (msgType == BAGS_PL || msgType == BAGS_P_FLIGHT){
             for(int i = 0; i< bagsPerFlight.length;i++){
                 bagsPerFlight[i] = bagsPerFlight[i];
             }
@@ -248,8 +349,11 @@ public class Message implements Serializable {
             this.bag_id = i;
         }else if(msgType == GOCOLLECTBAG){
             this.passengerID = i;
+        }else if(msgType == BUSBOARD){
+            this.bus_number_passengers = i;
+        }else if(msgType == PARKBUS){
+            this.busPassengers = i;
         }
-
     }
 
     /**
@@ -281,7 +385,7 @@ public class Message implements Serializable {
         return (bagsPerFlight);
     }
     /**
-     * Get final destination
+     * Get final destination (related to Bags)
      * @return boolean final_destination
      */
     public boolean get_destination (){
@@ -336,6 +440,44 @@ public class Message implements Serializable {
     public Bag get_Bag(){
         return this.bag;
     }
+    /**
+     * Get signal wether Porter can rest ('E') or not ('W')
+     * @return rest
+     */
+    public char get_Rest(){
+        if(this.do_rest) return 'E';
+        if(this.no_rest) return 'W';
+        else return 'z';
+    }
+    /**
+     * Get if the Bus Driver's work days are over
+     * @return busDriver_workDay
+     */
+    public char get_Work_days(){
+        return this.busDriver_workDay;
+    }
+    /**
+     * Get number of passengers waiting to get on the bus
+     * @return bus_number_passengers
+     */
+    public int get_Bus_numPassengers_boarding(){
+        return this.bus_number_passengers;
+    }
+    /**
+     * Get the number of passengers inside the bus that the Bus Driver has to let get out
+     * @return busPassengers
+     */
+    public int get_BusPassengers(){
+        return this.busPassengers;
+    }
+    /**
+     * Get final destination (related to general information repository)
+     * @return
+     */
+    public boolean get_FinalDestREPO(){
+        return this.final_dest;
+    }
+
 
 }
 

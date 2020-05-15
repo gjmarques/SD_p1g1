@@ -30,7 +30,7 @@ public class BaggageReclaimOfficeStub{
         // receive new in message, and process it
         inMessage = (Message) con.readObject ();
         if (inMessage.getType () != Message.ACK){ 
-            System.out.println ("Thread " + p_thread.getName () + ": Tipo inválido!");
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
             System.out.println (inMessage.toString ());
             System.exit (1);
         }

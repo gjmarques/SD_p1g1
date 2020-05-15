@@ -29,21 +29,21 @@ public class Porter extends Thread {
      * Arrival Lounge
      * {@link sharedRegions.ArrivalLounge}
      */
-    private final ArrivalLounge arrivalLounge;
+    private final ArrivalLoungeStub arrivalLoungeStub;
     /**
      * Temporary Storage Area
      * {@link sharedRegions.TempStorageArea}
      */
-    private final TempStorageArea tempStorageArea;
+    private final TempStorageAreaStub tempStorageAreaStub;
     /**
      * Baggage Collection Point
      * {@link sharedRegions.BaggageCollectionPoint}
      */
-    private final BaggageCollectionPoint baggageCollectionPoint;
+    private final BaggageCollectionPointStub baggageCollectionPointStub;
     /**
      * General Information Repository {@link sharedRegions.GenInfoRepo}.
      */
-    private GenInfoRepo rep;
+    private GenInfoRepoStub repoStub;
 
     /**
      * Instantiates entity {@link Porter}
@@ -51,12 +51,12 @@ public class Porter extends Thread {
      * @param {@link sharedRegions.TempStorageArea}
      * @param {@link sharedRegions.BaggageCollectionPoint}
      */
-    public Porter(ArrivalLounge arrivalLounge, TempStorageArea tempStorageArea,
-            BaggageCollectionPoint baggageCollectionPoint, GenInfoRepo rep) {
-        this.arrivalLounge = arrivalLounge;
-        this.tempStorageArea = tempStorageArea;
-        this.baggageCollectionPoint = baggageCollectionPoint;
-        this.rep = rep;
+    public Porter(ArrivalLoungeStub arrivalLoungeStub, TempStorageAreaStub tempStorageAreaStub,
+            BaggageCollectionPointStub baggageCollectionPointStub, GenInfoRepoStub repoStub) {
+        this.arrivalLoungeStub = arrivalLoungeStub;
+        this.tempStorageAreaStub = tempStorageAreaStub;
+        this.baggageCollectionPointStub = baggageCollectionPointStub;
+        this.repoStub = repoStub;
     }
 
     /**
@@ -65,29 +65,29 @@ public class Porter extends Thread {
     @Override
     public void run() {
         while (rest) {
-            char choice = arrivalLounge.takeARest();
+            char choice = arrivalLoungeStub.takeARest();
             if (choice == 'W') {
 
-                bag = arrivalLounge.tryToCollectBag();
+                bag = arrivalLoungeStub.tryToCollectBag();
             
                 while (bag != null) {
                     Random r = new Random();
                     int answer = r.nextInt(Global.LOST_BAG_PERCENTAGE);
                     if(answer==9){ 
-                        rep.lessBagsOnPlanesHold(bag);
+                        repoStub.lessBagsOnPlanesHold(bag);
                     }
                     else if (answer < 9) {
                         // if bag is in trasit
                         if (bag.getDestination() == 'T') {
-                            tempStorageArea.carryItToAppropriateStore(bag);
+                            tempStorageAreaStub.carryItToAppropriateStore(bag);
                         } else {
                             // bag is at final aeroport
-                            baggageCollectionPoint.carryItToAppropriateStore(bag);
+                            baggageCollectionPointStub.carryItToAppropriateStore(bag);
                         }
                     }
-                    bag = arrivalLounge.tryToCollectBag();
+                    bag = arrivalLoungeStub.tryToCollectBag();
                 }
-                baggageCollectionPoint.noMoreBagsToCollect();
+                baggageCollectionPointStub.noMoreBagsToCollect();
             } else if (choice == 'E') {
                 rest = false;
             }

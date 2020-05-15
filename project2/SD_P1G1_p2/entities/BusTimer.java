@@ -17,10 +17,10 @@ public class BusTimer extends Thread {
      * Arrival Terminal Transfer Quay
      * {@link sharedRegions.ArrivalTermTransfQuay}
      */
-    private final ArrivalTermTransfQuay arrivalTermTransfQuay;
+    private final ArrivalTermTransfQuayStub arrivalTermTransfQuayStub;
 
-    public BusTimer(ArrivalTermTransfQuay arrivalTermTransfQuay) {
-        this.arrivalTermTransfQuay = arrivalTermTransfQuay;
+    public BusTimer(ArrivalTermTransfQuayStub arrivalTermTransfQuayStub) {
+        this.arrivalTermTransfQuayStub = arrivalTermTransfQuayStub;
     }
     
     @Override
@@ -31,7 +31,7 @@ public class BusTimer extends Thread {
                 time += 50;
 
                 if(time % 1000 == 0) {
-                    arrivalTermTransfQuay.departureTime();
+                    arrivalTermTransfQuayStub.departureTime();
                 }
             } catch (Exception e) {
                 System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");

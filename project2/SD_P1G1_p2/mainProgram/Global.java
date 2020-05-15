@@ -46,6 +46,18 @@ public class Global{
      * General Information Repository port number
      */
     public static final int genRepo_PORT = 4009;
+    /**
+     * Temporary Storage Area port number
+     */
+    public static final int tempStorageArea_PORT = 4010;
+    /**
+     * Porter port number
+     */
+    public static final int porter_PORT = 4011;
+    /**
+     * Porter port number
+     */
+    public static final int busTime_PORT = 4012;
 
 
     /**

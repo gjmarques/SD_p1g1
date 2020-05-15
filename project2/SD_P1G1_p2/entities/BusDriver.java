@@ -28,17 +28,17 @@ public class BusDriver extends Thread {
     /**
      * Arrival Terminal Transfer Quay {@link sharedRegions.ArrivalTermTransfQuay}
      */
-    private final ArrivalTermTransfQuay arrivalTermTransfQuay;
+    private final ArrivalTermTransfQuayStub arrivalTermTransfQuayStub;
 
     /**
      * Departure Terminal Transfer Quay
      * {@link sharedRegions.DepartureTermTransfQuay}
      */
-    private final DepartureTermTransfQuay departureTermTransfQuay;
+    private final DepartureTermTransfQuayStub departureTermTransfQuayStub;
 
-    public BusDriver (ArrivalTermTransfQuay arrivalTermTransfQuay, DepartureTermTransfQuay departureTermTransfQuay){
-        this.arrivalTermTransfQuay = arrivalTermTransfQuay;
-        this.departureTermTransfQuay = departureTermTransfQuay;
+    public BusDriver (ArrivalTermTransfQuayStub arrivalTermTransfQuayStub, DepartureTermTransfQuayStub departureTermTransfQuayStub){
+        this.arrivalTermTransfQuayStub = arrivalTermTransfQuayStub;
+        this.departureTermTransfQuayStub = departureTermTransfQuayStub;
     }
 
     /**
@@ -48,13 +48,13 @@ public class BusDriver extends Thread {
     public void run(){
 
         while(loop){
-            char choice = arrivalTermTransfQuay.hasDaysWorkEnded();
+            char choice = arrivalTermTransfQuayStub.hasDaysWorkEnded();
             if(choice == 'W') {
-                nPassengers = arrivalTermTransfQuay.annoucingBusBoarding();			
-                departureTermTransfQuay.goToDepartureTerminal();
-                departureTermTransfQuay.parkTheBusAndLetPassengerOff(nPassengers);
-                arrivalTermTransfQuay.goToArrivalTerminal();
-                arrivalTermTransfQuay.parkTheBus();
+                nPassengers = arrivalTermTransfQuayStub.annoucingBusBoarding();			
+                departureTermTransfQuayStub.goToDepartureTerminal();
+                departureTermTransfQuayStub.parkTheBusAndLetPassengerOff(nPassengers);
+                arrivalTermTransfQuayStub.goToArrivalTerminal();
+                arrivalTermTransfQuayStub.parkTheBus();
             }else if(choice == 'E'){
                 loop = false;
             }

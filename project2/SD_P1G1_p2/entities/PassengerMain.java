@@ -3,16 +3,19 @@ package entities;
 
 import mainProgram.*;
 import sharedRegions.*;
+import comInf.*;
+import java.io.*;
 
 import java.util.*;
 
 public class PassengerMain{
 
-    public PassengerMain(){
-        String hostname = Global.passenger_HOSTNAME;
+    public static void main(String[] args) throws IOException{
+
+        String hostname = null;
         int port = Global.passenger_PORT;
 
-        /**
+		/**
          * Inicialization Stub Areas
          */
         ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);
@@ -22,14 +25,13 @@ public class PassengerMain{
         BaggageReclaimOfficeStub baggageReclaimOfficeStub = new BaggageReclaimOfficeStub(hostname, Global.baggageReclaimOfficeStub_PORT);
         ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(hostname, Global.arrivalTerminalExitStub_PORT);
         DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(hostname, Global.departureTermTransfQuayStub_PORT);
-        GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
-
-
+		GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
+		
 
         /**
          * List of every {@link Bag} of every flight occurring in this airport.
          */
-        List<List<Integer>> bags = generateBags(repoStub, Global.NR_PASSENGERS, Global.flight_nrS, Global.MAX_BAGS);
+        List<List<Integer>> bags = generateBags(repoStub, Global.NR_PASSENGERS, Global.flight_nrS, Global.MAX_BAGS, hostname);
         
         /**
          * List of Passengers
@@ -41,6 +43,16 @@ public class PassengerMain{
             passengers[i].start();
         }
 
+        try{
+            for (int i = 0; i < Global.NR_PASSENGERS; i++) {
+                passengers[i].join();
+            }
+        } catch (Exception e) {
+			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+			System.out.println("Error: " + e.getMessage());
+			System.exit(1);
+		}
+        
     }
 
     /**
@@ -52,8 +64,7 @@ public class PassengerMain{
      * @param genInfoRepo
      * @return List<Integer>
      */
-    public static List<List<Integer>> generateBags(GenInfoRepoStub repoStub, int nrPassengers, int nrFlights, int maxBags) {
-
+    public static List<List<Integer>> generateBags(GenInfoRepoStub repoStub, int nrPassengers, int nrFlights, int maxBags, String hostname) {
 
         List<List<Integer>> bagsPerPassenger = new ArrayList<List<Integer>>(nrPassengers);
         int[] bagsPerFlight = new int[nrFlights];
@@ -70,9 +81,35 @@ public class PassengerMain{
 
         }
         // genInfoRepo.nrBagsPlanesHold(bagsPerFlight);
-        repoStub.nrBagsPlanesHold(bagsPerFlight);
+        //repoStub.nrBagsPlanesHold(bagsPerFlight);
         // send bagsPerFlight to GeneralRepo
+        send_info(repoStub, bagsPerFlight, hostname);
 
         return bagsPerPassenger;
     }
+
+    public static void send_info(GenInfoRepoStub repoStub, int[] bagsPerFlight, String hostname){
+        // create connection
+        ClientCom con = new ClientCom(hostname, Global.arrivalLoungeStub_PORT);
+        Message inMessage, outMessage;
+        Thread p_thread = Thread.currentThread();
+        while (!con.open ()){
+            try{ 
+                p_thread.sleep ((long) (10));
+            }catch (InterruptedException e) {}
+        }
+        // send message to arrival lounge interface, and wait for answer
+        outMessage = new Message (Message.BAGS_P_FLIGHT, bagsPerFlight);   
+        con.writeObject (outMessage);
+
+        // receive new in message, and process it
+        inMessage = (Message) con.readObject ();
+        if (inMessage.getType () != Message.ACK){ 
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
+            System.out.println (inMessage.toString ());
+            System.exit (1);
+        }
+        con.close ();
+    }
+
 }
