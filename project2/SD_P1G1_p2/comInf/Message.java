@@ -1,10 +1,9 @@
 package comInf;
 
+import clientSide.*;
+
 import java.io.*;
 
-import javax.lang.model.util.ElementScanner6;
-
-import entities.*;
 
 public class Message implements Serializable {
 
@@ -142,6 +141,10 @@ public class Message implements Serializable {
      * Signal Bus Timer
      */
     public static final int D_TIME = 32;
+    /**
+     * Signal Proxys to shutdown
+     */
+    public static final int SHUT = 998;
 
     /* Other variables */
     /**
