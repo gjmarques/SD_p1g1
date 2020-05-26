@@ -47,16 +47,16 @@ public class DepartureTerminalEntrance {
     private int numPassengers;
 
     /**
-     * General Information Repository {@link GenInfoRepo}
+     * General Information Repository {@link GenInfoRepoStub}
      */
-    private GenInfoRepo rep;
+    private GenInfoRepoStub rep;
 
     /**
      * Instantiates the Departure Terminal Entrance.
      * @param numPassengers Number of {@link entities.Passenger}s.
-     * @param rep {@link GenInfoRepo}.
+     * @param rep {@link GenInfoRepoStub}.
      */
-    public DepartureTerminalEntrance(int numPassengers, GenInfoRepo rep) {
+    public DepartureTerminalEntrance(int numPassengers, GenInfoRepoStub rep) {
         rl = new ReentrantLock(true);
         waitingEndCV = rl.newCondition();
         this.numPassengers = numPassengers;

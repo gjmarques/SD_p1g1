@@ -1,10 +1,10 @@
-package mainProgram;
-
 import java.io.*;
 import java.util.*;
 
-import entities.*;
-import sharedRegions.*;
+import clientSide.*;
+import serverSide.*;
+import global.*;
+import comInf.*;
 
 /**
  * AirportMain is the main thread of the program where all entities and shared regions are instantiated and terminated.
@@ -28,41 +28,41 @@ public class AirportMain {
 			
 		}
 
-		GenInfoRepo genInfoRepo = new GenInfoRepo(logger);
+		GenInfoRepoStub genInfoRepoStub = new GenInfoRepoStub("GenInfoRepo", Global.genRepo_PORT);
 
 		// Initialize shared regions
 		/**
 		 * {@link sharedRegions.ArrivalLounge}
 		 */
-		ArrivalLounge arrivalLounge = new ArrivalLounge(genInfoRepo);
+		ArrivalLounge arrivalLounge = new ArrivalLounge(genInfoRepoStub);
 		/**
 		 * {@link sharedRegions.TempStorageArea}
 		 */
-		TempStorageArea tempStorageArea = new TempStorageArea(genInfoRepo);
+		TempStorageArea tempStorageArea = new TempStorageArea(genInfoRepoStub);
 		/**
 		 * {@link sharedRegions.BaggageCollectionPoint}
 		 */
-		BaggageCollectionPoint baggageCollectionPoint = new BaggageCollectionPoint(Global.NR_PASSENGERS, genInfoRepo);
+		BaggageCollectionPoint baggageCollectionPoint = new BaggageCollectionPoint(Global.NR_PASSENGERS, genInfoRepoStub);
 		/**
 		 * {@link sharedRegions.BaggageReclaimOffice}
 		 */
-		BaggageReclaimOffice baggageReclaimOffice = new BaggageReclaimOffice(genInfoRepo);
+		BaggageReclaimOffice baggageReclaimOffice = new BaggageReclaimOffice(genInfoRepoStub);
 		/**
 		 * {@link sharedRegions.ArrivalTermTransfQuay}
 		 */
-		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.flight_nrS, genInfoRepo);
+		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.flight_nrS, genInfoRepoStub);
 		/**
 		 * {@link sharedRegions.DepartureTermTransfQuay}
 		 */
-		DepartureTermTransfQuay departureTermTransfQuay = new DepartureTermTransfQuay(genInfoRepo);
+		DepartureTermTransfQuay departureTermTransfQuay = new DepartureTermTransfQuay(genInfoRepoStub);
 		/**
 		 * {@link sharedRegions.ArrivalTerminalExit}
 		 */
-		ArrivalTerminalExit arrivalTerminalExit = new ArrivalTerminalExit(Global.NR_PASSENGERS, genInfoRepo);
+		ArrivalTerminalExit arrivalTerminalExit = new ArrivalTerminalExit(Global.NR_PASSENGERS, genInfoRepoStub);
 		/**
 		 * {@link sharedRegions.DepartureTerminalEntrance}
 		 */
-		DepartureTerminalEntrance departureTerminalEntrance = new DepartureTerminalEntrance(Global.NR_PASSENGERS, genInfoRepo);
+		DepartureTerminalEntrance departureTerminalEntrance = new DepartureTerminalEntrance(Global.NR_PASSENGERS, genInfoRepoStub);
 		
 		arrivalTerminalExit.setDepartureTerminal(departureTerminalEntrance);
 		departureTerminalEntrance.setArrivalTerminal(arrivalTerminalExit);
@@ -121,14 +121,14 @@ public class AirportMain {
 				// passengers[i].join();
 			// }	
 
-			porter.join();
+			// porter.join();
 
-			busdriver.join();
+			// busdriver.join();
 
-			timer.stopTimer();
-			timer.join();
+			// timer.stopTimer();
+			// timer.join();
 
-			genInfoRepo.finalReport();
+			//genInfoRepoStub.finalReport();
 			
 		} catch (Exception e) {
 			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");

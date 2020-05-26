@@ -30,14 +30,14 @@ public class DepartureTermTransfQuay{
     /**
      * Instance fo General repository of Information.
      */
-    private GenInfoRepo rep;
+    private GenInfoRepoStub rep;
 
 
     /**
      * Instantiates the Departure Terminal Tranfer Quay.
      * @param rep {@link GenInfoRepo}.
      */
-    public DepartureTermTransfQuay(GenInfoRepo rep) {
+    public DepartureTermTransfQuay(GenInfoRepoStub rep) {
         rl = new ReentrantLock(true);
 		waitEmpty = rl.newCondition();
         waitArrival = rl.newCondition();

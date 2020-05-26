@@ -51,7 +51,7 @@ public class ALProxy extends Thread
 
       inMessage = (Message) sconi.readObject ();                     // ler pedido do cliente
       try{ 
-         outMessage = alInt.ProcessAndReply (inMessage);             // processá-lo
+         outMessage = alInt.processAndReply (inMessage);             // processá-lo
       }
       catch (MessageException e)
       { System.out.println("Thread " + getName () + ": " + e.getMessage () + "!");
