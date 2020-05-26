@@ -1,7 +1,7 @@
 package serverSide;
 
 import clientSide.*;
-import global.*;
+import global.Global;
 
 import java.util.*;
 import java.util.concurrent.locks.*;
@@ -50,7 +50,7 @@ public class ArrivalLounge {
     /**
      * General Information Repository {@link GenInfoRepo}
      */
-    private GenInfoRepo rep;
+    private GenInfoRepoStub rep;
 
     /**
      * Instantiates ArrivalLounge shared region
@@ -58,7 +58,7 @@ public class ArrivalLounge {
      * @param rep {@link GenInfoRepo}.
      */
 
-    public ArrivalLounge(GenInfoRepo rep) {
+    public ArrivalLounge(GenInfoRepoStub rep) {
         rl = new ReentrantLock(true);
         planeHoldEmptyCV = rl.newCondition();
         this.numPassengers = Global.NR_PASSENGERS;

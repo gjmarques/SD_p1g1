@@ -120,8 +120,52 @@ public class GenInfoRepoStub{
         }
         con.close ();
     }
-    
-    
+    public synchronized void passengerState(int flight_nr, int passengerID, PassengerState passengerState,  boolean dest,  int nr_bags){
+        // create connection
+        ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
+        Message inMessage, outMessage;
+        Thread p_thread = (Thread) Thread.currentThread();
+        while (!con.open ()){
+            try{ 
+                p_thread.sleep ((long) (10));
+            }catch (InterruptedException e) {}
+        }
+        // send message to arrival lounge interface, and wait for answer
+        outMessage = new Message (Message.PSGR_STATE, flight_nr, passengerID, passengerState, dest, nr_bags);   
+        con.writeObject (outMessage);
+
+        // receive new in message, and process it
+        inMessage = (Message) con.readObject ();
+        if (inMessage.getType () != Message.ACK){ 
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
+            System.out.println (inMessage.toString ());
+            System.exit (1);
+        }
+        con.close (); 
+    }
+    public synchronized void porterState(PorterState porterState){
+        // create connection
+        ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
+        Message inMessage, outMessage;
+        Thread p_thread = (Thread) Thread.currentThread();
+        while (!con.open ()){
+            try{ 
+                p_thread.sleep ((long) (10));
+            }catch (InterruptedException e) {}
+        }
+        // send message to arrival lounge interface, and wait for answer
+        outMessage = new Message (Message.PORTER_STATE, porterState);   
+        con.writeObject (outMessage);
+
+        // receive new in message, and process it
+        inMessage = (Message) con.readObject ();
+        if (inMessage.getType () != Message.ACK){ 
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
+            System.out.println (inMessage.toString ());
+            System.exit (1);
+        }
+        con.close (); 
+    }
 
 
 }

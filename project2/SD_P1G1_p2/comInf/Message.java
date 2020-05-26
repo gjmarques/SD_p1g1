@@ -145,6 +145,15 @@ public class Message implements Serializable {
      * Signal Proxys to shutdown
      */
     public static final int SHUT = 998;
+    /**
+     * Signal Passenger state update
+     */
+    public static final int PSGR_STATE = 33;
+    /**
+     * Signal Porter state update
+     */
+    public static final int PORTER_STATE = 34;
+
 
     /* Other variables */
     /**
@@ -214,6 +223,14 @@ public class Message implements Serializable {
      */
     private PassengerState passengerState;
     /**
+     * Porter state
+     */
+    private PorterState porterState;
+    /**
+     * Bus Driver state
+     */
+    private BusDriverState busDriverState;
+    /**
      * Bag identification collected
      */
     public int bag_id;
@@ -229,12 +246,46 @@ public class Message implements Serializable {
      * Final destination boolean (related to general information repository)
      */
     public boolean final_dest = false;
+    /**
+     * Total number of bags of a passenger
+     */
+    public int nr_bags;
 
 
     /* Messages type */
-
+    
     /**
-     * Message type 7
+     *  Message type 10
+     * @param type
+     * @param porterState
+     */
+    public Message(int type, PorterState porterState){
+        msgType = type;
+        if (msgType == PORTER_STATE){
+            this.porterState = porterState;
+        }
+    }
+    /**
+     *  Message type 9
+     * @param type
+     * @param flight_nr
+     * @param passengerID
+     * @param passengerState
+     * @param dest
+     * @param nr_bags
+     */
+    public Message(int type, int flight_nr, int passengerID, PassengerState passengerState,  boolean dest,  int nr_bags){
+        msgType = type;
+        if (msgType == PSGR_STATE){
+            this.flight_nr = flight_nr;
+            this.passengerID = passengerID;
+            this.passengerState = passengerState;
+            this.final_dest = dest;
+            this.nr_bags = nr_bags;
+        }
+    }
+    /**
+     * Message type 8
      * @param type message type
      * @param final_dest final destination (related to general information repository)
      */
@@ -358,6 +409,9 @@ public class Message implements Serializable {
             this.busPassengers = i;
         }
     }
+   
+    
+       
 
     /**
      * Get message type
@@ -430,6 +484,20 @@ public class Message implements Serializable {
         return this.passengerState;
     }
     /**
+     * Get porter state
+     * @return porterState porter state
+     */
+    public PorterState get_porterState(){
+        return this.porterState;
+    }
+    /**
+     * Get Bus Driver state
+     * @return busDriverState Bus Driver state
+     */
+    public BusDriverState get_busDriverState(){
+        return this.busDriverState;
+    }
+    /**
      * Get passenger bags id
      * @return bag identification
      */
@@ -479,6 +547,13 @@ public class Message implements Serializable {
      */
     public boolean get_FinalDestREPO(){
         return this.final_dest;
+    }
+    /**
+     * Get total number of bags of a passenger
+     * @return int nr_bags
+     */
+    public int get_nrBags(){
+        return this.nr_bags;
     }
 
 

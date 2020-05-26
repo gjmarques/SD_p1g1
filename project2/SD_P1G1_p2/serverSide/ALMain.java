@@ -1,9 +1,11 @@
 package serverSide;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
 import global.Global;
+import clientSide.*;
 
 public class ALMain {
 
@@ -31,17 +33,19 @@ public class ALMain {
          */                          
         ALProxy alProxy;          
         /**
-         * General Information Repository 
-         */                     
-        GenInfoRepo repo;
-                          
+         * General Information Repository Stub
+         */
+        GenInfoRepoStub repoStub;
+       
         
         /* estabelecimento do servico */
         //Creation of the listening channel and its association with the public address
         scon = new ServerCom (Global.alProxy_PORT);                    
         scon.start ();   
+
+        repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);
         // service activation                                    
-        al = new ArrivalLounge(repo);                           // activação do servi ço
+        al = new ArrivalLounge(repoStub);                           // activação do serviço
         // activation of the interface with the service
         alInt = new ArrivalLoungeInterface(al);       
         System.out.println("The service has been established!!");
