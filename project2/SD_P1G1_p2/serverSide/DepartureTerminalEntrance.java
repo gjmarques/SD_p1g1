@@ -106,7 +106,7 @@ public class DepartureTerminalEntrance {
     public void prepareNextLeg(int nPlane, int passengerID) {
         rl.lock();
         try {
-            rep.passengerState(passengerID, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
+            rep.updatePassengerState(passengerID, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
             passengers++;
             arrivalTerminalExit.signalPassenger();
             if (passengers + arrivalPassengers == numPassengers) {
