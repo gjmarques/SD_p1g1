@@ -12,7 +12,7 @@ import clientSide.*;
  * execution
  */
 
-public class  {
+public class ArrivalTerminalExit {
 
     /**
      * A reentrant mutual exclArrivalTerminalExitusion Lock with the same basic behavior and semantics as the implicit monitor lock 
