@@ -62,7 +62,7 @@ public class ArrivalLounge {
         rl = new ReentrantLock(true);
         planeHoldEmptyCV = rl.newCondition();
         this.numPassengers = Global.NR_PASSENGERS;
-        this.maxFlights = Global.flight_nrS;
+        this.maxFlights = Global.MAX_FLIGHTS;
 
         this.rep = rep;
     }

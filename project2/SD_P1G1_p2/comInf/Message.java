@@ -161,6 +161,28 @@ public class Message implements Serializable {
      * Signal PSGR state update
      */
     public static final int PSGR_UPDATE_STATE = 36;
+    /**
+     * Signal Passenger update state by Arrival Terminal Exit
+     */
+    public static final int PSGR_UPDATE_STATE_ATE = 37;
+    /**
+     * Signal passenger to wait in line for entering the bus (in arrival terminal tranfer quay)
+     */
+    public static final int BUS_WAITNG_LINE = 38;
+    /**
+     * Signal passenger to sit in the bus (in arrival terminal tranfer quay)
+     */
+    public static final int BUS_SITTING = 39;
+    /**
+     * Signal that passenger has collected his bags
+     */
+    public static final int PSGR_COLLECTED_BAGS = 40;
+    /**
+     * Signal that passenger is at the collection mat conveyor belt
+     */
+    public static final int COLLECTIONMAT_CONVBELT = 41;
+
+
 
     /* Other variables */
     /**
@@ -254,6 +276,10 @@ public class Message implements Serializable {
      * Total number of bags of a passenger
      */
     public int nr_bags;
+    /**
+     * Number of bags at the conveyor belt
+     */
+    public int nrLuggageConvBelt;
 
     /* Messages type */
 
@@ -357,7 +383,7 @@ public class Message implements Serializable {
      */
     public Message(int type, int flight_number, int passengerID, PassengerState passengerState) {
         msgType = type;
-        if (msgType == GOINGHOME) {
+        if (msgType == GOINGHOME || msgType == PSGR_UPDATE_STATE_ATE) {
             this.flight_nr = flight_number;
             this.passengerID = passengerID;
             this.passengerState = passengerState;
@@ -388,13 +414,16 @@ public class Message implements Serializable {
      *
      * @param type      message type
      * @param id        passenger id
-     * @param flight_nr passenger flight number
+     * @param i passenger flight number / passenger number of bags
      */
-    public Message(int type, int id, int flight_nr) {
+    public Message(int type, int id, int i) {
         msgType = type;
         if (type == INITP || msgType == PNEXTLEG || msgType == REPORT_MISSING) {
             this.passengerID = id;
-            this.flight_nr = flight_nr;
+            this.flight_nr = i;
+        }else if( msgType == PSGR_COLLECTED_BAGS){
+            this.passengerID = id;
+            this.nr_bags = i;
         }
     }
 
@@ -439,7 +468,8 @@ public class Message implements Serializable {
      */
     public Message(int type, int i) {
         msgType = type;
-        if (msgType == WSID || msgType == TAKINGBUS || msgType == ENTERINGBUS || msgType == LEAVINGBUS) {
+        if (msgType == WSID || msgType == TAKINGBUS || msgType == ENTERINGBUS || msgType == LEAVINGBUS 
+            || msgType == BUS_WAITNG_LINE || msgType == BUS_SITTING || msgType == COLLECTIONMAT_CONVBELT) {
             this.passengerID = i;
         } else if (msgType == SET_FLIGHT_attq) {
             this.set_count_flights_attq = i + 1;
@@ -452,7 +482,7 @@ public class Message implements Serializable {
         } else if (msgType == BUSBOARD) {
             this.bus_number_passengers = i;
         } else if (msgType == PARKBUS) {
-            this.busPassengers = i;
+            this.nrLuggageConvBelt = i;
         }
     }
 
@@ -632,7 +662,6 @@ public class Message implements Serializable {
     public boolean get_FinalDestREPO() {
         return this.final_dest;
     }
-
     /**
      * Get total number of bags of a passenger
      * 
@@ -640,6 +669,13 @@ public class Message implements Serializable {
      */
     public int get_nrBags() {
         return this.nr_bags;
+    }
+    /**
+     * Get number of bags at conveyor belt collection point
+     * @return nrLuggageConvBelt
+     */
+    public int ger_nrLuggageCovBelt(){
+        return this.nrLuggageConvBelt;
     }
 
 }

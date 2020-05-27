@@ -72,7 +72,7 @@ public class DepartureTermTransfQuay{
     public void leaveTheBus(int passengerID) {
         rl.lock();
         try {
-            rep.updatePassengerState(passengerID, PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL);
+            rep.passengerState(passengerID, PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL);
             waitArrival.await();   
             numPassengers--;
             rep.leaveBus(passengerID);

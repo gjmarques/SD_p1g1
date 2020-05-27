@@ -19,18 +19,17 @@ public class DTEProxy extends Thread{
     private ServerCom sconi;
 
     /**
-     * Interface à barbearia
+     * departure terminal entrance interface
      *
-     * @serialField bShopInter
      */
 
     private DepartureTerminalEntranceInterface dteInt;
 
     /**
-     * Instanciação do interface à barbearia.
+     * Instanciação do interface 
      *
      * @param sconi      canal de comunicação
-     * @param bShopInter interface à barbearia
+     * @param dteInt  departure terminal entrance interface
      */
 
     public DTEProxy(ServerCom sconi, DepartureTerminalEntranceInterface dteInt) {

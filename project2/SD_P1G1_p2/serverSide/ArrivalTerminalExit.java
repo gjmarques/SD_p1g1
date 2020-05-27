@@ -49,10 +49,10 @@ public class ArrivalTerminalExit {
     /**
      * General Information Repository {@link GenInfoRepo}
      */
-    private GenInfoRepo rep;
+    private GenInfoRepoStub rep;
 
     // Create lock and conditions
-    public ArrivalTerminalExit(int numPassengers, GenInfoRepo rep) {
+    public ArrivalTerminalExit(int numPassengers, GenInfoRepoStub rep) {
         rl = new ReentrantLock(true);
         waitingEndCV = rl.newCondition();
         this.numPassengers = numPassengers;

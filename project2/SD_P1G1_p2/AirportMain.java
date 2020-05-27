@@ -50,7 +50,7 @@ public class AirportMain {
 		/**
 		 * {@link sharedRegions.ArrivalTermTransfQuay}
 		 */
-		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.flight_nrS, genInfoRepoStub);
+		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.MAX_FLIGHTS, genInfoRepoStub);
 		/**
 		 * {@link sharedRegions.DepartureTermTransfQuay}
 		 */

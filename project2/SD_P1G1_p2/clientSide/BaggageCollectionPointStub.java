@@ -5,7 +5,7 @@ import comInf.Message;
 
 public class BaggageCollectionPointStub{
 
-    private String serverHostName = null;
+    private String serverHostName = "localhost";
     private int serverPortNumb;
 
     public BaggageCollectionPointStub(String hostname, int port){

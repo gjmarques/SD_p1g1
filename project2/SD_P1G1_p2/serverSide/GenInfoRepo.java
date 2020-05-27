@@ -324,7 +324,7 @@ public class GenInfoRepo {
      * Number of pieces of luggage presently on the conveyor belt.
      * @param int
      */
-    synchronized void collectionMatConveyorBelt( int nrLuggageConvBelt){
+    synchronized void collectionMatConveyorBelt(int nrLuggageConvBelt){
         this.cb = nrLuggageConvBelt;
         updateStatePorterOrBDriver();
     }

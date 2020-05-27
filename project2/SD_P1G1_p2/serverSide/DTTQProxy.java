@@ -19,18 +19,16 @@ public class DTTQProxy extends Thread {
     private ServerCom sconi;
 
     /**
-     * Interface à barbearia
-     *
-     * @serialField bShopInter
+     *  departure terminal transfer quay Interface
      */
 
     private DepartureTermTransfQuayInterface dttqInt;
 
     /**
-       *  Instanciação do interface à barbearia.
+       *  departure terminal transfer quay interface
        *
        *    @param sconi canal de comunicação
-       *    @param bShopInter interface à barbearia
+       *    @param dttqInt departure terminal tranfer quay interface
        */
     
        public DTTQProxy (ServerCom sconi, DepartureTermTransfQuayInterface dttqInt)

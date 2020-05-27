@@ -18,18 +18,15 @@ public class TSAProxy extends Thread {
     private ServerCom sconi;
 
     /**
-     * Interface à barbearia
-     *
-     * @serialField bShopInter
+     * Temporary storage area interface
      */
-
     private TempStorageAreaInterface tsaInt;
 
     /**
-       *  Instanciação do interface à barbearia.
+       *  Temporary storage area interface
        *
        *    @param sconi canal de comunicação
-       *    @param bShopInter interface à barbearia
+       *    @param tsaInt Temporary storage area interface
        */
     
        public TSAProxy (ServerCom sconi, TempStorageAreaInterface tsaInt)

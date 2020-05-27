@@ -24,10 +24,10 @@ public class GIRProxy extends Thread{
 
     private GenInfoRepoInterface girInt;
     /**
-     *  Instantiation of the interface to the barber shop.
+     *  Instantiation of the interface  general information repository
      *
      *    @param sconi communication channel
-     *    @param bShopInter arrival lounge interface
+     *    @param girInt general information repository interface
      */
     public GIRProxy (ServerCom sconi, GenInfoRepoInterface girInt)
     {

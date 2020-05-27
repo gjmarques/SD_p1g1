@@ -9,7 +9,7 @@ public class Global{
     /**
      * Passenger host name
      */
-    public static final String passenger_HOSTNAME = null;
+    public static final String passenger_HOSTNAME = "localhost";
     /**
      * Passenger port number
      */
@@ -62,6 +62,18 @@ public class Global{
      * Arrival Lounge proxy port number
      */
     public static final int alProxy_PORT = 4012;
+    /**
+     * Arrival Terminal Exit proxy port number
+     */
+    public static final int ateProxy_PORT = 4013;
+    /**
+     * Arrival Terminal Exit proxy port number
+     */
+    public static final int attqProxy_PORT = 4014;
+    /**
+     * Baggage Collection Point proxy port number
+     */
+    public static final int  bcpProxy_PORT = 4015;
 
 
     /**
@@ -79,7 +91,7 @@ public class Global{
     /**
      * Number of flights incoming the airport
      */
-    public static final int flight_nrS = 5;
+    public static final int MAX_FLIGHTS = 5;
     /**
      * Probability of losing a bag
      */

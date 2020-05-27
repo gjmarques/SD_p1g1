@@ -1,27 +1,29 @@
 package serverSide;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.SocketTimeoutException;
 
+import global.Global;
 import clientSide.*;
-import global.*;
 
-public class ATEMain {
-
+public class ATTQMain {
+    
     /**
      * activity signaling
      */
     public static boolean waitConnection;  
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
 
         /**
          * Represents the service to be provided
          */
-        ArrivalTerminalExit ate;                  
+        ArrivalTermTransfQuay attq;                  
         /**
-         * Arrival Terminal Exit Interface
+         * Arrival Terminal Tranfer Quay Interface
          */
-        ArrivalTerminalExitInterface ateInt;           
+        ArrivalTermTransfQuayInterface attqInt;           
         /**
          * Communication channels
          */
@@ -29,22 +31,23 @@ public class ATEMain {
         /**
          * Service provider thread
          */                          
-        ATEProxy ateProxy;          
+        ATTQProxy attqProxy;    
         /**
-         * General Information Repository Stub
+         * General Information Repository
          */
-        GenInfoRepoStub repoStub;
-
+        GenInfoRepoStub repoStub;      
+       
+        
         /* estabelecimento do servico */
         //Creation of the listening channel and its association with the public address
-        scon = new ServerCom (Global.ateProxy_PORT);                    
+        scon = new ServerCom (Global.attqProxy_PORT);                    
         scon.start ();   
 
         repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);
         // service activation                                    
-        ate = new ArrivalTerminalExit(Global.NR_PASSENGERS, repoStub);                           // activação do serviço
+        attq = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.MAX_FLIGHTS, repoStub);                           // activação do serviço
         // activation of the interface with the service
-        ateInt = new ArrivalTerminalExitInterface(ate);       
+        attqInt = new ArrivalTermTransfQuayInterface(attq);       
         System.out.println("The service has been established!!");
         System.out.println("he server is listening.");
 
@@ -56,15 +59,13 @@ public class ATEMain {
                 // entry into listening process
                 sconi = scon.accept ();                         
                 // launch of the service provider
-                ateProxy = new ATEProxy(sconi, ateInt);
-                ateProxy.start ();
+                attqProxy = new ATTQProxy(sconi, attqInt);
+                attqProxy.start ();
             }catch (SocketTimeoutException e){ }
             // termination of operations
             scon.end ();                                         
 
         System.out.println("The server has been disabled.");
-
-
     }
 
 }

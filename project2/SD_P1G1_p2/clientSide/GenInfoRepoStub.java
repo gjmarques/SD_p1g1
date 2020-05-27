@@ -5,7 +5,7 @@ import comInf.Message;
 
 public class GenInfoRepoStub{
 
-    private String serverHostName = null;
+    private String serverHostName = "localhost";
     private int serverPortNumb;
 
     public GenInfoRepoStub(String hostname, int port){
@@ -120,7 +120,7 @@ public class GenInfoRepoStub{
         }
         con.close ();
     }
-    public synchronized void passengerState(int flight_nr, int passengerID, PassengerState passengerState,  boolean dest,  int nr_bags){
+    public void passengerState(int flight_nr, int passengerID, PassengerState passengerState,  boolean dest,  int nr_bags){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
@@ -143,7 +143,7 @@ public class GenInfoRepoStub{
         }
         con.close (); 
     }
-    public synchronized void updatePassengerState(int passengerID, PassengerState passengerState){
+    public void passengerState(int passengerID, PassengerState passengerState){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
@@ -166,7 +166,30 @@ public class GenInfoRepoStub{
         }
         con.close (); 
     }
-    public synchronized void porterState(PorterState porterState){
+    public void passengerState(int nPlane, int passengerID, PassengerState passengerState){
+        // create connection
+        ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
+        Message inMessage, outMessage;
+        Thread p_thread = (Thread) Thread.currentThread();
+        while (!con.open ()){
+            try{ 
+                p_thread.sleep ((long) (10));
+            }catch (InterruptedException e) {}
+        }
+        // send message to arrival lounge interface, and wait for answer
+        outMessage = new Message (Message.PSGR_UPDATE_STATE_ATE, nPlane, passengerID, passengerState);   
+        con.writeObject (outMessage);
+
+        // receive new in message, and process it
+        inMessage = (Message) con.readObject ();
+        if (inMessage.getType () != Message.ACK){ 
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
+            System.out.println (inMessage.toString ());
+            System.exit (1);
+        }
+        con.close (); 
+    }
+    public void porterState(PorterState porterState){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
@@ -189,7 +212,7 @@ public class GenInfoRepoStub{
         }
         con.close (); 
     }
-    public synchronized void busDriverState(BusDriverState busDriverState){
+    public   void busDriverState(BusDriverState busDriverState){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
@@ -212,7 +235,7 @@ public class GenInfoRepoStub{
         }
         con.close (); 
     }
-    public synchronized void leaveBus(int passengerID){
+    public   void leaveBus(int passengerID){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
@@ -235,7 +258,7 @@ public class GenInfoRepoStub{
         }
         con.close (); 
     }
-    public synchronized void bagAtStoreRoom(Bag bag){
+    public   void bagAtStoreRoom(Bag bag){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
@@ -247,6 +270,98 @@ public class GenInfoRepoStub{
         }
         // send message to arrival lounge interface, and wait for answer
         outMessage = new Message (Message.CARRYTOAPPSTORE, bag);   
+        con.writeObject (outMessage);
+
+        // receive new in message, and process it
+        inMessage = (Message) con.readObject ();
+        if (inMessage.getType () != Message.ACK){ 
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
+            System.out.println (inMessage.toString ());
+            System.exit (1);
+        }
+        con.close (); 
+    }
+    public void busWaitingLine(int passengerId){
+        // create connection
+        ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
+        Message inMessage, outMessage;
+        Thread p_thread = (Thread) Thread.currentThread();
+        while (!con.open ()){
+            try{ 
+                p_thread.sleep ((long) (10));
+            }catch (InterruptedException e) {}
+        }
+        // send message to arrival lounge interface, and wait for answer
+        outMessage = new Message (Message.BUS_WAITNG_LINE, passengerId);   
+        con.writeObject (outMessage);
+
+        // receive new in message, and process it
+        inMessage = (Message) con.readObject ();
+        if (inMessage.getType () != Message.ACK){ 
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
+            System.out.println (inMessage.toString ());
+            System.exit (1);
+        }
+        con.close (); 
+    }
+    public void busSitting(int passengerId){
+        // create connection
+        ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
+        Message inMessage, outMessage;
+        Thread p_thread = (Thread) Thread.currentThread();
+        while (!con.open ()){
+            try{ 
+                p_thread.sleep ((long) (10));
+            }catch (InterruptedException e) {}
+        }
+        // send message to arrival lounge interface, and wait for answer
+        outMessage = new Message (Message.BUS_SITTING, passengerId);   
+        con.writeObject (outMessage);
+
+        // receive new in message, and process it
+        inMessage = (Message) con.readObject ();
+        if (inMessage.getType () != Message.ACK){ 
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
+            System.out.println (inMessage.toString ());
+            System.exit (1);
+        }
+        con.close (); 
+    }
+    public void passengerCollectedBags(int passengerID, int nBags){
+        // create connection
+        ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
+        Message inMessage, outMessage;
+        Thread p_thread = (Thread) Thread.currentThread();
+        while (!con.open ()){
+            try{ 
+                p_thread.sleep ((long) (10));
+            }catch (InterruptedException e) {}
+        }
+        // send message to arrival lounge interface, and wait for answer
+        outMessage = new Message (Message.PSGR_COLLECTED_BAGS, passengerID, nBags);   
+        con.writeObject (outMessage);
+
+        // receive new in message, and process it
+        inMessage = (Message) con.readObject ();
+        if (inMessage.getType () != Message.ACK){ 
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
+            System.out.println (inMessage.toString ());
+            System.exit (1);
+        }
+        con.close (); 
+    }
+    public void collectionMatConveyorBelt(int nrLuggageConvBelt){
+        // create connection
+        ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
+        Message inMessage, outMessage;
+        Thread p_thread = (Thread) Thread.currentThread();
+        while (!con.open ()){
+            try{ 
+                p_thread.sleep ((long) (10));
+            }catch (InterruptedException e) {}
+        }
+        // send message to arrival lounge interface, and wait for answer
+        outMessage = new Message (Message.COLLECTIONMAT_CONVBELT, nrLuggageConvBelt);   
         con.writeObject (outMessage);
 
         // receive new in message, and process it

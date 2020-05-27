@@ -5,7 +5,7 @@ import global.*;
 
 public class ArrivalTerminalExitStub{
 
-    private String serverHostName = null;
+    private String serverHostName = "localhost";
     private int serverPortNumb;
 
     public ArrivalTerminalExitStub(String hostname, int port){

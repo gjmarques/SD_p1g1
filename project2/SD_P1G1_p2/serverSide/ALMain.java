@@ -9,10 +9,10 @@ import clientSide.*;
 
 public class ALMain {
 
-        /**
-         * activity signaling
-         */
-        public static boolean waitConnection;  
+    /**
+     * activity signaling
+     */
+    public static boolean waitConnection;  
 
     public static void main(String[] args) throws IOException{
 

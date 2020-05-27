@@ -7,7 +7,7 @@ public class BusTimerMain {
 
     public static void main(String[] args) throws IOException{
 
-        String hostname = null;
+        String hostname = "localhost";
         int port = Global.busTime_PORT;
 
         ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalLoungeStub_PORT);

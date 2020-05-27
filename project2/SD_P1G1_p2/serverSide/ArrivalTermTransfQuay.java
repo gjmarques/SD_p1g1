@@ -73,7 +73,7 @@ public class ArrivalTermTransfQuay {
     /**
      * General Information Repository {@link GenInfoRepo}
      */
-	private GenInfoRepo rep;
+	private GenInfoRepoStub rep;
 
 	/**
      * Instantiates ArrivalTermTransQuay shared region
@@ -81,7 +81,7 @@ public class ArrivalTermTransfQuay {
 	 * @param maxFlights total number of flights to be simulated
      * @param rep {@link GenInfoRepo}.
      */
-	public ArrivalTermTransfQuay(int busSize, int maxFlights, GenInfoRepo rep) {
+	public ArrivalTermTransfQuay(int busSize, int maxFlights, GenInfoRepoStub rep) {
 		rl = new ReentrantLock(true);
 		waitLine = rl.newCondition();
 		waitFull = rl.newCondition();

@@ -5,7 +5,7 @@ import global.*;
 
 public class ArrivalLoungeStub{
 
-    private String serverHostName = null;
+    private String serverHostName = "localhost";
     private int serverPortNumb;
 
     public ArrivalLoungeStub(String hostname, int port){

@@ -10,7 +10,7 @@ public class PassengerMain{
 
     public static void main(String[] args) throws IOException{
 
-        String hostname = null;
+        String hostname = "localhost";
         int port = Global.passenger_PORT;
 
 		/**
@@ -29,7 +29,7 @@ public class PassengerMain{
         /**
          * List of every {@link Bag} of every flight occurring in this airport.
          */
-        List<List<Integer>> bags = generateBags(repoStub, Global.NR_PASSENGERS, Global.flight_nrS, Global.MAX_BAGS, hostname);
+        List<List<Integer>> bags = generateBags(repoStub, Global.NR_PASSENGERS, Global.MAX_FLIGHTS, Global.MAX_BAGS, hostname);
         
         /**
          * List of Passengers

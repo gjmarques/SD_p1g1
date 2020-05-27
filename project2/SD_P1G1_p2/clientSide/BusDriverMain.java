@@ -6,7 +6,7 @@ import java.io.*;
 public class BusDriverMain {
     public static void main(String[] args) throws IOException{
 
-        String hostname = null;
+        String hostname = "localhost";
         int port = Global.passenger_PORT;
 
 		/**

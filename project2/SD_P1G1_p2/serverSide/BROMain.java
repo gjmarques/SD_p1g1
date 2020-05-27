@@ -3,7 +3,7 @@ package serverSide;
 import comInf.Message;
 import comInf.MessageException;
 
-public class ALProxy extends Thread{
+public class BROMain extends Thread{
   /**
    *  threads counter
    *
@@ -17,24 +17,24 @@ public class ALProxy extends Thread{
    */
    private ServerCom sconi;
   /**
-   *  Arrival Lounge Interface
+   * Baggage Reclaim Office Interface
    *
-   *  @serialField Arrival lounge interface
+   *  @serialFieldBaggage Reclaim Office Interface
    */
 
-   private ArrivalLoungeInterface alInt;
+   private BaggageReclaimOfficeInterface broInt;
   /**
-   *  Instantiation of the interface
+   *  Instantiation of the interface to the barber shop.
    *
    *    @param sconi communication channel
-   *    @param alInt arrival lounge interface
+   *    @param broInt Reclaim Office Interface
    */
-   public ALProxy (ServerCom sconi, ArrivalLoungeInterface alInt)
+   public BROMain (ServerCom sconi, BaggageReclaimOfficeInterface broInt)
    {
-      super ("Proxy_" + ALProxy.getProxyId ());
+      super ("Proxy_" + BROMain.getProxyId ());
 
       this.sconi = sconi;
-      this.alInt = alInt;
+      this.broInt = broInt;
    }
 
   /**
@@ -47,7 +47,7 @@ public class ALProxy extends Thread{
 
       inMessage = (Message) sconi.readObject ();                     // ler pedido do cliente
       try{ 
-         outMessage = alInt.processAndReply (inMessage);             // processá-lo
+         outMessage = broInt.processAndReply (inMessage);             // processá-lo
       }
       catch (MessageException e)
       { System.out.println("Thread " + getName () + ": " + e.getMessage () + "!");
@@ -65,15 +65,15 @@ public class ALProxy extends Thread{
    */
    private static int getProxyId ()
    {
-      Class<?> cl = null;                                   // representação do tipo de dados ALProxy na máquina
+      Class<?> cl = null;                                   // representação do tipo de dados BROMain na máquina
                                                             //   virtual de Java
       int proxyId;                                          // identificador da instanciação
 
       try
-      { cl = Class.forName ("serverSide.ALProxy");
+      { cl = Class.forName ("serverSide.BROMain");
       }
       catch (ClassNotFoundException e)
-      { System.out.println("O tipo de dados ALProxy não foi encontrado!");
+      { System.out.println("O tipo de dados BROMain não foi encontrado!");
          e.printStackTrace ();
          System.exit (1);
       }

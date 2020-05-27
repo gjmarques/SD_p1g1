@@ -50,7 +50,7 @@ public class AirportMain {
 		/**
 		 * {@link sharedRegions.ArrivalTermTransfQuay}
 		 */
-		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.flight_nrS, genInfoRepo);
+		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.MAX_FLIGHTS, genInfoRepo);
 		/**
 		 * {@link sharedRegions.DepartureTermTransfQuay}
 		 */
@@ -86,7 +86,7 @@ public class AirportMain {
 		/**
 		 * List of every {@link Bag} of every flight occurring in this airport.
 		 */
-		List<List<Integer>> bags = generateBags(genInfoRepo, Global.NR_PASSENGERS, Global.flight_nrS, Global.MAX_BAGS);
+		List<List<Integer>> bags = generateBags(genInfoRepo, Global.NR_PASSENGERS, Global.MAX_FLIGHTS, Global.MAX_BAGS);
 		
 		/**
 		 * List of {@link entities.Passenger}s.

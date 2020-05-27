@@ -6,7 +6,7 @@ import comInf.Message;
 
 public class TempStorageAreaStub{
 
-    private String serverHostName = null;
+    private String serverHostName = "localhost";
     private int serverPortNumb;
 
     public TempStorageAreaStub(String hostname, int port){

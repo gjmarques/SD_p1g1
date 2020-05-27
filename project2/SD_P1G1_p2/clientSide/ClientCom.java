@@ -23,7 +23,7 @@ public class ClientCom
    *  Nome do sistema computacional onde está localizado o servidor
    *    @serialField serverHostName
    */
-   private String serverHostName = null;
+   private String serverHostName = "localhost";
 
   /**
    *  Número do port de escuta do servidor

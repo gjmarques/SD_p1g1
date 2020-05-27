@@ -49,14 +49,14 @@ public class BaggageCollectionPoint {
     /**
      * General Information Repository {@link GenInfoRepo}
      */
-	private GenInfoRepo rep;
+	private GenInfoRepoStub rep;
 
 	/**
      * Instantiates BaggageCollectionPoint shared region
 	 * @param numPassengers total number of passengers to create individual lists in the collectionMat data structure
      * @param rep {@link GenInfoRepo}.
      */
-	public BaggageCollectionPoint(int numPassengers, GenInfoRepo rep) {
+	public BaggageCollectionPoint(int numPassengers, GenInfoRepoStub rep) {
 		rl = new ReentrantLock(true);
 		waitBag = rl.newCondition();
 		this.rep = rep;

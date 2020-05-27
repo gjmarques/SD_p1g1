@@ -8,7 +8,7 @@ public class PorterMain {
 
     public static void main(String[] args) throws IOException{
 
-        String hostname = null;
+        String hostname = "localhost";
         int port = Global.porter_PORT;
 
         ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);

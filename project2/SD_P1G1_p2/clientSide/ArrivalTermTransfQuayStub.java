@@ -6,7 +6,7 @@ import comInf.Message;
 
 public class ArrivalTermTransfQuayStub{
 
-    private String serverHostName = null;
+    private String serverHostName = "localhost";
     private int serverPortNumb;
 
     public ArrivalTermTransfQuayStub(String hostname, int port){
