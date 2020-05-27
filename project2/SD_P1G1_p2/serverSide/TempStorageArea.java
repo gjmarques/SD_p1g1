@@ -15,15 +15,15 @@ public class TempStorageArea {
      */
     private Stack<Bag> tempStorageBags = new Stack<>();
     /**
-     * General Information Repository ({@link GenInfoRepo}).
+     * General Information Repository ({@link GenInfoRepoStub}).
      */
-    private GenInfoRepo rep;
+    private GenInfoRepoStub rep;
 
     /**
      * Instantiates Temporary Storage Area.
      * @param rep General Information Repository.
      */
-    public TempStorageArea(GenInfoRepo rep){
+    public TempStorageArea(GenInfoRepoStub rep){
         this.rep = rep;
     }
 

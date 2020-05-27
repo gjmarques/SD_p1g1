@@ -17,7 +17,7 @@ public class TempStorageAreaInterface {
      * @return reply message
      * @throws MessageException if the message with the request is found to be invalid
      */
-    public Message ProcessAndReply(Message inMessage) throws MessageException {
+    public Message processAndReply(Message inMessage) throws MessageException {
        
         Message outMessage = null;
         //char res;
