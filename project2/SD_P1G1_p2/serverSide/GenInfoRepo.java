@@ -71,7 +71,6 @@ public class GenInfoRepo {
      * Shows if this airport is  destination of the passenger (TRT - in transit; FDT -  destination);
      */
     private String[] passengerDest = new String[Global.NR_PASSENGERS];
-
     /**
      * Counter for number of passengers with final destination
      */
@@ -80,7 +79,6 @@ public class GenInfoRepo {
      * Counter for number of passengers in transit
      */
     private int inTransit_dest_passengers = 0;
-
     /**
      * Counter for total of number of bags lost.
      */
@@ -106,7 +104,7 @@ public class GenInfoRepo {
      * General Repository of Information.
      * @param logger
      */
-    public GenInfoRepo( File logger) {
+    public GenInfoRepo(File logger) {
         this.loggerF = logger;
         
          String title = "               AIRPORT RHAPSODY - Description of the internal state of the problem";

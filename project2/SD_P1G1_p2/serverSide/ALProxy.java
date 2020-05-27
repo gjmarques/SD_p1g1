@@ -3,36 +3,32 @@ package serverSide;
 import comInf.Message;
 import comInf.MessageException;
 
-public class ALProxy extends Thread
-{
+public class ALProxy extends Thread{
   /**
-   *  Contador de threads lançados
+   *  threads counter
    *
-   *    @serialField nProxy
+   *  @serialField nProxy
    */
    private static int nProxy = 0;
   /**
-   *  Canal de comunicação
+   *  Communication channel
    *
-   *    @serialField sconi
+   *  @serialField sconi
    */
    private ServerCom sconi;
-
   /**
-   *  Interface à barbearia
+   *  Arrival Lounge Interface
    *
-   *    @serialField bShopInter
+   *  @serialField Arrival lounge interface
    */
 
    private ArrivalLoungeInterface alInt;
-
   /**
-   *  Instanciação do interface à barbearia.
+   *  Instantiation of the interface to the barber shop.
    *
-   *    @param sconi canal de comunicação
-   *    @param bShopInter interface à barbearia
+   *    @param sconi communication channel
+   *    @param bShopInter arrival lounge interface
    */
-
    public ALProxy (ServerCom sconi, ArrivalLoungeInterface alInt)
    {
       super ("Proxy_" + ALProxy.getProxyId ());
