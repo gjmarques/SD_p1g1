@@ -1,5 +1,7 @@
 #!/bin/bash
 
-rm -r entities/*class
-rm -r sharedRegions/*class
-rm -r mainProgram/*class
+rm -r clientSide/*class
+rm -r serverSide/*class
+rm -r global/*class
+rm -r comInf/*class
+rm logger.txt

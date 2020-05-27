@@ -39,7 +39,7 @@ public class TSAMain {
 
         /* estabelecimento do servico */
         // Creation of the listening channel and its association with the public address
-        scon = new ServerCom(Global.alProxy_PORT);
+        scon = new ServerCom(Global.tempStorageArea_PORT);
         scon.start();
 
         repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);

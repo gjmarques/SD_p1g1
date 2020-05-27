@@ -58,22 +58,6 @@ public class Global{
      * Porter port number
      */
     public static final int busTime_PORT = 4012;
-    /**
-     * Arrival Lounge proxy port number
-     */
-    public static final int alProxy_PORT = 4012;
-    /**
-     * Arrival Terminal Exit proxy port number
-     */
-    public static final int ateProxy_PORT = 4013;
-    /**
-     * Arrival Terminal Exit proxy port number
-     */
-    public static final int attqProxy_PORT = 4014;
-    /**
-     * Baggage Collection Point proxy port number
-     */
-    public static final int  bcpProxy_PORT = 4015;
 
 
     /**

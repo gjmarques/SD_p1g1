@@ -1,99 +1,71 @@
 package serverSide;
 
-import comInf.Message;
-import comInf.MessageException;
+import java.io.File;
+import java.io.IOException;
+import java.net.SocketTimeoutException;
 
-public class BROMain extends Thread{
-  /**
-   *  threads counter
-   *
-   *  @serialField nProxy
-   */
-   private static int nProxy = 0;
-  /**
-   *  Communication channel
-   *
-   *  @serialField sconi
-   */
-   private ServerCom sconi;
-  /**
-   * Baggage Reclaim Office Interface
-   *
-   *  @serialFieldBaggage Reclaim Office Interface
-   */
+import global.Global;
+import clientSide.*;
 
-   private BaggageReclaimOfficeInterface broInt;
-  /**
-   *  Instantiation of the interface to the barber shop.
-   *
-   *    @param sconi communication channel
-   *    @param broInt Reclaim Office Interface
-   */
-   public BROMain (ServerCom sconi, BaggageReclaimOfficeInterface broInt)
-   {
-      super ("Proxy_" + BROMain.getProxyId ());
+public class BROMain {
 
-      this.sconi = sconi;
-      this.broInt = broInt;
-   }
+        /**
+         * activity signaling
+         */
+        public static boolean waitConnection;  
 
-  /**
-   *  Ciclo de vida do thread agente prestador de serviço.
-   */
-   @Override
-   public void run (){
-      Message inMessage = null,                                      // mensagem de entrada
-              outMessage = null;                                     // mensagem de saída
+    public static void main(String[] args) throws IOException{
 
-      inMessage = (Message) sconi.readObject ();                     // ler pedido do cliente
-      try{ 
-         outMessage = broInt.processAndReply (inMessage);             // processá-lo
-      }
-      catch (MessageException e)
-      { System.out.println("Thread " + getName () + ": " + e.getMessage () + "!");
-        System.out.println(e.getMessageVal ().toString ());
-        System.exit (1);
-      }
-      sconi.writeObject (outMessage);                                // enviar resposta ao cliente
-      sconi.close ();                                                // fechar canal de comunicação
-   }
+        /**
+         * Represents the service to be provided
+         */
+        BaggageReclaimOffice bro;                  
+        /**
+         * Baggage Reclaim Office Interface
+         */
+        BaggageReclaimOfficeInterface broInt;           
+        /**
+         * Communication channels
+         */
+        ServerCom scon, sconi;
+        /**
+         * Service provider thread
+         */                          
+        BROProxy broProxy;          
+        /**
+         * General Information Repository Stub
+         */
+        GenInfoRepoStub repoStub;
+       
+        
+        /* estabelecimento do servico */
+        //Creation of the listening channel and its association with the public address
+        scon = new ServerCom (Global.baggageReclaimOfficeStub_PORT);                    
+        scon.start ();   
 
-   /**
-   *  Geração do identificador da instanciação.
-   *
-   *    @return identificador da instanciação
-   */
-   private static int getProxyId ()
-   {
-      Class<?> cl = null;                                   // representação do tipo de dados BROMain na máquina
-                                                            //   virtual de Java
-      int proxyId;                                          // identificador da instanciação
+        repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);
+        // service activation                                    
+        bro = new BaggageReclaimOffice(repoStub);                           // activação do serviço
+        // activation of the interface with the service
+        broInt = new BaggageReclaimOfficeInterface(bro);       
+        System.out.println("The service has been established!!");
+        System.out.println("he server is listening.");
 
-      try
-      { cl = Class.forName ("serverSide.BROMain");
-      }
-      catch (ClassNotFoundException e)
-      { System.out.println("O tipo de dados BROMain não foi encontrado!");
-         e.printStackTrace ();
-         System.exit (1);
-      }
+         /* processamento de pedidos */
+        waitConnection = true;
+        while (waitConnection)
+            try{ 
 
-      synchronized (cl)
-      { proxyId = nProxy;
-         nProxy += 1;
-      }
+                // entry into listening process
+                sconi = scon.accept ();                         
+                // launch of the service provider
+                broProxy = new BROProxy(sconi, broInt);
+                broProxy.start();
+            }catch (SocketTimeoutException e){ }
+            // termination of operations
+            scon.end ();                                         
 
-      return proxyId;
-   }
+        System.out.println("The server has been disabled.");
+    }
 
-   /**
-    *  Obtenção do canal de comunicação.
-   *
-   *    @return canal de comunicação
-   */
-
-   public ServerCom getScon ()
-   {
-      return sconi;
-   }
 }

@@ -15,9 +15,11 @@ public class BusDriverMain {
         ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalTerminalExitStub_PORT);
         DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(hostname, Global.departureTermTransfQuayStub_PORT);
         
+        /** Creation and start threads/simulation */
         BusDriver driver = new BusDriver(arrivalTermTransfQuayStub, departureTermTransfQuayStub);
         driver.start();
 
+        /** Wait for simulation to start */
         try{
             driver.join();
         } catch (Exception e) {
@@ -25,6 +27,7 @@ public class BusDriverMain {
 			System.out.println("Error: " + e.getMessage());
 			System.exit(1);
         }
+        System.out.println("The Bus Driver has ended his day of work!");
     }
 
 }

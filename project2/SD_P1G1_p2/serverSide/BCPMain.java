@@ -40,7 +40,7 @@ public class BCPMain {
         
         /* estabelecimento do servico */
         //Creation of the listening channel and its association with the public address
-        scon = new ServerCom (Global.bcpProxy_PORT);                    
+        scon = new ServerCom (Global.baggageCollectionPointStub_PORT);                    
         scon.start ();   
 
         repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);

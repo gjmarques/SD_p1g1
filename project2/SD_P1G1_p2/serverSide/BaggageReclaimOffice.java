@@ -12,13 +12,13 @@ public class BaggageReclaimOffice {
 	/**
 	 * Instance fo General repository of Information.
 	 */
-	private GenInfoRepo rep;
+	private GenInfoRepoStub rep;
 
 	/**
 	 * Initiates the {@link BaggageReclaimOffice}.
-	 * @param rep {@link GenInfoRepo}.
+	 * @param rep {@link GenInfoRepoStub}.
 	 */
-	public BaggageReclaimOffice(GenInfoRepo rep){
+	public BaggageReclaimOffice(GenInfoRepoStub rep){
 		this.rep = rep;
 	}
 
