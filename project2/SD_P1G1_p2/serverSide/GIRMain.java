@@ -47,7 +47,7 @@ public class GIRMain {
         repo = new GenInfoRepo(logger);
         repoInt = new GenInfoRepoInterface(repo);
         System.out.println("The service has been established!");
-        System.out.println("The service is listening.");
+        System.out.println("The server is listening.");
 
         /* request processing */
         waitConnection = true;

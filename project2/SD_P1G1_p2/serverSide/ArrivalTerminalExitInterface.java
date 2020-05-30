@@ -30,6 +30,14 @@ public class ArrivalTerminalExitInterface {
             case Message.GOINGHOME:
                 this.arrivalTermExit.goHome(inMessage.get_flight(), inMessage.get_passengerID(), inMessage.get_passengerState());
                 outMessage = new Message(Message.ACK);
+                break;
+            case Message.SHUT:       
+                // server shutdown                               
+                ALMain.waitConnection = false;
+                (((ALProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                // generate confirmation
+                outMessage = new Message (Message.ACK);        
+                break;
            
         }
         return outMessage;

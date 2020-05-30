@@ -43,7 +43,7 @@ public class ArrivalLoungeStub{
      */
 	public void setFlight(int flight_number){
 		// create connection
-        ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
+        ClientCom con = new ClientCom(serverHostName, Global.arrivalLoungeStub_PORT);
         Message inMessage, outMessage;
         Passenger p_thread = (Passenger) Thread.currentThread();
         while (!con.open ()){
@@ -70,7 +70,7 @@ public class ArrivalLoungeStub{
      */
     public char takeARest(){
 		// create connection
-        ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
+        ClientCom con = new ClientCom(serverHostName, Global.arrivalLoungeStub_PORT);
         Message inMessage, outMessage;
         Porter p_thread = (Porter) Thread.currentThread();
         while (!con.open ()){
@@ -98,7 +98,7 @@ public class ArrivalLoungeStub{
      */
     public Bag tryToCollectBag() {
         // create connection
-        ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
+        ClientCom con = new ClientCom(serverHostName, Global.arrivalLoungeStub_PORT);
         Message inMessage, outMessage;
         Porter p_thread = (Porter) Thread.currentThread();
         while (!con.open ()){

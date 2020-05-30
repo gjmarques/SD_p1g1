@@ -43,19 +43,18 @@ public class ALMain {
         scon = new ServerCom (Global.arrivalLoungeStub_PORT);                    
         scon.start ();   
 
-        repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation                                    
         al = new ArrivalLounge(repoStub);                           // activação do serviço
         // activation of the interface with the service
         alInt = new ArrivalLoungeInterface(al);       
         System.out.println("The service has been established!!");
-        System.out.println("he server is listening.");
+        System.out.println("The server is listening.");
 
          /* processamento de pedidos */
         waitConnection = true;
         while (waitConnection)
             try{ 
-
                 // entry into listening process
                 sconi = scon.accept ();                         
                 // launch of the service provider

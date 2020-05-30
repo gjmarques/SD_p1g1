@@ -21,37 +21,50 @@ public class ArrivalTermTransfQuayInterface {
             case Message.SET_FLIGHT_attq: 
                 this.arrivalTermTransfQuay.setFlight(inMessage.get_setFlightCount_attq());
                 outMessage = new Message(Message.ACK);
+                break;
             case Message.TAKINGBUS:
                 this.arrivalTermTransfQuay.takeABus(inMessage.get_passengerID());
                 outMessage = new Message(Message.ACK);
+                break;
             case Message.ENTERINGBUS:
                 this.arrivalTermTransfQuay.enterTheBus(inMessage.get_passengerID());
                 outMessage = new Message(Message.ACK);
+                break;
             case Message.WORK_END:
                 res = this.arrivalTermTransfQuay.hasDaysWorkEnded();
                 switch(res){
                     case 'E':
                         // work days ended for bus driver
                         outMessage = new Message(Message.WORK_ENDED);
+                        break;
                     case 'W':
                         // work days are not over
                         outMessage = new Message(Message.WORK_NOT_ENDED);
-                    default:
-                        //something went wrong
+                        break;
                 }
-                outMessage = new Message(Message.ACK);
+                break;
             case Message.BUSBOARD:
                 res_int = this.arrivalTermTransfQuay.annoucingBusBoarding();
                 outMessage = new Message(Message.BUSBOARD, res_int);
             case Message.GOTO_ATTQ:
                 this.arrivalTermTransfQuay.goToArrivalTerminal();
                 outMessage = new Message(Message.ACK);
+                break;
             case Message.PARK:
                 this.arrivalTermTransfQuay.parkTheBus();
                 outMessage = new Message(Message.ACK);
+                break;
             case Message.D_TIME:
                 this.arrivalTermTransfQuay.departureTime();
                 outMessage = new Message(Message.ACK);
+                break;
+            case Message.SHUT:       
+                // server shutdown                               
+                ATTQMain.waitConnection = false;
+                (((ATTQProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                // generate confirmation
+                outMessage = new Message (Message.ACK);
+                break;  
         }
         return outMessage;
     }

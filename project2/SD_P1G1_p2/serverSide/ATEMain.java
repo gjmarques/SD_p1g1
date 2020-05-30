@@ -40,13 +40,13 @@ public class ATEMain {
         scon = new ServerCom (Global.arrivalTerminalExitStub_PORT);                    
         scon.start ();   
 
-        repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation                                    
         ate = new ArrivalTerminalExit(Global.NR_PASSENGERS, repoStub);                           // activação do serviço
         // activation of the interface with the service
         ateInt = new ArrivalTerminalExitInterface(ate);       
         System.out.println("The service has been established!!");
-        System.out.println("he server is listening.");
+        System.out.println("The server is listening.");
 
          /* processamento de pedidos */
         waitConnection = true;

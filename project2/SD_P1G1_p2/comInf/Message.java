@@ -181,6 +181,9 @@ public class Message implements Serializable {
      * Signal that passenger is at the collection mat conveyor belt
      */
     public static final int COLLECTIONMAT_CONVBELT = 41;
+    public static final int BAGS_TMP = 42;
+
+
 
 
 
@@ -191,13 +194,9 @@ public class Message implements Serializable {
      */
     public static final char WSID_ANSWER = 'z';
     /**
-     * Number of pieces of luggage presently at the plane's hold.
-     */
-    public static final int BAGS_PL = -1;
-    /**
      * List of bags per flight
      */
-    public static final int[] bagsPerFlight = { 0, 1, 2, 4 };
+    public static final int[] bagsPerFlight = {0, 1, 2, 3, 4};
     /**
      * /* Tell Porter to take a rest
      */
@@ -356,7 +355,7 @@ public class Message implements Serializable {
         msgType = type;
         if (msgType == DEST) {
             // related to general information repository
-            final_dest = true;
+            this.final_dest = final_dest;
         }
     }
 
@@ -453,7 +452,7 @@ public class Message implements Serializable {
      */
     public Message(int type, int[] bagsPerFlight) {
         msgType = type;
-        if (msgType == BAGS_PL || msgType == BAGS_P_FLIGHT) {
+        if (msgType == BAGS_P_FLIGHT) {
             for (int i = 0; i < bagsPerFlight.length; i++) {
                 bagsPerFlight[i] = bagsPerFlight[i];
             }
@@ -676,6 +675,9 @@ public class Message implements Serializable {
      */
     public int ger_nrLuggageCovBelt(){
         return this.nrLuggageConvBelt;
+    }
+    public boolean get_destination_passenger(){
+        return final_dest;
     }
 
 }

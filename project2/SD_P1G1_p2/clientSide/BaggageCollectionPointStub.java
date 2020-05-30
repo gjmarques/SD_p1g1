@@ -63,7 +63,7 @@ public class BaggageCollectionPointStub{
     }
     public void noMoreBagsToCollect() {
         // create connection
-        ClientCom con = new ClientCom(serverHostName, Global.arrivalLoungeStub_PORT);
+        ClientCom con = new ClientCom(serverHostName, Global.baggageCollectionPointStub_PORT);
         Message inMessage, outMessage;
         Porter p_thread = (Porter) Thread.currentThread();
         while (!con.open ()){

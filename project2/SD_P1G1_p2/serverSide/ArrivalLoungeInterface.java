@@ -32,6 +32,7 @@ public class ArrivalLoungeInterface {
             case Message.SET_FLIGHT_al:
                 this.arrivalLounge.setFlight(inMessage.get_setFlightCount_al());
                 outMessage = new Message(Message.ACK);
+                break;
             case Message.WSID:
                 res = this.arrivalLounge.whatShouldIDo(inMessage.get_flight(), inMessage.get_passengerID(), inMessage.get_bags(), inMessage.get_destination());
                 try{ 
@@ -50,6 +51,7 @@ public class ArrivalLoungeInterface {
                 }catch(Exception e){
                         //System.exit(0);
                 }
+                break;
             case Message.REST:
                 res = this.arrivalLounge.takeARest();
                 try{ 
@@ -65,9 +67,11 @@ public class ArrivalLoungeInterface {
                 }catch(Exception e){
                         //System.exit(0);
                 }
+                break;
             case Message.COLLECTBAG_PORTER:
                 Bag bag = this.arrivalLounge.tryToCollectBag();
                 outMessage = new Message(Message.COLLECTBAG_PORTER, bag);
+                break;
             case Message.SHUT:       
                 // server shutdown                               
                 ALMain.waitConnection = false;
@@ -75,7 +79,6 @@ public class ArrivalLoungeInterface {
                 // generate confirmation
                 outMessage = new Message (Message.ACK);        
                 break;
-
         }
         return outMessage;
     }

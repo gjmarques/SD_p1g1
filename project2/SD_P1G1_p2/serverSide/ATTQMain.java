@@ -43,19 +43,18 @@ public class ATTQMain {
         scon = new ServerCom (Global.arrivalTermTransfQuayStub_PORT);                    
         scon.start ();   
 
-        repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation                                    
         attq = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.MAX_FLIGHTS, repoStub);                           // activação do serviço
         // activation of the interface with the service
         attqInt = new ArrivalTermTransfQuayInterface(attq);       
         System.out.println("The service has been established!!");
-        System.out.println("he server is listening.");
+        System.out.println("The server is listening.");
 
          /* processamento de pedidos */
         waitConnection = true;
         while (waitConnection)
             try{ 
-
                 // entry into listening process
                 sconi = scon.accept ();                         
                 // launch of the service provider

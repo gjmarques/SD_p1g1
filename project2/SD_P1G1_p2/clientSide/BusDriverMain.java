@@ -1,6 +1,8 @@
 package clientSide;
 
 import global.*;
+import serverSide.DepartureTermTransfQuayInterface;
+
 import java.io.*;
 
 public class BusDriverMain {
@@ -12,15 +14,17 @@ public class BusDriverMain {
 		/**
          * Inicialization Stub Areas
          */
-        ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalTerminalExitStub_PORT);
+        ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalTermTransfQuayStub_PORT);
         DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(hostname, Global.departureTermTransfQuayStub_PORT);
         
         /** Creation and start threads/simulation */
         BusDriver driver = new BusDriver(arrivalTermTransfQuayStub, departureTermTransfQuayStub);
         driver.start();
+        
 
         /** Wait for simulation to start */
         try{
+            System.out.println("HELLO BUS DRIVER2");
             driver.join();
         } catch (Exception e) {
 			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
@@ -28,6 +32,8 @@ public class BusDriverMain {
 			System.exit(1);
         }
         System.out.println("The Bus Driver has ended his day of work!");
+        arrivalTermTransfQuayStub.shutdown();
+        departureTermTransfQuayStub.shutdown();
     }
 
 }

@@ -28,7 +28,7 @@ public class AirportMain {
 			
 		}
 
-		GenInfoRepoStub genInfoRepoStub = new GenInfoRepoStub("GenInfoRepo", Global.genRepo_PORT);
+		GenInfoRepoStub genInfoRepoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
 
 		// Initialize shared regions
 		/**
@@ -67,7 +67,7 @@ public class AirportMain {
 		arrivalTerminalExit.setDepartureTerminal(departureTerminalEntrance);
 		departureTerminalEntrance.setArrivalTerminal(arrivalTerminalExit);
 
-		String hostname = null;
+		String hostname = "localhost";
 		/**
          * Inicialization Stub Areas
          */
@@ -78,7 +78,7 @@ public class AirportMain {
         BaggageReclaimOfficeStub baggageReclaimOfficeStub = new BaggageReclaimOfficeStub(hostname, Global.baggageReclaimOfficeStub_PORT);
         ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(hostname, Global.arrivalTerminalExitStub_PORT);
         DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(hostname, Global.departureTermTransfQuayStub_PORT);
-		GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
+		//GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
 		TempStorageAreaStub tempStorageAreaStub = new TempStorageAreaStub(hostname, Global.tempStorageArea_PORT);
 
 

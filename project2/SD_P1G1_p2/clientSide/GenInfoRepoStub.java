@@ -17,7 +17,7 @@ public class GenInfoRepoStub{
      * Number of pieces of luggage presently at the plane's hold (service request).
      * @param bagsPerFlight List of number of bags per flight.
      */
-    public void nrBagsPlanesHold(int[] bagsPerFlight){
+    /*public void nrBagsPlanesHold(int[] bagsPerFlight){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
@@ -28,7 +28,7 @@ public class GenInfoRepoStub{
             }catch (InterruptedException e) {}
         }
         // send message to arrival lounge interface, and wait for answer
-        outMessage = new Message (Message.BAGS_PL, bagsPerFlight);   
+        outMessage = new Message (Message.BAGS_P_FLIGHT, bagsPerFlight);   
         con.writeObject (outMessage);
 
         // receive new in message, and process it
@@ -39,7 +39,7 @@ public class GenInfoRepoStub{
             System.exit (1);
         }
         con.close ();
-    }
+    }*/
 
     /**
      * Count type of detination (final or not) (service request).
@@ -192,6 +192,7 @@ public class GenInfoRepoStub{
     public void porterState(PorterState porterState){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
+        System.out.println("CON: " + con);
         Message inMessage, outMessage;
         Thread p_thread = (Thread) Thread.currentThread();
         while (!con.open ()){
@@ -212,7 +213,7 @@ public class GenInfoRepoStub{
         }
         con.close (); 
     }
-    public   void busDriverState(BusDriverState busDriverState){
+    public void busDriverState(BusDriverState busDriverState){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
@@ -385,6 +386,29 @@ public class GenInfoRepoStub{
         }
         // send message to arrival lounge interface, and wait for answer
         outMessage = new Message (Message.REPORT_MISSING, passengerID, nrBags);   
+        con.writeObject (outMessage);
+
+        // receive new in message, and process it
+        inMessage = (Message) con.readObject ();
+        if (inMessage.getType () != Message.ACK){ 
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
+            System.out.println (inMessage.toString ());
+            System.exit (1);
+        }
+        con.close (); 
+    }
+    public void shutdown(){
+        // create connection
+        ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
+        Message inMessage, outMessage;
+        Thread p_thread = (Thread) Thread.currentThread();
+        while (!con.open ()){
+            try{ 
+                p_thread.sleep ((long) (10));
+            }catch (InterruptedException e) {}
+        }
+        // send message to arrival lounge interface, and wait for answer
+        outMessage = new Message (Message.SHUT);   
         con.writeObject (outMessage);
 
         // receive new in message, and process it

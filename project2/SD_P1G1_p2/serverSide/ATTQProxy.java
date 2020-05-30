@@ -71,7 +71,7 @@ public class ATTQProxy extends Thread{
        int proxyId;                                          // identificador da instanciação
  
        try
-       { cl = Class.forName ("serverSide. ATTQProxy");
+       { cl = Class.forName ("serverSide.ATTQProxy");
        }
        catch (ClassNotFoundException e)
        { System.out.println("O tipo de dados  ATTQProxy não foi encontrado!");

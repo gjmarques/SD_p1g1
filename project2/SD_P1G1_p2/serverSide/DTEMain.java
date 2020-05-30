@@ -40,16 +40,16 @@ public class DTEMain {
         
         /* estabelecimento do servico */
         //Creation of the listening channel and its association with the public address
-        scon = new ServerCom (Global.arrivalLoungeStub_PORT);                    
+        scon = new ServerCom (Global.departureTerminalEntranceStub_PORT);                    
         scon.start ();   
 
-        repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation                                    
         dte = new DepartureTerminalEntrance(Global.NR_PASSENGERS,repoStub);                           // activação do serviço
         // activation of the interface with the service
         dteInt = new DepartureTerminalEntranceInterface(dte);       
         System.out.println("The service has been established!!");
-        System.out.println("he server is listening.");
+        System.out.println("The server is listening.");
 
          /* processamento de pedidos */
         waitConnection = true;

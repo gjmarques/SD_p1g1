@@ -28,7 +28,7 @@ public class TSAMain {
          * Communication channels
          */
         ServerCom scon, sconi;
-        /**
+        /**RepoStub
          * Service provider thread
          */
         TSAProxy tsaProxy;
@@ -42,13 +42,13 @@ public class TSAMain {
         scon = new ServerCom(Global.tempStorageArea_PORT);
         scon.start();
 
-        repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation
         tsa = new TempStorageArea(repoStub); // activação do serviço
         // activation of the interface with the service
         tsaInt = new TempStorageAreaInterface(tsa);
         System.out.println("The service has been established!!");
-        System.out.println("he server is listening.");
+        System.out.println("The server is listening.");
 
         /* processamento de pedidos */
         waitConnection = true;

@@ -42,13 +42,13 @@ public class DTTQMain {
         scon = new ServerCom(Global.departureTermTransfQuayStub_PORT);
         scon.start();
 
-        repoStub = new GenInfoRepoStub(null, Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation
         dttq = new DepartureTermTransfQuay(repoStub); // activação do serviço
         // activation of the interface with the service
         dttqInt = new DepartureTermTransfQuayInterface(dttq);
         System.out.println("The service has been established!!");
-        System.out.println("he server is listening.");
+        System.out.println("The server is listening.");
 
         /* processamento de pedidos */
         waitConnection = true;

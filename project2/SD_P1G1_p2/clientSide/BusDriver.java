@@ -49,7 +49,9 @@ public class BusDriver extends Thread {
     public void run(){
 
         while(loop){
+            System.out.println("BUS DRIVER RUN");
             char choice = arrivalTermTransfQuayStub.hasDaysWorkEnded();
+            System.out.println("BUS DRIVER AFTER ATTQ has days work ended");
             if(choice == 'W') {
                 nPassengers = arrivalTermTransfQuayStub.annoucingBusBoarding();			
                 departureTermTransfQuayStub.goToDepartureTerminal();

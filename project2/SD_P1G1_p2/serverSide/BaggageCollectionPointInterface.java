@@ -31,11 +31,15 @@ public class BaggageCollectionPointInterface {
             case Message.GOCOLLECTBAG:
                 int bag_id = this.baggageCollectionPoint.goCollectABag(inMessage.get_passengerID());
                 outMessage = new Message(Message.BAG_COLLECTED, bag_id);
+                break;
             case Message.CARRYTOAPPSTORE:
                 this.baggageCollectionPoint.carryItToAppropriateStore(inMessage.get_Bag());
                 outMessage = new Message(Message.ACK);
+                break;
             case Message.NO_BAGS_TO_COLLECT:
-            
+                this.baggageCollectionPoint.noMoreBagsToCollect();
+                outMessage = new Message(Message.ACK);
+                break;            
         }
         return outMessage;
     }

@@ -13,18 +13,27 @@ public class PassengerMain{
         String hostname = "localhost";
         int port = Global.passenger_PORT;
 
+
+
 		/**
          * Inicialization Stub Areas
          */
         ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);
-        ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalTerminalExitStub_PORT);
+        System.out.println("INIT ALStub");
+        ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalTermTransfQuayStub_PORT);
+        System.out.println("INIT ATTQStub");
         DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(hostname, Global.departureTermTransfQuayStub_PORT);
+        System.out.println("INIT DTTQStub");
         BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(hostname, Global.baggageCollectionPointStub_PORT);
+        System.out.println("INIT BCPStub");
         BaggageReclaimOfficeStub baggageReclaimOfficeStub = new BaggageReclaimOfficeStub(hostname, Global.baggageReclaimOfficeStub_PORT);
+        System.out.println("INIT BROStub");
         ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(hostname, Global.arrivalTerminalExitStub_PORT);
-        DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(hostname, Global.departureTermTransfQuayStub_PORT);
-		GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
-		
+        System.out.println("INIT ATEStub");
+        DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(hostname, Global.departureTerminalEntranceStub_PORT);
+        System.out.println("INIT DTEStub");
+        GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
+		System.out.println("INIT REPStub");
 
         /**
          * List of every {@link Bag} of every flight occurring in this airport.
@@ -38,18 +47,24 @@ public class PassengerMain{
         for (int i = 0; i < Global.NR_PASSENGERS; i++) {
             passengers[i] = new Passenger(i, bags.get(i), arrivalLoungeStub, arrivalTermTransfQuayStub, departureTermTransfQuayStub,
                     baggageCollectionPointStub, baggageReclaimOfficeStub, arrivalTerminalExitStub, departureTerminalEntranceStub, repoStub);
+        }
+        for (int i = 0; i < Global.NR_PASSENGERS; i++){
+            System.out.println("INIT PASSENGER NR " + i);
             passengers[i].start();
         }
+        
 
-        try{
-            for (int i = 0; i < Global.NR_PASSENGERS; i++) {
+        for (int i = 0; i < Global.NR_PASSENGERS; i++) {
+            try{
                 passengers[i].join();
+            } catch (Exception e) {
+                System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
+                System.out.println("Error: " + e.getMessage());
+                System.exit(1);
             }
-        } catch (Exception e) {
-			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
-			System.out.println("Error: " + e.getMessage());
-			System.exit(1);
-		}
+        }
+        
+        //arrivalLoungeStub.shutdown();
         
     }
 
@@ -88,22 +103,24 @@ public class PassengerMain{
 
     public static void send_info(GenInfoRepoStub repoStub, int[] bagsPerFlight, String hostname){
         // create connection
-        ClientCom con = new ClientCom(hostname, Global.arrivalLoungeStub_PORT);
+        ClientCom con = new ClientCom(hostname, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = Thread.currentThread();
+        //Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
-                p_thread.sleep ((long) (10));
+                Thread.sleep ((long) (10));
             }catch (InterruptedException e) {}
         }
+        System.out.println("SEND MSG TO REPOSITORY");
         // send message to arrival lounge interface, and wait for answer
         outMessage = new Message (Message.BAGS_P_FLIGHT, bagsPerFlight);   
         con.writeObject (outMessage);
 
         // receive new in message, and process it
         inMessage = (Message) con.readObject ();
+        System.out.println("Passenger answer from repo" + inMessage);
         if (inMessage.getType () != Message.ACK){ 
-            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
+            //System.out.println ("Thread " + Thre.getName () + ": Invalid message type!");
             System.out.println (inMessage.toString ());
             System.exit (1);
         }
