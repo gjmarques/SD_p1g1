@@ -49,10 +49,10 @@ public class GIRProxy extends Thread{
         try{ 
             outMessage = girInt.processAndReply (inMessage);             // processá-lo
         }
-        catch (MessageException e)
-        { System.out.println("Thread " + getName () + ": " + e.getMessage () + "!");
-        System.out.println(e.getMessageVal ().toString ());
-        System.exit (1);
+        catch (MessageException e){ 
+            System.out.println("Thread " + getName () + ": " + e.getMessage () + "!");
+            System.out.println(e.getMessageVal ().toString ());
+            System.exit (1);
         }
         sconi.writeObject (outMessage);                                // enviar resposta ao cliente
         sconi.close ();                                                // fechar canal de comunicação
@@ -69,10 +69,10 @@ public class GIRProxy extends Thread{
                                                             //   virtual de Java
         int proxyId;                                          // identificador da instanciação
         try{ 
-            cl = Class.forName ("serverSide.ALProxy");
+            cl = Class.forName ("serverSide.GIRProxy");
         }
         catch (ClassNotFoundException e)
-        { System.out.println("O tipo de dados ALProxy não foi encontrado!");
+        { System.out.println("O tipo de dados GIRProxy não foi encontrado!");
             e.printStackTrace ();
             System.exit (1);
         }

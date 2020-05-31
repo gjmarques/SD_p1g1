@@ -108,7 +108,7 @@ public class ArrivalTermTransfQuay {
 	public void takeABus(int passengerID) {
 		rl.lock();
 		try {
-			rep.passengerState(passengerID, PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
+			//rep.passengerState(passengerID, PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
 			passengers++;
 			
 			rep.busWaitingLine(passengerID);
@@ -157,7 +157,7 @@ public class ArrivalTermTransfQuay {
 	public void enterTheBus(int passengerID) {
 		rl.lock();
 		try {
-			rep.passengerState(passengerID, PassengerState.TERMINAL_TRANSFER);
+			//rep.passengerState(passengerID, PassengerState.TERMINAL_TRANSFER);
 			passengersInside++;
 
 			rep.busSitting(passengerID);
@@ -203,7 +203,7 @@ public class ArrivalTermTransfQuay {
 	 * {@link entities.BusDriver} arrives at the Arrival Terminal Transfer Quay and internal variable of {@link entities.Passenger}s 
 	 * inside the bus is reset.
      */
-	public void parkTheBus() {
+	public synchronized void parkTheBus() {
 		
 		passengersInside = 0;	
 		rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);	
@@ -215,10 +215,10 @@ public class ArrivalTermTransfQuay {
 	 *  the last flight has been simulated so he can terminate 
 	 * @return char
 	 */
-	public char hasDaysWorkEnded() {
+	public synchronized char hasDaysWorkEnded() {
 		rl.lock();
 		try {
-			rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
+			//rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
 			waitLine.signalAll();
 			
 			if (passengers == 0 && flightCount == maxFlights)

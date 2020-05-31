@@ -9,7 +9,7 @@ public class ArrivalLoungeStub{
     private int serverPortNumb;
 
     public ArrivalLoungeStub(String hostname, int port){
-        serverHostName = hostname;
+        serverHostName = "localhost";
         serverPortNumb = port;
     }
 
@@ -29,13 +29,19 @@ public class ArrivalLoungeStub{
  
         // receive new in message, and process it
         inMessage = (Message) con.readObject ();
-        if (inMessage.getType () != Message.WSID_ANSWER){ 
+        if (inMessage.getType () != Message.GOHOME || inMessage.getType () != Message.COLLECTBAG || inMessage.getType () != Message.TAKEBUS){ 
             System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
             System.out.println (inMessage.toString ());
             System.exit (1);
         }
+        
+        char res = 'z';
+        if(inMessage.getType() == Message.GOHOME) res = 'a';
+        else if(inMessage.getType() == Message.COLLECTBAG) res = 'b';
+        else if(inMessage.getType() == Message.TAKEBUS) res = 'c';
+        
         con.close ();
-        return inMessage.get_WSID();
+        return res;
     }
     /**
      * This method updates internal arrival lounge flight count.
@@ -89,8 +95,13 @@ public class ArrivalLoungeStub{
             System.out.println (inMessage.toString ());
             System.exit (1);
         }
+        
+        char res = 'z';
+        if(inMessage.getType() == Message.REST_Y) res = 'E';
+        else if(inMessage.getType() == Message.REST_N) res = 'W';
+
         con.close ();
-        return inMessage.get_Rest();
+        return res;
     }
     /**
      * This methods signals Porter to go and try to collect a Bag

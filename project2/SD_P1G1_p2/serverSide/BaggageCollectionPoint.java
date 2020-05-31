@@ -74,7 +74,7 @@ public class BaggageCollectionPoint {
 	public int goCollectABag(int passengerID) {
 		rl.lock();
 		try {
-			rep.passengerState(passengerID, PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
+			//rep.passengerState(passengerID, PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
 			int  collectedBags = 0;
 			entered++;
 			while(!noMoreBags){

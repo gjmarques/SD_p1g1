@@ -37,9 +37,12 @@ public class BusDriver extends Thread {
      */
     private final DepartureTermTransfQuayStub departureTermTransfQuayStub;
 
-    public BusDriver (ArrivalTermTransfQuayStub arrivalTermTransfQuayStub, DepartureTermTransfQuayStub departureTermTransfQuayStub){
+    private final GenInfoRepoStub rep;
+
+    public BusDriver (ArrivalTermTransfQuayStub arrivalTermTransfQuayStub, DepartureTermTransfQuayStub departureTermTransfQuayStub, GenInfoRepoStub repoStub){
         this.arrivalTermTransfQuayStub = arrivalTermTransfQuayStub;
         this.departureTermTransfQuayStub = departureTermTransfQuayStub;
+        this.rep = repoStub;
     }
 
     /**
@@ -51,6 +54,9 @@ public class BusDriver extends Thread {
         while(loop){
             System.out.println("BUS DRIVER RUN");
             char choice = arrivalTermTransfQuayStub.hasDaysWorkEnded();
+            
+            rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
+            
             System.out.println("BUS DRIVER AFTER ATTQ has days work ended");
             if(choice == 'W') {
                 nPassengers = arrivalTermTransfQuayStub.annoucingBusBoarding();			

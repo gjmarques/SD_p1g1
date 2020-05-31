@@ -68,9 +68,9 @@ public class TSAProxy extends Thread {
         int proxyId; // identificador da instanciação
 
         try {
-            cl = Class.forName("serverSide.tsaProxy");
+            cl = Class.forName("serverSide.TSAProxy");
         } catch (ClassNotFoundException e) {
-            System.out.println("O tipo de dados tsaProxy não foi encontrado!");
+            System.out.println("O tipo de dados TSAProxy não foi encontrado!");
             e.printStackTrace();
             System.exit(1);
         }

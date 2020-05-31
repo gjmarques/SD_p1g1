@@ -41,6 +41,10 @@ public class ArrivalTermTransfQuayInterface {
                         // work days are not over
                         outMessage = new Message(Message.WORK_NOT_ENDED);
                         break;
+                    case 'z':
+                        //something went wrong
+                        outMessage = new Message(Message.WORK_ENDED);
+                        break;
                 }
                 break;
             case Message.BUSBOARD:

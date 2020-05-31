@@ -54,18 +54,14 @@ public class ArrivalLoungeInterface {
                 break;
             case Message.REST:
                 res = this.arrivalLounge.takeARest();
-                try{ 
-                    switch(res){
-                        case 'E':
-                            outMessage = new Message(Message.REST_Y);
-                            break;
-                        case 'W':
-                            // reached final destination
-                            outMessage= new Message(Message.REST_N);
-                            break;
-                    }
-                }catch(Exception e){
-                        //System.exit(0);
+                switch(res){
+                    case 'E':
+                        outMessage = new Message(Message.REST_Y);
+                        break;
+                    case 'W':
+                        // reached final destination
+                        outMessage= new Message(Message.REST_N);
+                        break;
                 }
                 break;
             case Message.COLLECTBAG_PORTER:

@@ -112,7 +112,9 @@ public class Passenger extends Thread {
         for (int i = 0; i < Global.MAX_FLIGHTS; i++) {
             r = new Random();
             this.finalDestination = r.nextBoolean();
+            System.out.println("PASSENGER countDest");
             repoStub.countDest(this.finalDestination);
+            System.out.println("PASSENGER initPassenger");
             repoStub.initPassenger(i, this.id);
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
@@ -120,25 +122,35 @@ public class Passenger extends Thread {
                 bags[j] = new Bag(this.finalDestination ? 'H' : 'T', this.id, i);
             }
 
+            System.out.println("PASSENGER whatshouldido");
             char choice = arrivalLoungeStub.whatShouldIDo(i, this.id, bags, this.finalDestination);
+            repoStub.passengerState(i, this.id, PassengerState.AT_THE_DISEMBARKING_ZONE, this.finalDestination, bags.length);
+            
+            System.out.println("PASSENGER setFlight");
             arrivalTermTransfQuayStub.setFlight(i);
             arrivalLoungeStub.setFlight(i);
             switch (choice) {
                 case ('a'):
                     arrivalTerminalExitStub.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
+                    repoStub.passengerState(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     break;
-
                 case ('b'):
                     arrivalTermTransfQuayStub.takeABus(this.id);
+                    repoStub.passengerState(this.id, PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
                     arrivalTermTransfQuayStub.enterTheBus(this.id);
+                    repoStub.passengerState(this.id, PassengerState.TERMINAL_TRANSFER);
                     departureTermTransfQuayStub.leaveTheBus(this.id);
+                    repoStub.passengerState(this.id, PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL);
                     departureTerminalEntranceStub.prepareNextLeg(i, this.id);
-
+                    repoStub.passengerState(this.id, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
                     break;
                 case ('c'):
                     collectedBags = baggageCollectionPointStub.goCollectABag(this.id);
+        			repoStub.passengerState(this.id, PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
+
                     if (collectedBags < numBags.get(i)) {
                         baggageReclaimOfficeStub.reportMissingBags(numBags.get(i) - collectedBags, this.id);
+                        repoStub.passengerState(this.id, PassengerState.AT_THE_BAGGAGE_RECLAIM_OFFICE);
                     }
                     arrivalTerminalExitStub.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     break;

@@ -94,21 +94,21 @@ public class PassengerMain{
 
         }
         // genInfoRepo.nrBagsPlanesHold(bagsPerFlight);
-        //repoStub.nrBagsPlanesHold(bagsPerFlight);
+        repoStub.nrBagsPlanesHold(bagsPerFlight);
         // send bagsPerFlight to GeneralRepo
-        send_info(repoStub, bagsPerFlight, hostname);
+        //send_info(bagsPerFlight, hostname);
 
         return bagsPerPassenger;
     }
 
-    public static void send_info(GenInfoRepoStub repoStub, int[] bagsPerFlight, String hostname){
+    /*public static void send_info(int[] bagsPerFlight, String hostname){
         // create connection
         ClientCom con = new ClientCom(hostname, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        //Thread p_thread = Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
-                Thread.sleep ((long) (10));
+                p_thread.sleep ((long) (10));
             }catch (InterruptedException e) {}
         }
         System.out.println("SEND MSG TO REPOSITORY");
@@ -120,11 +120,11 @@ public class PassengerMain{
         inMessage = (Message) con.readObject ();
         System.out.println("Passenger answer from repo" + inMessage);
         if (inMessage.getType () != Message.ACK){ 
-            //System.out.println ("Thread " + Thre.getName () + ": Invalid message type!");
+            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
             System.out.println (inMessage.toString ());
             System.exit (1);
         }
         con.close ();
-    }
+    }*/
 
 }

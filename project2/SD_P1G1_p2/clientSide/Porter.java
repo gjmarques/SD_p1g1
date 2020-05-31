@@ -64,7 +64,10 @@ public class Porter extends Thread {
     @Override
     public void run() {
         while (rest) {
+            System.out.println("PORTER is checking whether he has to work or not.");
             char choice = arrivalLoungeStub.takeARest();
+            repoStub.porterState(PorterState.WAITING_FOR_A_PLANE_TO_LAND);
+            System.out.println("PORTER takeARest answer: " + choice);
             if (choice == 'W') {
 
                 bag = arrivalLoungeStub.tryToCollectBag();

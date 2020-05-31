@@ -9,7 +9,7 @@ public class GenInfoRepoStub{
     private int serverPortNumb;
 
     public GenInfoRepoStub(String hostname, int port){
-        serverHostName = hostname;
+        serverHostName = "localhost";
         serverPortNumb = port;
     }
 
@@ -17,7 +17,7 @@ public class GenInfoRepoStub{
      * Number of pieces of luggage presently at the plane's hold (service request).
      * @param bagsPerFlight List of number of bags per flight.
      */
-    /*public void nrBagsPlanesHold(int[] bagsPerFlight){
+   public void nrBagsPlanesHold(int[] bagsPerFlight){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
@@ -39,8 +39,7 @@ public class GenInfoRepoStub{
             System.exit (1);
         }
         con.close ();
-    }*/
-
+    }
     /**
      * Count type of detination (final or not) (service request).
      * @param dest type of destination
@@ -217,7 +216,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        BusDriver p_thread = (BusDriver) Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -236,7 +235,7 @@ public class GenInfoRepoStub{
         }
         con.close (); 
     }
-    public   void leaveBus(int passengerID){
+    public void leaveBus(int passengerID){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;

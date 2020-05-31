@@ -87,7 +87,7 @@ public class ArrivalLounge {
         rl.lock();
         
         try {    
-            rep.passengerState(flight_nr, passengerID, PassengerState.AT_THE_DISEMBARKING_ZONE, finalDestination, bags.length);
+            //rep.passengerState(flight_nr, passengerID, PassengerState.AT_THE_DISEMBARKING_ZONE, finalDestination, bags.length);
             
             passengerCount++;
             if (passengerCount == numPassengers) {
@@ -126,7 +126,7 @@ public class ArrivalLounge {
             if (bags.empty() && flightCount == maxFlights)
                 return 'E';
             
-            rep.porterState(PorterState.WAITING_FOR_A_PLANE_TO_LAND);
+            //rep.porterState(PorterState.WAITING_FOR_A_PLANE_TO_LAND);
             planeHoldEmptyCV.await();
 
             if (bags.empty() && flightCount == maxFlights)

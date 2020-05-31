@@ -104,7 +104,7 @@ public class ArrivalTerminalExit {
     public void goHome(int nPlane, int passengerID, PassengerState passengerState) {
         rl.lock();
         try {
-            rep.passengerState(nPlane, passengerID, passengerState);
+            //rep.passengerState(nPlane, passengerID, passengerState);
 
             passengers++;
             departureTerminalEntrance.signalPassenger();

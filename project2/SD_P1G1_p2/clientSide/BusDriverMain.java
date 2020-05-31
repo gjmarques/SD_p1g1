@@ -16,9 +16,10 @@ public class BusDriverMain {
          */
         ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalTermTransfQuayStub_PORT);
         DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(hostname, Global.departureTermTransfQuayStub_PORT);
-        
+        GenInfoRepoStub repStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
+
         /** Creation and start threads/simulation */
-        BusDriver driver = new BusDriver(arrivalTermTransfQuayStub, departureTermTransfQuayStub);
+        BusDriver driver = new BusDriver(arrivalTermTransfQuayStub, departureTermTransfQuayStub, repStub);
         driver.start();
         
 
@@ -34,6 +35,7 @@ public class BusDriverMain {
         System.out.println("The Bus Driver has ended his day of work!");
         arrivalTermTransfQuayStub.shutdown();
         departureTermTransfQuayStub.shutdown();
+        repStub.shutdown();
     }
 
 }

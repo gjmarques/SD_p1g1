@@ -47,6 +47,7 @@ public class ATTQProxy extends Thread{
                outMessage = null;                                     // mensagem de saída
  
        inMessage = (Message) sconi.readObject ();                     // ler pedido do cliente
+       
        try{ 
           outMessage = attqInt.processAndReply (inMessage);             // processá-lo
        }
@@ -74,7 +75,7 @@ public class ATTQProxy extends Thread{
        { cl = Class.forName ("serverSide.ATTQProxy");
        }
        catch (ClassNotFoundException e)
-       { System.out.println("O tipo de dados  ATTQProxy não foi encontrado!");
+       { System.out.println("O tipo de dados ATTQProxy não foi encontrado!");
           e.printStackTrace ();
           System.exit (1);
        }

@@ -105,13 +105,18 @@ public class ArrivalTermTransfQuayStub{
  
         // receive new in message, and process it
         inMessage = (Message) con.readObject ();
+        System.out.println(inMessage);
         if (inMessage.getType () != Message.WORK_ENDED || inMessage.getType () != Message.WORK_NOT_ENDED){ 
             System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
             System.out.println (inMessage.toString ());
             System.exit (1);
         }
+        char res = 'z';
+        if(inMessage.getType() == Message.WORK_ENDED) res = 'E';
+        else if(inMessage.getType() == Message.WORK_NOT_ENDED) res = 'W';
+
         con.close ();
-        return inMessage.get_Work_days();
+        return res;
     }
     public int annoucingBusBoarding() {
         // create connection

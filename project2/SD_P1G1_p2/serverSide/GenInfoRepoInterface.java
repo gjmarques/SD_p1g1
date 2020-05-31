@@ -73,6 +73,10 @@ public class GenInfoRepoInterface {
                 this.genRepo.collectionMatConveyorBelt(inMessage.get_nrBags());
                 outMessage = new Message(Message.ACK);
                 break;
+            case Message.BUSDRIVER_STATE:
+                this.genRepo.busDriverState(inMessage.get_busDriverState());
+                outMessage = new Message(Message.ACK);
+                break;
             case Message.SHUT:       
                 // server shutdown                               
                 GIRMain.waitConnection = false;
