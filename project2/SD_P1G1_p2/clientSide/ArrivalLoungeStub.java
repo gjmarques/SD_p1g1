@@ -25,16 +25,14 @@ public class ArrivalLoungeStub{
         }
         // send message to arrival lounge interface, and wait for answer
         outMessage = new Message (Message.WSID, flight_number, passengerID, bags, finalDestination);   
-        con.writeObject (outMessage);
- 
+        con.writeObject(outMessage);
         // receive new in message, and process it
-        inMessage = (Message) con.readObject ();
-        if (inMessage.getType () != Message.GOHOME || inMessage.getType () != Message.COLLECTBAG || inMessage.getType () != Message.TAKEBUS){ 
-            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
-            System.out.println (inMessage.toString ());
+        inMessage = (Message) con.readObject();
+        if (inMessage.getType() == Message.GOHOME && inMessage.getType() == Message.COLLECTBAG && inMessage.getType() == Message.TAKEBUS){ 
+            System.out.println ("Thread " + p_thread.getName() + ": Invalid message type!");
+            System.out.println (inMessage.toString());
             System.exit (1);
         }
-        
         char res = 'z';
         if(inMessage.getType() == Message.GOHOME) res = 'a';
         else if(inMessage.getType() == Message.COLLECTBAG) res = 'b';

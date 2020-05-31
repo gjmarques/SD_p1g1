@@ -45,17 +45,17 @@ public class ALProxy extends Thread{
       Message inMessage = null,                                      // mensagem de entrada
               outMessage = null;                                     // mensagem de saída
 
-      inMessage = (Message) sconi.readObject ();                     // ler pedido do cliente
+      inMessage = (Message) sconi.readObject();                     // ler pedido do cliente
       try{ 
-         outMessage = alInt.processAndReply (inMessage);             // processá-lo
+         outMessage = alInt.processAndReply(inMessage);             // processá-lo
       }
       catch (MessageException e)
-      { System.out.println("Thread " + getName () + ": " + e.getMessage () + "!");
-        System.out.println(e.getMessageVal ().toString ());
-        System.exit (1);
+      { System.out.println("Thread " + getName() + ": " + e.getMessage() + "!");
+        System.out.println(e.getMessageVal().toString());
+        System.exit(1);
       }
-      sconi.writeObject (outMessage);                                // enviar resposta ao cliente
-      sconi.close ();                                                // fechar canal de comunicação
+      sconi.writeObject(outMessage);                                // enviar resposta ao cliente
+      sconi.close();                                                // fechar canal de comunicação
    }
 
    /**
@@ -63,22 +63,22 @@ public class ALProxy extends Thread{
    *
    *    @return identificador da instanciação
    */
-   private static int getProxyId ()
+   private static int getProxyId()
    {
       Class<?> cl = null;                                   // representação do tipo de dados ALProxy na máquina
                                                             //   virtual de Java
       int proxyId;                                          // identificador da instanciação
 
       try
-      { cl = Class.forName ("serverSide.ALProxy");
+      { cl = Class.forName("serverSide.ALProxy");
       }
       catch (ClassNotFoundException e)
       { System.out.println("O tipo de dados ALProxy não foi encontrado!");
-         e.printStackTrace ();
-         System.exit (1);
+         e.printStackTrace();
+         System.exit(1);
       }
 
-      synchronized (cl)
+      synchronized(cl)
       { proxyId = nProxy;
          nProxy += 1;
       }
@@ -92,7 +92,7 @@ public class ALProxy extends Thread{
    *    @return canal de comunicação
    */
 
-   public ServerCom getScon ()
+   public ServerCom getScon()
    {
       return sconi;
    }

@@ -32,21 +32,21 @@ public class PassengerMain{
         System.out.println("INIT ATEStub");
         DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(hostname, Global.departureTerminalEntranceStub_PORT);
         System.out.println("INIT DTEStub");
-        GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
-		System.out.println("INIT REPStub");
+        // GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
+		// System.out.println("INIT REPStub");
 
         /**
          * List of every {@link Bag} of every flight occurring in this airport.
          */
-        List<List<Integer>> bags = generateBags(repoStub, Global.NR_PASSENGERS, Global.MAX_FLIGHTS, Global.MAX_BAGS, hostname);
-        
+        // List<List<Integer>> bags = generateBags(repoStub, Global.NR_PASSENGERS, Global.MAX_FLIGHTS, Global.MAX_BAGS, hostname);
+        List<List<Integer>> bags = generateBags(Global.NR_PASSENGERS, Global.MAX_FLIGHTS, Global.MAX_BAGS, hostname);       
         /**
          * List of Passengers
          */
         Passenger[] passengers = new Passenger[Global.NR_PASSENGERS];
         for (int i = 0; i < Global.NR_PASSENGERS; i++) {
             passengers[i] = new Passenger(i, bags.get(i), arrivalLoungeStub, arrivalTermTransfQuayStub, departureTermTransfQuayStub,
-                    baggageCollectionPointStub, baggageReclaimOfficeStub, arrivalTerminalExitStub, departureTerminalEntranceStub, repoStub);
+                    baggageCollectionPointStub, baggageReclaimOfficeStub, arrivalTerminalExitStub, departureTerminalEntranceStub);
         }
         for (int i = 0; i < Global.NR_PASSENGERS; i++){
             System.out.println("INIT PASSENGER NR " + i);
@@ -77,8 +77,8 @@ public class PassengerMain{
      * @param genInfoRepo
      * @return List<Integer>
      */
-    public static List<List<Integer>> generateBags(GenInfoRepoStub repoStub, int nrPassengers, int nrFlights, int maxBags, String hostname) {
-
+    // public static List<List<Integer>> generateBags(GenInfoRepoStub repoStub, int nrPassengers, int nrFlights, int maxBags, String hostname) {
+    public static List<List<Integer>> generateBags(int nrPassengers, int nrFlights, int maxBags, String hostname) {
         List<List<Integer>> bagsPerPassenger = new ArrayList<List<Integer>>(nrPassengers);
         int[] bagsPerFlight = new int[nrFlights];
 
@@ -93,8 +93,7 @@ public class PassengerMain{
             bagsPerPassenger.add(bags);
 
         }
-        // genInfoRepo.nrBagsPlanesHold(bagsPerFlight);
-        repoStub.nrBagsPlanesHold(bagsPerFlight);
+        //repoStub.nrBagsPlanesHold(bagsPerFlight);
         // send bagsPerFlight to GeneralRepo
         //send_info(bagsPerFlight, hostname);
 
