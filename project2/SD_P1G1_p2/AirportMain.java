@@ -50,7 +50,7 @@ public class AirportMain {
 		/**
 		 * {@link sharedRegions.ArrivalTermTransfQuay}
 		 */
-		ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.MAX_FLIGHTS, genInfoRepoStub);
+		//ArrivalTermTransfQuay arrivalTermTransfQuay = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.MAX_FLIGHTS, genInfoRepoStub);
 		/**
 		 * {@link sharedRegions.DepartureTermTransfQuay}
 		 */
@@ -64,8 +64,8 @@ public class AirportMain {
 		 */
 		DepartureTerminalEntrance departureTerminalEntrance = new DepartureTerminalEntrance(Global.NR_PASSENGERS, genInfoRepoStub);
 		
-		arrivalTerminalExit.setDepartureTerminal(departureTerminalEntrance);
-		departureTerminalEntrance.setArrivalTerminal(arrivalTerminalExit);
+		//arrivalTerminalExit.setDepartureTerminal(departureTerminalEntrance);
+		//departureTerminalEntrance.setArrivalTerminal(arrivalTerminalExit);
 
 		String hostname = "localhost";
 		/**

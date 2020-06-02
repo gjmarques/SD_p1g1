@@ -73,7 +73,7 @@ public class ArrivalTermTransfQuay {
     /**
      * General Information Repository {@link GenInfoRepo}
      */
-	private GenInfoRepoStub rep;
+	//private GenInfoRepoStub rep;
 
 	/**
      * Instantiates ArrivalTermTransQuay shared region
@@ -81,7 +81,8 @@ public class ArrivalTermTransfQuay {
 	 * @param maxFlights total number of flights to be simulated
      * @param rep {@link GenInfoRepo}.
      */
-	public ArrivalTermTransfQuay(int busSize, int maxFlights, GenInfoRepoStub rep) {
+	public ArrivalTermTransfQuay(int busSize, int maxFlights) {
+	//public ArrivalTermTransfQuay(int busSize, int maxFlights, GenInfoRepoStub rep) {
 		rl = new ReentrantLock(true);
 		waitLine = rl.newCondition();
 		waitFull = rl.newCondition();
@@ -89,7 +90,7 @@ public class ArrivalTermTransfQuay {
 		waitEnter = rl.newCondition();
 		this.busSize = busSize;
 		this.maxFlights = maxFlights;
-		this.rep = rep;
+		//this.rep = rep;
 	}
 
     /**
@@ -111,7 +112,7 @@ public class ArrivalTermTransfQuay {
 			//rep.passengerState(passengerID, PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
 			passengers++;
 			
-			rep.busWaitingLine(passengerID);
+			//rep.busWaitingLine(passengerID);
 			
 			while (passengersEntering >= busSize) {
 				waitLine.await();
@@ -160,7 +161,7 @@ public class ArrivalTermTransfQuay {
 			//rep.passengerState(passengerID, PassengerState.TERMINAL_TRANSFER);
 			passengersInside++;
 
-			rep.busSitting(passengerID);
+			//rep.busSitting(passengerID);
 			if(passengersInside == passengersEntering){
 				passengersEntering = 0;
 				waitEnter.signal();
@@ -206,7 +207,7 @@ public class ArrivalTermTransfQuay {
 	public synchronized void parkTheBus() {
 		
 		passengersInside = 0;	
-		rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);	
+		//rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);	
 
 	}
 
@@ -246,7 +247,7 @@ public class ArrivalTermTransfQuay {
 	 */
 	public void goToArrivalTerminal(){
         try {
-			rep.busDriverState(BusDriverState.DRIVING_BACKWARD);
+			//rep.busDriverState(BusDriverState.DRIVING_BACKWARD);
             Thread.sleep(50);
         } catch (Exception e) {
 			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");

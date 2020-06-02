@@ -1,10 +1,12 @@
 package clientSide;
 
+import java.io.Serializable;
+
 /**
  * Implementation of Bag. Represents the passengers' luggage.
  */
 
-public class Bag extends Thread{
+public class Bag extends Thread implements Serializable{
     
   /**
    * Bag's destination

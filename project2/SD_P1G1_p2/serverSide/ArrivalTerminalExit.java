@@ -12,7 +12,7 @@ import clientSide.*;
  * execution
  */
 
-public class ArrivalTerminalExit {
+public class ArrivalTerminalExit{
 
     /**
      * A reentrant mutual exclArrivalTerminalExitusion Lock with the same basic behavior and semantics as the implicit monitor lock 
@@ -29,7 +29,7 @@ public class ArrivalTerminalExit {
     /**
      * Departure Terminal Entrance {@link DepartureTerminalEntrance}
      */
-    private DepartureTerminalEntrance departureTerminalEntrance;
+    private DepartureTerminalEntranceStub departureTerminalEntranceStub;
 
     /**
      * Total number of {@link entities.Passenger}s who finished their execution in the Arrival Terminal Exit
@@ -63,9 +63,9 @@ public class ArrivalTerminalExit {
      * Instantiate {@link DepartureTerminalEntrance} 
      * @param departureTerminalEntrance
      */
-    public void setDepartureTerminal(DepartureTerminalEntrance departureTerminalEntrance) {
+    public void setDepartureTerminal(DepartureTerminalEntranceStub departureTerminalEntranceStub) {
 
-        this.departureTerminalEntrance = departureTerminalEntrance;
+        this.departureTerminalEntranceStub = departureTerminalEntranceStub;
     }
 
     /**
@@ -104,14 +104,13 @@ public class ArrivalTerminalExit {
     public void goHome(int nPlane, int passengerID, PassengerState passengerState) {
         rl.lock();
         try {
-            //rep.passengerState(nPlane, passengerID, passengerState);
-
+            //rep.passengerState(passengerID, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
             passengers++;
-            departureTerminalEntrance.signalPassenger();
+            departureTerminalEntranceStub.signalPassenger();
             if (passengers + departurePassengers == numPassengers) {
                 passengers = 0;
                 departurePassengers = 0;
-                departureTerminalEntrance.signalCompletion();
+                departureTerminalEntranceStub.signalCompletion();
                 waitingEndCV.signalAll();
             } else {
                 waitingEndCV.await();

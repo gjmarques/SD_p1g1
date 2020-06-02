@@ -19,6 +19,22 @@ public class DepartureTerminalEntranceInterface {
             case Message.PNEXTLEG: 
                 this.departureTermEntrance.prepareNextLeg(inMessage.get_passengerID(), inMessage.get_flight());
                 outMessage = new Message(Message.ACK);
+                break;
+            case Message.SIGNAL_PASSENGER:
+                this.departureTermEntrance.signalPassenger();
+                outMessage = new Message(Message.ACK);
+                break;
+            case Message.SIGNAL_COMPLETION:
+                this.departureTermEntrance.signalCompletion();
+                outMessage = new Message(Message.ACK);
+                break;
+            case Message.SHUT:       
+                // server shutdown                               
+                ALMain.waitConnection = false;
+                (((ALProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                // generate confirmation
+                outMessage = new Message (Message.ACK);        
+                break;
             
         }
         return outMessage;

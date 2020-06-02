@@ -39,10 +39,12 @@ public class ATEMain {
         //Creation of the listening channel and its association with the public address
         scon = new ServerCom (Global.arrivalTerminalExitStub_PORT);                    
         scon.start ();   
-
+        
         repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation                                    
-        ate = new ArrivalTerminalExit(Global.NR_PASSENGERS, repoStub);                           // activação do serviço
+        ate = new ArrivalTerminalExit(Global.NR_PASSENGERS, repoStub);                         // activação do serviço
+        DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub("localhost", Global.departureTerminalEntranceStub_PORT);
+        ate.setDepartureTerminal(departureTerminalEntranceStub);
         // activation of the interface with the service
         ateInt = new ArrivalTerminalExitInterface(ate);       
         System.out.println("The service has been established!!");

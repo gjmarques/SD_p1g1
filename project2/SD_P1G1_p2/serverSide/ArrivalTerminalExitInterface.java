@@ -31,6 +31,14 @@ public class ArrivalTerminalExitInterface {
                 this.arrivalTermExit.goHome(inMessage.get_flight(), inMessage.get_passengerID(), inMessage.get_passengerState());
                 outMessage = new Message(Message.ACK);
                 break;
+            case Message.SIGNAL_PASSENGER:
+                this.arrivalTermExit.signalPassenger();
+                outMessage = new Message(Message.ACK);
+                break;
+            case Message.SIGNAL_COMPLETION:
+                this.arrivalTermExit.signalCompletion();
+                outMessage = new Message(Message.ACK);
+                break;
             case Message.SHUT:       
                 // server shutdown                               
                 ALMain.waitConnection = false;

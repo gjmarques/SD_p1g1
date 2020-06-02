@@ -115,11 +115,11 @@ public class Passenger extends Thread {
         Random r;
         for (int i = 0; i < Global.MAX_FLIGHTS; i++) {
             r = new Random();
-            this.finalDestination = r.nextBoolean();
+            this.finalDestination = true; //r.nextBoolean();
             //repoStub.countDest(this.finalDestination);
             //repoStub.initPassenger(i, this.id);
             collectedBags = 0;
-            bags = new Bag[numBags.get(i)];
+            bags = new Bag[0];//new Bag[numBags.get(i)];
             for (int j = 0; j < bags.length; j++) {
                 bags[j] = new Bag(this.finalDestination ? 'H' : 'T', this.id, i);
             }
@@ -127,13 +127,12 @@ public class Passenger extends Thread {
             System.out.println("PASSENGER whatshouldido");
             char choice = arrivalLoungeStub.whatShouldIDo(i, this.id, bags, this.finalDestination);
             //repoStub.passengerState(i, this.id, PassengerState.AT_THE_DISEMBARKING_ZONE, this.finalDestination, bags.length);
-            
-            System.out.println("PASSENGER setFlight");
             arrivalTermTransfQuayStub.setFlight(i);
             arrivalLoungeStub.setFlight(i);
             switch (choice) {
                 case ('a'):
                     arrivalTerminalExitStub.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
+                    System.out.println("PASSENGER goHome");
                     //repoStub.passengerState(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     break;
                 case ('b'):

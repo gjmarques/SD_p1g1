@@ -29,7 +29,7 @@ public class DepartureTerminalEntrance {
     /**
      * Arrival Terminal Exit {@link ArrivalTerminalExit}
      */
-    private ArrivalTerminalExit arrivalTerminalExit;
+    private ArrivalTerminalExitStub arrivalTerminalExitStub;
 
     /**
      * Total number of {@link entities.Passenger}s who finished their execution in the Arrival Terminal Exit
@@ -65,11 +65,11 @@ public class DepartureTerminalEntrance {
 
     /**
      * Instantiate {@link ArrivalTerminalExit} 
-     * @param arrivalTerminalExit
+     * @param arrivalTerminalExitStub
      */
-    public void setArrivalTerminal(ArrivalTerminalExit arrivalTerminalExit) {
+    public void setArrivalTerminal(ArrivalTerminalExitStub arrivalTerminalExitStub) {
 
-        this.arrivalTerminalExit = arrivalTerminalExit;
+        this.arrivalTerminalExitStub = arrivalTerminalExitStub;
     }
 
     /**
@@ -108,11 +108,11 @@ public class DepartureTerminalEntrance {
         try {
             //rep.passengerState(passengerID, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
             passengers++;
-            arrivalTerminalExit.signalPassenger();
+            arrivalTerminalExitStub.signalPassenger();
             if (passengers + arrivalPassengers == numPassengers) {
                 passengers = 0;
                 arrivalPassengers = 0;
-                arrivalTerminalExit.signalCompletion();
+                arrivalTerminalExitStub.signalCompletion();
                 waitingEndCV.signalAll();
             } else {
                 waitingEndCV.await();

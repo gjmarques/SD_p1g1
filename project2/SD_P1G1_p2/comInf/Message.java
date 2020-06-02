@@ -183,6 +183,16 @@ public class Message implements Serializable {
     public static final int COLLECTIONMAT_CONVBELT = 41;
     public static final int BAGS_TMP = 42;
 
+    /**
+     * Signal that passenger is at the collection mat conveyor belt
+     */
+    public static final int SIGNAL_PASSENGER = 42;
+
+    /**
+     * Signal that passenger is at the collection mat conveyor belt
+     */
+    public static final int SIGNAL_COMPLETION = 43;
+
 
 
 

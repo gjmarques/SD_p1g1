@@ -45,7 +45,9 @@ public class DTEMain {
 
         repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation                                    
-        dte = new DepartureTerminalEntrance(Global.NR_PASSENGERS,repoStub);                           // activação do serviço
+        dte = new DepartureTerminalEntrance(Global.NR_PASSENGERS,repoStub);      // activação do serviço
+        ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub("localhost", Global.arrivalTerminalExitStub_PORT);
+        dte.setArrivalTerminal(arrivalTerminalExitStub);
         // activation of the interface with the service
         dteInt = new DepartureTerminalEntranceInterface(dte);       
         System.out.println("The service has been established!!");
