@@ -2,7 +2,7 @@
 
 echo "Running..."
 # run shared regions mains
-gnome-terminal -e "java serverSide/GIRMain" -t "GIRMain"
+# gnome-terminal -e "java serverSide/GIRMain" -t "GIRMain"
 gnome-terminal -e "java serverSide/ALMain" -t "ALMain"
 gnome-terminal -e "java serverSide/ATEMain" -t "ATEMain"
 gnome-terminal -e "java serverSide/ATTQMain" -t "ATTQMain"

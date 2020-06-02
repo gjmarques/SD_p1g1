@@ -50,6 +50,7 @@ public class ArrivalTermTransfQuayInterface {
             case Message.BUSBOARD:
                 res_int = this.arrivalTermTransfQuay.annoucingBusBoarding();
                 outMessage = new Message(Message.BUSBOARD, res_int);
+                break;
             case Message.GOTO_ATTQ:
                 this.arrivalTermTransfQuay.goToArrivalTerminal();
                 outMessage = new Message(Message.ACK);

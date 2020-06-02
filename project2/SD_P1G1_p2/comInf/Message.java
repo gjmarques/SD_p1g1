@@ -481,9 +481,9 @@ public class Message implements Serializable {
             || msgType == BUS_WAITNG_LINE || msgType == BUS_SITTING || msgType == COLLECTIONMAT_CONVBELT) {
             this.passengerID = i;
         } else if (msgType == SET_FLIGHT_attq) {
-            this.set_count_flights_attq = i + 1;
+            this.set_count_flights_attq = i;
         } else if (msgType == SET_FLIGHT_al) {
-            this.set_count_flights_al = i + 1;
+            this.set_count_flights_al = i;
         } else if (msgType == BAG_COLLECTED) {
             this.bag_id = i;
         } else if (msgType == GOCOLLECTBAG) {
@@ -491,7 +491,7 @@ public class Message implements Serializable {
         } else if (msgType == BUSBOARD) {
             this.bus_number_passengers = i;
         } else if (msgType == PARKBUS) {
-            this.nrLuggageConvBelt = i;
+            this.busPassengers = i;
         }
     }
 

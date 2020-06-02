@@ -1,6 +1,8 @@
 #!/bin/bash
 
 echo "Compiling..."
+
+javac comInf/Message.java
 # compile shared regions mains
 javac serverSide/GIRMain.java
 javac serverSide/ALMain.java

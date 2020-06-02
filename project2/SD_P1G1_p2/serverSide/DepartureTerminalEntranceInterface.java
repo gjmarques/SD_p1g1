@@ -30,8 +30,8 @@ public class DepartureTerminalEntranceInterface {
                 break;
             case Message.SHUT:       
                 // server shutdown                               
-                ALMain.waitConnection = false;
-                (((ALProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                DTEMain.waitConnection = false;
+                (((DTEProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
                 // generate confirmation
                 outMessage = new Message (Message.ACK);        
                 break;

@@ -102,11 +102,9 @@ public class ArrivalTermTransfQuayStub{
         // send message to arrival lounge interface, and wait for answer
         outMessage = new Message (Message.WORK_END);   
         con.writeObject (outMessage);
- 
         // receive new in message, and process it
         inMessage = (Message) con.readObject ();
-        System.out.println(inMessage);
-        if (inMessage.getType () != Message.WORK_ENDED || inMessage.getType () != Message.WORK_NOT_ENDED){ 
+        if (inMessage.getType () != Message.WORK_ENDED && inMessage.getType () != Message.WORK_NOT_ENDED){ 
             System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
             System.out.println (inMessage.toString ());
             System.exit (1);
@@ -131,7 +129,6 @@ public class ArrivalTermTransfQuayStub{
         // send message to arrival lounge interface, and wait for answer
         outMessage = new Message (Message.BUSBOARD);   
         con.writeObject (outMessage);
- 
         // receive new in message, and process it
         inMessage = (Message) con.readObject ();
         if (inMessage.getType () != Message.BUSBOARD){ 

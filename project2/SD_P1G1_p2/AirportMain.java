@@ -54,7 +54,7 @@ public class AirportMain {
 		/**
 		 * {@link sharedRegions.DepartureTermTransfQuay}
 		 */
-		DepartureTermTransfQuay departureTermTransfQuay = new DepartureTermTransfQuay(genInfoRepoStub);
+		//DepartureTermTransfQuay departureTermTransfQuay = new DepartureTermTransfQuay(genInfoRepoStub);
 		/**
 		 * {@link sharedRegions.ArrivalTerminalExit}
 		 */

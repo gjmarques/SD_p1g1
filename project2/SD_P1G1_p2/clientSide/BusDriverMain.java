@@ -19,23 +19,28 @@ public class BusDriverMain {
         GenInfoRepoStub repStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
 
         /** Creation and start threads/simulation */
-        BusDriver driver = new BusDriver(arrivalTermTransfQuayStub, departureTermTransfQuayStub, repStub);
+        BusDriver driver = new BusDriver(arrivalTermTransfQuayStub, departureTermTransfQuayStub);
+        BusTimer timer = new BusTimer(arrivalTermTransfQuayStub);
+        timer.start();
+        //BusDriver driver = new BusDriver(arrivalTermTransfQuayStub, departureTermTransfQuayStub, repStub);
         driver.start();
         
 
         /** Wait for simulation to start */
         try{
-            System.out.println("HELLO BUS DRIVER2");
             driver.join();
+            timer.stopTimer();
+            timer.join();
         } catch (Exception e) {
 			System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");
 			System.out.println("Error: " + e.getMessage());
 			System.exit(1);
         }
         System.out.println("The Bus Driver has ended his day of work!");
-        arrivalTermTransfQuayStub.shutdown();
+
         departureTermTransfQuayStub.shutdown();
-        repStub.shutdown();
+        arrivalTermTransfQuayStub.shutdown();
+        //repStub.shutdown();
     }
 
 }

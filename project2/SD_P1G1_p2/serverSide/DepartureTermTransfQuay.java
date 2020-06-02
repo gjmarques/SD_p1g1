@@ -30,18 +30,18 @@ public class DepartureTermTransfQuay{
     /**
      * Instance fo General repository of Information.
      */
-    private GenInfoRepoStub rep;
+    //private GenInfoRepoStub rep;
 
 
     /**
      * Instantiates the Departure Terminal Tranfer Quay.
      * @param rep {@link GenInfoRepo}.
      */
-    public DepartureTermTransfQuay(GenInfoRepoStub rep) {
+    public DepartureTermTransfQuay(){ //GenInfoRepoStub rep) {
         rl = new ReentrantLock(true);
 		waitEmpty = rl.newCondition();
         waitArrival = rl.newCondition();
-        this.rep = rep;
+        //this.rep = rep;
     }
 
     /**
@@ -52,7 +52,7 @@ public class DepartureTermTransfQuay{
         rl.lock();
         try {
             numPassengers += busPassengers;
-            rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
+            //rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
 			waitArrival.signalAll();
             waitEmpty.await();
         } catch(Exception e) {
@@ -75,7 +75,7 @@ public class DepartureTermTransfQuay{
             //rep.passengerState(passengerID, PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL);
             waitArrival.await();   
             numPassengers--;
-            rep.leaveBus(passengerID);
+            //rep.leaveBus(passengerID);
             if(numPassengers == 0) {
                 waitEmpty.signal();
             }
@@ -94,7 +94,7 @@ public class DepartureTermTransfQuay{
      */
     public void goToDepartureTerminal(){
         try {
-            rep.busDriverState(BusDriverState.DRIVING_FORWARD); 
+            //rep.busDriverState(BusDriverState.DRIVING_FORWARD); 
             Thread.sleep(50);
         } catch (Exception e) {
             System.out.println("Thread: " + Thread.currentThread().getName() + " terminated.");

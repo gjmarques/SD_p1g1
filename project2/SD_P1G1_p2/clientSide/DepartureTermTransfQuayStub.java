@@ -87,7 +87,7 @@ public class DepartureTermTransfQuayStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.departureTermTransfQuayStub_PORT);
         Message inMessage, outMessage;
-        BusDriver p_thread = (BusDriver) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
