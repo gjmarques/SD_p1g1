@@ -39,7 +39,14 @@ public class BaggageCollectionPointInterface {
             case Message.NO_BAGS_TO_COLLECT:
                 this.baggageCollectionPoint.noMoreBagsToCollect();
                 outMessage = new Message(Message.ACK);
-                break;            
+                break;       
+            case Message.SHUT:       
+                // server shutdown                               
+                BCPMain.waitConnection = false;
+                (((BCPProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                // generate confirmation
+                outMessage = new Message (Message.ACK);        
+                break;     
         }
         return outMessage;
     }

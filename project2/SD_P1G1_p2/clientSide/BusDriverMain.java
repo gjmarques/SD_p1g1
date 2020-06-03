@@ -36,11 +36,10 @@ public class BusDriverMain {
 			System.out.println("Error: " + e.getMessage());
 			System.exit(1);
         }
-        System.out.println("The Bus Driver has ended his day of work!");
-
         departureTermTransfQuayStub.shutdown();
+        System.out.println("departureTermTransfQuayStub.shutdown();");
         arrivalTermTransfQuayStub.shutdown();
-        //repStub.shutdown();
+        System.out.println("arrivalTermTransfQuayStub.shutdown();");
+        System.out.println("RAN SUCCESSFULLY");
     }
-
 }

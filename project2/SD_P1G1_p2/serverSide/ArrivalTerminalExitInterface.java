@@ -41,8 +41,8 @@ public class ArrivalTerminalExitInterface {
                 break;
             case Message.SHUT:       
                 // server shutdown                               
-                ALMain.waitConnection = false;
-                (((ALProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                ATEMain.waitConnection = false;
+                (((ATEProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
                 // generate confirmation
                 outMessage = new Message (Message.ACK);        
                 break;

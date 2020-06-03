@@ -20,6 +20,13 @@ public class BaggageReclaimOfficeInterface {
                 this.bro.reportMissingBags(inMessage.get_flight(), inMessage.get_passengerID());
                 outMessage = new Message(Message.ACK);
                 break;
+            case Message.SHUT:       
+                // server shutdown                               
+                BROMain.waitConnection = false;
+                (((BROProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                // generate confirmation
+                outMessage = new Message (Message.ACK);        
+                break;
         }
         return outMessage;
     }

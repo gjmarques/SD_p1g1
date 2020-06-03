@@ -30,7 +30,14 @@ public class TempStorageAreaInterface {
             case Message.CARRYTOAPPSTORE:
                 this.tempStorageArea.carryItToAppropriateStore(inMessage.get_Bag());
                 outMessage = new Message(Message.ACK);
-
+                break;
+            case Message.SHUT:       
+                // server shutdown                               
+                TSAMain.waitConnection = false;
+                (((TSAProxy) (Thread.currentThread ())).getScon ()).setTimeout (10);
+                // generate confirmation
+                outMessage = new Message (Message.ACK);        
+                break;
         }
         return outMessage;
     }

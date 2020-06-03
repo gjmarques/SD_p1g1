@@ -26,5 +26,8 @@ public class PorterMain {
             System.out.println("Error: " + e.getMessage());
             System.exit(1);
         }
+        tempStorageAreaStub.shutdown();
+        System.out.println("tempStorageAreaStub.shutdown();");
+        System.out.println("RAN SUCCESSFULLY");
     }
 }

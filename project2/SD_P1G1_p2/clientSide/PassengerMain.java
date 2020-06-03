@@ -55,7 +55,18 @@ public class PassengerMain{
             }
         }
         
-        //arrivalLoungeStub.shutdown();
+        arrivalLoungeStub.shutdown();
+        System.out.println("arrivalLoungeStub.shutdown();");
+        baggageCollectionPointStub.shutdown();
+        System.out.println("baggageCollectionPointStub.shutdown();");
+        baggageReclaimOfficeStub.shutdown();
+        System.out.println("baggageReclaimOfficeStub.shutdown();");
+        arrivalTerminalExitStub.shutdown();
+        System.out.println("arrivalTerminalExitStub.shutdown();");
+        departureTerminalEntranceStub.shutdown();
+        System.out.println("departureTerminalEntranceStub.shutdown();");
+        //repStub.shutdown();
+        System.out.println("RAN SUCCESSFULLY");
         
     }
 
@@ -116,5 +127,4 @@ public class PassengerMain{
         }
         con.close ();
     }*/
-
 }
