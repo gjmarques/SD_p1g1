@@ -45,7 +45,7 @@ public class BROMain {
 
         repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation                                    
-        bro = new BaggageReclaimOffice(repoStub);                           // activação do serviço
+        bro = new BaggageReclaimOffice();//repoStub);                           // activação do serviço
         // activation of the interface with the service
         broInt = new BaggageReclaimOfficeInterface(bro);       
         System.out.println("The service has been established!!");

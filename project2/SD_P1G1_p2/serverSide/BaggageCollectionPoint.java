@@ -49,17 +49,17 @@ public class BaggageCollectionPoint {
     /**
      * General Information Repository {@link GenInfoRepo}
      */
-	private GenInfoRepoStub rep;
+	//private GenInfoRepoStub rep;
 
 	/**
      * Instantiates BaggageCollectionPoint shared region
 	 * @param numPassengers total number of passengers to create individual lists in the collectionMat data structure
      * @param rep {@link GenInfoRepo}.
      */
-	public BaggageCollectionPoint(int numPassengers, GenInfoRepoStub rep) {
+	public BaggageCollectionPoint(int numPassengers){//, GenInfoRepoStub rep) {
 		rl = new ReentrantLock(true);
 		waitBag = rl.newCondition();
-		this.rep = rep;
+		//this.rep = rep;
 		for(int i=0; i<numPassengers; i++){
 			collectionMat.put(i, new ArrayList<Bag>());
 		}
@@ -82,8 +82,8 @@ public class BaggageCollectionPoint {
 				if(collectionMat.get(passengerID).size() != 0){
 					collectedBags += 1;
 					collectionMat.get(passengerID).remove(0);			
-					rep.passengerCollectedBags(passengerID, 1);
-					rep.collectionMatConveyorBelt(collectionMat.values().stream().mapToInt(List::size).sum());
+					//rep.passengerCollectedBags(passengerID, 1);
+					//rep.collectionMatConveyorBelt(collectionMat.values().stream().mapToInt(List::size).sum());
 				}
 		
 			}
@@ -111,12 +111,12 @@ public class BaggageCollectionPoint {
 	public void carryItToAppropriateStore(Bag bag) {
 		rl.lock();
 		try {
-			rep.porterState(PorterState.AT_THE_LUGGAGE_BELT_CONVEYOR);
+			//rep.porterState(PorterState.AT_THE_LUGGAGE_BELT_CONVEYOR);
 			
 			collectionMat.get(bag.getID()).add(bag);
 			noMoreBags = false;
-			rep.lessBagsOnPlanesHold(bag);
-			rep.collectionMatConveyorBelt(collectionMat.values().stream().mapToInt(List::size).sum());
+			//rep.lessBagsOnPlanesHold(bag);
+			//rep.collectionMatConveyorBelt(collectionMat.values().stream().mapToInt(List::size).sum());
 			waitBag.signalAll();
 
 		}catch (Exception e) {

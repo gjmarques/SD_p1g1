@@ -35,11 +35,7 @@ public class Message implements Serializable {
     /**
      * Updated arrival term. tranfer quay flight count
      */
-    public static final int SET_FLIGHT_attq = 7;
-    /**
-     * Updated arrival lounge flight count
-     */
-    public static final int SET_FLIGHT_al = 7;
+    public static final int SET_FLIGHT = 7;
     /**
      * Signal that passenger is going home
      */
@@ -242,13 +238,9 @@ public class Message implements Serializable {
      */
     private int flight_nr;
     /**
-     * Attq count flight number
+     * Count flight number
      */
-    private int set_count_flights_attq;
-    /**
-     * Arrival lounge count flight number
-     */
-    private int set_count_flights_al;
+    private int count_flights;
     /**
      * Number of passenger's {@link Bag}s per flight
      */
@@ -480,10 +472,8 @@ public class Message implements Serializable {
         if (msgType == WSID || msgType == TAKINGBUS || msgType == ENTERINGBUS || msgType == LEAVINGBUS 
             || msgType == BUS_WAITNG_LINE || msgType == BUS_SITTING || msgType == COLLECTIONMAT_CONVBELT) {
             this.passengerID = i;
-        } else if (msgType == SET_FLIGHT_attq) {
-            this.set_count_flights_attq = i;
-        } else if (msgType == SET_FLIGHT_al) {
-            this.set_count_flights_al = i;
+        } else if (msgType == SET_FLIGHT) {
+            this.count_flights = i;
         } else if (msgType == BAG_COLLECTED) {
             this.bag_id = i;
         } else if (msgType == GOCOLLECTBAG) {
@@ -550,21 +540,12 @@ public class Message implements Serializable {
     }
 
     /**
-     * Get attq flight count
+     * Get flight count
      * 
-     * @return set_count_flights Attq flights count
+     * @return count_flights Flights count
      */
-    public int get_setFlightCount_attq() {
-        return this.set_count_flights_attq;
-    }
-
-    /**
-     * Get arrival lounge flight count
-     * 
-     * @return set_count_flights Attq flights count
-     */
-    public int get_setFlightCount_al() {
-        return this.set_count_flights_al;
+    public int get_FlightCount() {
+        return this.count_flights;
     }
 
     /**

@@ -29,7 +29,7 @@ public class ArrivalTermTransfQuayStub{
             }catch (InterruptedException e) {}
         }
         // send message to arrival lounge interface, and wait for answer
-        outMessage = new Message (Message.SET_FLIGHT_attq, nFlight);   
+        outMessage = new Message (Message.SET_FLIGHT, nFlight);   
         con.writeObject (outMessage);
  
         // receive new in message, and process it

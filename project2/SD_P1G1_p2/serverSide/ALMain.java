@@ -45,7 +45,7 @@ public class ALMain {
 
         repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation                                    
-        al = new ArrivalLounge(repoStub);                           // activação do serviço
+        al = new ArrivalLounge();//repoStub);                           // activação do serviço
         // activation of the interface with the service
         alInt = new ArrivalLoungeInterface(al);       
         System.out.println("The service has been established!!");

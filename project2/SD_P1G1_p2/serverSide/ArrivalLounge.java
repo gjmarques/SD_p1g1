@@ -50,7 +50,7 @@ public class ArrivalLounge {
     /**
      * General Information Repository {@link GenInfoRepo}
      */
-    private GenInfoRepoStub rep;
+    //private GenInfoRepoStub rep;
 
     /**
      * Instantiates ArrivalLounge shared region
@@ -58,13 +58,13 @@ public class ArrivalLounge {
      * @param rep {@link GenInfoRepo}.
      */
 
-    public ArrivalLounge(GenInfoRepoStub rep) {
+    public ArrivalLounge(){//GenInfoRepoStub rep) {
         rl = new ReentrantLock(true);
         planeHoldEmptyCV = rl.newCondition();
         this.numPassengers = Global.NR_PASSENGERS;
         this.maxFlights = Global.MAX_FLIGHTS;
 
-        this.rep = rep;
+        //this.rep = rep;
     }
 
     /**
@@ -122,7 +122,6 @@ public class ArrivalLounge {
     public char takeARest() {
         rl.lock();
         try {
-            
             if (bags.empty() && flightCount == maxFlights)
                 return 'E';
             
@@ -158,7 +157,7 @@ public class ArrivalLounge {
                 return null;
             }
             else{
-                rep.porterState(PorterState.AT_THE_PLANES_HOLD);
+                //rep.porterState(PorterState.AT_THE_PLANES_HOLD);
                 return bags.pop();
             }
 

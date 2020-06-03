@@ -119,7 +119,7 @@ public class Passenger extends Thread {
             //repoStub.countDest(this.finalDestination);
             //repoStub.initPassenger(i, this.id);
             collectedBags = 0;
-            bags = new Bag[0];//new Bag[numBags.get(i)];
+            bags = new Bag[numBags.get(i)];
             for (int j = 0; j < bags.length; j++) {
                 bags[j] = new Bag(this.finalDestination ? 'H' : 'T', this.id, i);
             }

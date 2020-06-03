@@ -29,8 +29,8 @@ public class ArrivalLoungeInterface {
         
         // process new inMessage and answer server with new outMessage
         switch(inMessage.getType()){
-            case Message.SET_FLIGHT_al:
-                this.arrivalLounge.setFlight(inMessage.get_setFlightCount_al());
+            case Message.SET_FLIGHT:
+                this.arrivalLounge.setFlight(inMessage.get_FlightCount());
                 outMessage = new Message(Message.ACK);
                 break;
             case Message.WSID:

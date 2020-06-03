@@ -56,7 +56,7 @@ public class ArrivalLoungeStub{
             }catch (InterruptedException e) {}
         }
         // send message to arrival lounge interface, and wait for answer
-        outMessage = new Message (Message.SET_FLIGHT_al, flight_number);   
+        outMessage = new Message (Message.SET_FLIGHT, flight_number);   
         con.writeObject (outMessage);
  
         // receive new in message, and process it
@@ -88,7 +88,7 @@ public class ArrivalLoungeStub{
  
         // receive new in message, and process it
         inMessage = (Message) con.readObject ();
-        if (inMessage.getType () != Message.REST_Y || inMessage.getType () != Message.REST_N){ 
+        if (inMessage.getType () != Message.REST_Y && inMessage.getType () != Message.REST_N){ 
             System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
             System.out.println (inMessage.toString ());
             System.exit (1);

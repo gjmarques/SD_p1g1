@@ -18,8 +18,8 @@ public class ArrivalTermTransfQuayInterface {
         int  res_int;
 
         switch(inMessage.getType()){
-            case Message.SET_FLIGHT_attq: 
-                this.arrivalTermTransfQuay.setFlight(inMessage.get_setFlightCount_attq());
+            case Message.SET_FLIGHT: 
+                this.arrivalTermTransfQuay.setFlight(inMessage.get_FlightCount());
                 outMessage = new Message(Message.ACK);
                 break;
             case Message.TAKINGBUS:

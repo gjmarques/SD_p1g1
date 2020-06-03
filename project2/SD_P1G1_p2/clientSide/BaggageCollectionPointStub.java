@@ -15,7 +15,7 @@ public class BaggageCollectionPointStub{
 
     public int goCollectABag(int passengerID) {
         // create connection
-        ClientCom con = new ClientCom(serverHostName, Global.arrivalLoungeStub_PORT);
+        ClientCom con = new ClientCom(serverHostName, Global.baggageCollectionPointStub_PORT);
         Message inMessage, outMessage;
         Passenger p_thread = (Passenger) Thread.currentThread();
         while (!con.open ()){
@@ -40,7 +40,7 @@ public class BaggageCollectionPointStub{
 
     public void carryItToAppropriateStore(Bag bag) {
         // create connection
-        ClientCom con = new ClientCom(serverHostName, Global.arrivalLoungeStub_PORT);
+        ClientCom con = new ClientCom(serverHostName, Global.baggageCollectionPointStub_PORT);
         Message inMessage, outMessage;
         Porter p_thread = (Porter) Thread.currentThread();
         while (!con.open ()){

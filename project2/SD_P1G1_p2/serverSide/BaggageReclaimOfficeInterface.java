@@ -19,7 +19,7 @@ public class BaggageReclaimOfficeInterface {
             case Message.REPORT_MISSING: 
                 this.bro.reportMissingBags(inMessage.get_flight(), inMessage.get_passengerID());
                 outMessage = new Message(Message.ACK);
-            
+                break;
         }
         return outMessage;
     }

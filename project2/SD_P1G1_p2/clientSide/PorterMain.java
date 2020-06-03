@@ -15,8 +15,8 @@ public class PorterMain {
         BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(hostname, Global.baggageCollectionPointStub_PORT);
         GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
         TempStorageAreaStub tempStorageAreaStub = new TempStorageAreaStub(hostname, Global.tempStorageArea_PORT);
-
-        Porter porter = new Porter(arrivalLoungeStub, tempStorageAreaStub, baggageCollectionPointStub, repoStub);
+        Porter porter = new Porter(arrivalLoungeStub, tempStorageAreaStub, baggageCollectionPointStub);
+        //Porter porter = new Porter(arrivalLoungeStub, tempStorageAreaStub, baggageCollectionPointStub, repoStub);
         porter.start();
 
         try{
@@ -27,6 +27,4 @@ public class PorterMain {
             System.exit(1);
         }
     }
-
-    
 }

@@ -221,7 +221,6 @@ public class ArrivalTermTransfQuay {
 		try {
 			//rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
 			waitLine.signalAll();
-				System.out.println("ATTQ PASS-"+passengers+"; FLIGHT"+flightCount+"; MAX FLIGHT"+maxFlights);
 			if (passengers == 0 && flightCount == maxFlights){
 				return 'E';	
 			}

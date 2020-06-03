@@ -18,22 +18,14 @@ public class PassengerMain{
 		/**
          * Inicialization Stub Areas
          */
-        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);
-        System.out.println("INIT ALStub");
+        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);     
         ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalTermTransfQuayStub_PORT);
-        System.out.println("INIT ATTQStub");
-        DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(hostname, Global.departureTermTransfQuayStub_PORT);
-        System.out.println("INIT DTTQStub");
+        DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(hostname, Global.departureTermTransfQuayStub_PORT); 
         BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(hostname, Global.baggageCollectionPointStub_PORT);
-        System.out.println("INIT BCPStub");
         BaggageReclaimOfficeStub baggageReclaimOfficeStub = new BaggageReclaimOfficeStub(hostname, Global.baggageReclaimOfficeStub_PORT);
-        System.out.println("INIT BROStub");
         ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(hostname, Global.arrivalTerminalExitStub_PORT);
-        System.out.println("INIT ATEStub");
         DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(hostname, Global.departureTerminalEntranceStub_PORT);
-        System.out.println("INIT DTEStub");
         // GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
-		// System.out.println("INIT REPStub");
 
         /**
          * List of every {@link Bag} of every flight occurring in this airport.
@@ -49,7 +41,6 @@ public class PassengerMain{
                     baggageCollectionPointStub, baggageReclaimOfficeStub, arrivalTerminalExitStub, departureTerminalEntranceStub);
         }
         for (int i = 0; i < Global.NR_PASSENGERS; i++){
-            System.out.println("INIT PASSENGER NR " + i);
             passengers[i].start();
         }
         

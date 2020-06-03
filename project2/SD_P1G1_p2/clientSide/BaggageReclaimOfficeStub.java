@@ -15,7 +15,7 @@ public class BaggageReclaimOfficeStub{
     
     public void reportMissingBags(int i, int passengerID) {
         // create connection
-        ClientCom con = new ClientCom(serverHostName, Global.arrivalLoungeStub_PORT);
+        ClientCom con = new ClientCom(serverHostName, Global.baggageReclaimOfficeStub_PORT);
         Message inMessage, outMessage;
         Thread p_thread = Thread.currentThread();
         while (!con.open ()){

@@ -27,7 +27,7 @@ public class TempStorageAreaInterface {
         
         // process new inMessage and answer server with new outMessage
         switch(inMessage.getType()){
-            case Message.SET_FLIGHT_al:
+            case Message.CARRYTOAPPSTORE:
                 this.tempStorageArea.carryItToAppropriateStore(inMessage.get_Bag());
                 outMessage = new Message(Message.ACK);
 
