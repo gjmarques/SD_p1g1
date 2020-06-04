@@ -42,7 +42,7 @@ public class Porter extends Thread {
     /**
      * General Information Repository {@link sharedRegions.GenInfoRepo}.
      */
-    //private GenInfoRepoStub repoStub;
+    private GenInfoRepoStub repoStub;
 
     /**
      * Instantiates entity {@link Porter}
@@ -51,13 +51,11 @@ public class Porter extends Thread {
      * @param {@link sharedRegions.BaggageCollectionPoint}
      */
     public Porter(ArrivalLoungeStub arrivalLoungeStub, TempStorageAreaStub tempStorageAreaStub,
-            BaggageCollectionPointStub baggageCollectionPointStub) {
-    // public Porter(ArrivalLoungeStub arrivalLoungeStub, TempStorageAreaStub tempStorageAreaStub,
-    //         BaggageCollectionPointStub baggageCollectionPointStub, GenInfoRepoStub repoStub) {
+            BaggageCollectionPointStub baggageCollectionPointStub, GenInfoRepoStub repoStub) {
         this.arrivalLoungeStub = arrivalLoungeStub;
         this.tempStorageAreaStub = tempStorageAreaStub;
         this.baggageCollectionPointStub = baggageCollectionPointStub;
-        //this.repoStub = repoStub;
+        this.repoStub = repoStub;
     }
 
     /**
@@ -67,7 +65,7 @@ public class Porter extends Thread {
     public void run() {
         while (rest) {
             char choice = arrivalLoungeStub.takeARest();
-            //repoStub.porterState(PorterState.WAITING_FOR_A_PLANE_TO_LAND);
+            repoStub.porterState(PorterState.WAITING_FOR_A_PLANE_TO_LAND);
             if (choice == 'W') {
 
                 bag = arrivalLoungeStub.tryToCollectBag();
@@ -76,7 +74,7 @@ public class Porter extends Thread {
                     Random r = new Random();
                     int answer = r.nextInt(Global.LOST_BAG_PERCENTAGE);
                     if(answer==9){ 
-                        //repoStub.lessBagsOnPlanesHold(bag);
+                        repoStub.lessBagsOnPlanesHold(bag);
                     }
                     else if (answer < 9) {
                         // if bag is in trasit

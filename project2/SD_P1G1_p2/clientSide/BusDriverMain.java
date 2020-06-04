@@ -19,7 +19,7 @@ public class BusDriverMain {
         GenInfoRepoStub repStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
 
         /** Creation and start threads/simulation */
-        BusDriver driver = new BusDriver(arrivalTermTransfQuayStub, departureTermTransfQuayStub);
+        BusDriver driver = new BusDriver(arrivalTermTransfQuayStub, departureTermTransfQuayStub, repStub);
         BusTimer timer = new BusTimer(arrivalTermTransfQuayStub);
         timer.start();
         //BusDriver driver = new BusDriver(arrivalTermTransfQuayStub, departureTermTransfQuayStub, repStub);

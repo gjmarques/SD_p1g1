@@ -53,6 +53,7 @@ public class ArrivalLoungeInterface {
                 }
                 break;
             case Message.REST:
+            
                 res = this.arrivalLounge.takeARest();
                 switch(res){
                     case 'E':

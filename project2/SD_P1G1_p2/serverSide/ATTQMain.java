@@ -45,8 +45,7 @@ public class ATTQMain {
 
         repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation                                    
-        attq = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.MAX_FLIGHTS);
-        //attq = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.MAX_FLIGHTS, repoStub);                           // activação do serviço
+        attq = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.MAX_FLIGHTS, repoStub);                           // activação do serviço
         // activation of the interface with the service
         attqInt = new ArrivalTermTransfQuayInterface(attq);       
         System.out.println("The service has been established!!");

@@ -17,14 +17,14 @@ public class TempStorageArea {
     /**
      * General Information Repository ({@link GenInfoRepoStub}).
      */
-    //private GenInfoRepoStub rep;
+    private GenInfoRepoStub rep;
 
     /**
      * Instantiates Temporary Storage Area.
      * @param rep General Information Repository.
      */
-    public TempStorageArea(){//GenInfoRepoStub rep){
-        //this.rep = rep;
+    public TempStorageArea(GenInfoRepoStub rep){
+        this.rep = rep;
     }
 
     /** 
@@ -32,11 +32,11 @@ public class TempStorageArea {
 	 * @param bag {@link entities.Bag}
      */
 	public void carryItToAppropriateStore(Bag bag) {
-        //rep.porterState(PorterState.AT_THE_STOREOOM);
+        rep.porterState(PorterState.AT_THE_STOREOOM);
 
         tempStorageBags.add(bag);
 
-        //rep.lessBagsOnPlanesHold(bag);
-        //rep.bagAtStoreRoom(bag);
+        rep.lessBagsOnPlanesHold(bag);
+        rep.bagAtStoreRoom(bag);
 	}
 }

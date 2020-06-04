@@ -44,7 +44,7 @@ public class TSAMain {
 
         repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation
-        tsa = new TempStorageArea();//repoStub); // activação do serviço
+        tsa = new TempStorageArea(repoStub); // activação do serviço
         // activation of the interface with the service
         tsaInt = new TempStorageAreaInterface(tsa);
         System.out.println("The service has been established!!");

@@ -51,16 +51,14 @@ public class GIRMain {
 
         /* request processing */
         waitConnection = true;
-        while(waitConnection){
-            try{ 
-                sconi = scon.accept ();                          
+        while(waitConnection)
+            try{   
+                sconi = scon.accept ();                       
                 repoProxy = new GIRProxy (sconi, repoInt);  
                 repoProxy.start ();
             }
             catch (SocketTimeoutException e){  }
         scon.end ();                                         
         System.out.println("The server has been disabled.");
-        }
     }
-
 }

@@ -50,7 +50,7 @@ public class ArrivalLounge {
     /**
      * General Information Repository {@link GenInfoRepo}
      */
-    //private GenInfoRepoStub rep;
+    private GenInfoRepoStub rep;
 
     /**
      * Instantiates ArrivalLounge shared region
@@ -58,13 +58,12 @@ public class ArrivalLounge {
      * @param rep {@link GenInfoRepo}.
      */
 
-    public ArrivalLounge(){//GenInfoRepoStub rep) {
+    public ArrivalLounge(GenInfoRepoStub rep) {
         rl = new ReentrantLock(true);
         planeHoldEmptyCV = rl.newCondition();
         this.numPassengers = Global.NR_PASSENGERS;
         this.maxFlights = Global.MAX_FLIGHTS;
-
-        //this.rep = rep;
+        this.rep = rep;
     }
 
     /**
@@ -87,7 +86,7 @@ public class ArrivalLounge {
         rl.lock();
         
         try {    
-            //rep.passengerState(flight_nr, passengerID, PassengerState.AT_THE_DISEMBARKING_ZONE, finalDestination, bags.length);
+            rep.passengerState(flight_nr, passengerID, PassengerState.AT_THE_DISEMBARKING_ZONE, finalDestination, bags.length);
             
             passengerCount++;
             if (passengerCount == numPassengers) {
@@ -125,7 +124,7 @@ public class ArrivalLounge {
             if (bags.empty() && flightCount == maxFlights)
                 return 'E';
             
-            //rep.porterState(PorterState.WAITING_FOR_A_PLANE_TO_LAND);
+            rep.porterState(PorterState.WAITING_FOR_A_PLANE_TO_LAND);
             planeHoldEmptyCV.await();
 
             if (bags.empty() && flightCount == maxFlights)
@@ -157,7 +156,7 @@ public class ArrivalLounge {
                 return null;
             }
             else{
-                //rep.porterState(PorterState.AT_THE_PLANES_HOLD);
+                rep.porterState(PorterState.AT_THE_PLANES_HOLD);
                 return bags.pop();
             }
 

@@ -44,7 +44,7 @@ public class DTTQMain {
 
         repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
         // service activation
-        dttq = new DepartureTermTransfQuay();//repoStub); // activação do serviço
+        dttq = new DepartureTermTransfQuay(repoStub); // activação do serviço
         // activation of the interface with the service
         dttqInt = new DepartureTermTransfQuayInterface(dttq);
         System.out.println("The service has been established!!");
@@ -54,7 +54,6 @@ public class DTTQMain {
         waitConnection = true;
         while (waitConnection)
             try {
-
                 // entry into listening process
                 sconi = scon.accept();
                 // launch of the service provider

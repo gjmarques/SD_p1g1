@@ -25,20 +25,19 @@ public class PassengerMain{
         BaggageReclaimOfficeStub baggageReclaimOfficeStub = new BaggageReclaimOfficeStub(hostname, Global.baggageReclaimOfficeStub_PORT);
         ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(hostname, Global.arrivalTerminalExitStub_PORT);
         DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(hostname, Global.departureTerminalEntranceStub_PORT);
-        // GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
+        GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
 
         /**
          * List of every {@link Bag} of every flight occurring in this airport.
          */
-        // List<List<Integer>> bags = generateBags(repoStub, Global.NR_PASSENGERS, Global.MAX_FLIGHTS, Global.MAX_BAGS, hostname);
-        List<List<Integer>> bags = generateBags(Global.NR_PASSENGERS, Global.MAX_FLIGHTS, Global.MAX_BAGS, hostname);       
+        List<List<Integer>> bags = generateBags(repoStub, Global.NR_PASSENGERS, Global.MAX_FLIGHTS, Global.MAX_BAGS, hostname);
         /**
          * List of Passengers
          */
         Passenger[] passengers = new Passenger[Global.NR_PASSENGERS];
         for (int i = 0; i < Global.NR_PASSENGERS; i++) {
             passengers[i] = new Passenger(i, bags.get(i), arrivalLoungeStub, arrivalTermTransfQuayStub, departureTermTransfQuayStub,
-                    baggageCollectionPointStub, baggageReclaimOfficeStub, arrivalTerminalExitStub, departureTerminalEntranceStub);
+                    baggageCollectionPointStub, baggageReclaimOfficeStub, arrivalTerminalExitStub, departureTerminalEntranceStub, repoStub);
         }
         for (int i = 0; i < Global.NR_PASSENGERS; i++){
             passengers[i].start();
@@ -65,7 +64,7 @@ public class PassengerMain{
         System.out.println("arrivalTerminalExitStub.shutdown();");
         departureTerminalEntranceStub.shutdown();
         System.out.println("departureTerminalEntranceStub.shutdown();");
-        //repStub.shutdown();
+        repoStub.shutdown();
         System.out.println("RAN SUCCESSFULLY");
         
     }
@@ -79,8 +78,7 @@ public class PassengerMain{
      * @param genInfoRepo
      * @return List<Integer>
      */
-    // public static List<List<Integer>> generateBags(GenInfoRepoStub repoStub, int nrPassengers, int nrFlights, int maxBags, String hostname) {
-    public static List<List<Integer>> generateBags(int nrPassengers, int nrFlights, int maxBags, String hostname) {
+    public static List<List<Integer>> generateBags(GenInfoRepoStub repoStub, int nrPassengers, int nrFlights, int maxBags, String hostname) {
         List<List<Integer>> bagsPerPassenger = new ArrayList<List<Integer>>(nrPassengers);
         int[] bagsPerFlight = new int[nrFlights];
 
@@ -95,7 +93,7 @@ public class PassengerMain{
             bagsPerPassenger.add(bags);
 
         }
-        //repoStub.nrBagsPlanesHold(bagsPerFlight);
+        repoStub.nrBagsPlanesHold(bagsPerFlight);
         // send bagsPerFlight to GeneralRepo
         //send_info(bagsPerFlight, hostname);
 

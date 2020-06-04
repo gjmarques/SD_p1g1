@@ -37,12 +37,11 @@ public class BusDriver extends Thread {
      */
     private final DepartureTermTransfQuayStub departureTermTransfQuayStub;
 
-    //private final GenInfoRepoStub rep;
-    public BusDriver (ArrivalTermTransfQuayStub arrivalTermTransfQuayStub, DepartureTermTransfQuayStub departureTermTransfQuayStub){
-    //public BusDriver (ArrivalTermTransfQuayStub arrivalTermTransfQuayStub, DepartureTermTransfQuayStub departureTermTransfQuayStub, GenInfoRepoStub repoStub){
+    private final GenInfoRepoStub rep;
+    public BusDriver (ArrivalTermTransfQuayStub arrivalTermTransfQuayStub, DepartureTermTransfQuayStub departureTermTransfQuayStub, GenInfoRepoStub repoStub){
         this.arrivalTermTransfQuayStub = arrivalTermTransfQuayStub;
         this.departureTermTransfQuayStub = departureTermTransfQuayStub;
-        //this.rep = repoStub;
+        this.rep = repoStub;
     }
 
     /**
@@ -54,7 +53,7 @@ public class BusDriver extends Thread {
         while(loop){
             char choice = arrivalTermTransfQuayStub.hasDaysWorkEnded();
             
-            //rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
+            rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);
             
             if(choice == 'W') {
                 nPassengers = arrivalTermTransfQuayStub.annoucingBusBoarding();

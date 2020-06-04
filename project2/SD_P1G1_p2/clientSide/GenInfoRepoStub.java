@@ -21,7 +21,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Passenger p_thread = (Passenger) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -48,7 +48,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Passenger p_thread = (Passenger) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -77,7 +77,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Passenger p_thread = (Passenger) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -100,7 +100,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Porter p_thread = (Porter) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -123,7 +123,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -146,7 +146,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -169,7 +169,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -191,9 +191,8 @@ public class GenInfoRepoStub{
     public void porterState(PorterState porterState){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
-        System.out.println("CON: " + con);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -216,7 +215,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        BusDriver p_thread = (BusDriver) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -239,7 +238,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -262,7 +261,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -285,7 +284,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -308,7 +307,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -331,7 +330,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -354,7 +353,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -377,7 +376,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));
@@ -400,7 +399,7 @@ public class GenInfoRepoStub{
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.genRepo_PORT);
         Message inMessage, outMessage;
-        Thread p_thread = (Thread) Thread.currentThread();
+        Thread p_thread = Thread.currentThread();
         while (!con.open ()){
             try{ 
                 p_thread.sleep ((long) (10));

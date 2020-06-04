@@ -19,25 +19,24 @@ public class DTTQProxy extends Thread {
     private ServerCom sconi;
 
     /**
-     *  departure terminal transfer quay Interface
+     * departure terminal transfer quay Interface
      */
 
     private DepartureTermTransfQuayInterface dttqInt;
 
     /**
-       *  departure terminal transfer quay interface
-       *
-       *    @param sconi canal de comunicação
-       *    @param dttqInt departure terminal tranfer quay interface
-       */
-    
-       public DTTQProxy (ServerCom sconi, DepartureTermTransfQuayInterface dttqInt)
-       {
-          super ("Proxy_" + DTTQProxy.getProxyId ());
-    
-          this.sconi = sconi;
-          this.dttqInt = dttqInt;
-       }
+     * departure terminal transfer quay interface
+     *
+     * @param sconi   canal de comunicação
+     * @param dttqInt departure terminal tranfer quay interface
+     */
+
+    public DTTQProxy(ServerCom sconi, DepartureTermTransfQuayInterface dttqInt) {
+        super("Proxy_" + DTTQProxy.getProxyId());
+
+        this.sconi = sconi;
+        this.dttqInt = dttqInt;
+    }
 
     /**
      * Ciclo de vida do thread agente prestador de serviço.

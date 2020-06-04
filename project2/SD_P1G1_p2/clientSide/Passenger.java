@@ -71,7 +71,7 @@ public class Passenger extends Thread {
     /**
      * General Information Repository {@link sharedRegions.GenInfoRepo}.
      */
-    //private GenInfoRepoStub repoStub;
+    private GenInfoRepoStub repoStub;
 
     /**
      * Instantiates Passenger entity
@@ -87,14 +87,11 @@ public class Passenger extends Thread {
      * @param departureTerminalEntranceStub {@link sharedRegions.DepartureTerminalEntranceStub}.
      * @param repoStub {@link sharedRegions.GenInfoRepoStub}.
      */
-    // public Passenger(int identification, List<Integer> numBags, ArrivalLoungeStub arrivalLoungeStub,
-    //         ArrivalTermTransfQuayStub arrivalTermTransfQuayStub, DepartureTermTransfQuayStub departureTermTransfQuayStub,
-    //         BaggageCollectionPointStub baggageCollectionPointStub, BaggageReclaimOfficeStub baggageReclaimOfficeStub,
-    //         ArrivalTerminalExitStub arrivalTerminalExitStub, DepartureTerminalEntranceStub departureTerminalEntranceStub, GenInfoRepoStub repoStub) {
     public Passenger(int identification, List<Integer> numBags, ArrivalLoungeStub arrivalLoungeStub,
             ArrivalTermTransfQuayStub arrivalTermTransfQuayStub, DepartureTermTransfQuayStub departureTermTransfQuayStub,
             BaggageCollectionPointStub baggageCollectionPointStub, BaggageReclaimOfficeStub baggageReclaimOfficeStub,
-            ArrivalTerminalExitStub arrivalTerminalExitStub, DepartureTerminalEntranceStub departureTerminalEntranceStub) {
+            ArrivalTerminalExitStub arrivalTerminalExitStub, DepartureTerminalEntranceStub departureTerminalEntranceStub, GenInfoRepoStub repoStub) {
+
         this.id = identification;
         this.numBags = numBags;
         this.arrivalLoungeStub = arrivalLoungeStub;
@@ -104,7 +101,7 @@ public class Passenger extends Thread {
         this.baggageReclaimOfficeStub = baggageReclaimOfficeStub;
         this.arrivalTerminalExitStub = arrivalTerminalExitStub;
         this.departureTerminalEntranceStub = departureTerminalEntranceStub;
-        //this.repoStub = repoStub;
+        this.repoStub = repoStub;
     }
 
     /**
@@ -116,39 +113,39 @@ public class Passenger extends Thread {
         for (int i = 0; i < Global.MAX_FLIGHTS; i++) {
             r = new Random();
             this.finalDestination = r.nextBoolean();
-            //repoStub.countDest(this.finalDestination);
-            //repoStub.initPassenger(i, this.id);
+            repoStub.countDest(this.finalDestination);
+            repoStub.initPassenger(i, this.id);
             collectedBags = 0;
             bags = new Bag[numBags.get(i)];
             for (int j = 0; j < bags.length; j++) {
                 bags[j] = new Bag(this.finalDestination ? 'H' : 'T', this.id, i);
             }
             char choice = arrivalLoungeStub.whatShouldIDo(i, this.id, bags, this.finalDestination);
-            //repoStub.passengerState(i, this.id, PassengerState.AT_THE_DISEMBARKING_ZONE, this.finalDestination, bags.length);
+            repoStub.passengerState(i, this.id, PassengerState.AT_THE_DISEMBARKING_ZONE, this.finalDestination, bags.length);
             arrivalTermTransfQuayStub.setFlight(i);
             arrivalLoungeStub.setFlight(i);
             switch (choice) {
                 case ('a'):
                     arrivalTerminalExitStub.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
-                    //repoStub.passengerState(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
+                    repoStub.passengerState(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     break;
                 case ('b'):
                     arrivalTermTransfQuayStub.takeABus(this.id);
-                    //repoStub.passengerState(this.id, PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
+                    repoStub.passengerState(this.id, PassengerState.AT_THE_ARRIVAL_TRANSFER_TERMINAL);
                     arrivalTermTransfQuayStub.enterTheBus(this.id);
-                    //repoStub.passengerState(this.id, PassengerState.TERMINAL_TRANSFER);
+                    repoStub.passengerState(this.id, PassengerState.TERMINAL_TRANSFER);
                     departureTermTransfQuayStub.leaveTheBus(this.id);
-                    //repoStub.passengerState(this.id, PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL);
+                    repoStub.passengerState(this.id, PassengerState.AT_THE_DEPARTURE_TRANSFER_TERMINAL);
                     departureTerminalEntranceStub.prepareNextLeg(i, this.id);
-                    //repoStub.passengerState(this.id, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
+                    repoStub.passengerState(this.id, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);
                     break;
                 case ('c'):
                     collectedBags = baggageCollectionPointStub.goCollectABag(this.id);
-        			//repoStub.passengerState(this.id, PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
+        			repoStub.passengerState(this.id, PassengerState.AT_THE_LUGGAGE_COLLECTION_POINT);
 
                     if (collectedBags < numBags.get(i)) {
                         baggageReclaimOfficeStub.reportMissingBags(numBags.get(i) - collectedBags, this.id);
-                        //repoStub.passengerState(this.id, PassengerState.AT_THE_BAGGAGE_RECLAIM_OFFICE);
+                        repoStub.passengerState(this.id, PassengerState.AT_THE_BAGGAGE_RECLAIM_OFFICE);
                     }
                     arrivalTerminalExitStub.goHome(i, this.id, PassengerState.EXITING_THE_ARRIVAL_TERMINAL);
                     break;

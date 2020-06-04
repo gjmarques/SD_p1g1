@@ -85,7 +85,6 @@ public class ArrivalLoungeStub{
         // send message to arrival lounge interface, and wait for answer
         outMessage = new Message (Message.REST);   
         con.writeObject (outMessage);
- 
         // receive new in message, and process it
         inMessage = (Message) con.readObject ();
         if (inMessage.getType () != Message.REST_Y && inMessage.getType () != Message.REST_N){ 
