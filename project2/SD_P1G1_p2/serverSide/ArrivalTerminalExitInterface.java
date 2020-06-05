@@ -1,11 +1,22 @@
 package serverSide;
 
 import comInf.*;
+import global.*;
 
+/**
+ * This type of data defines the interface to the {@link ArrivalTerminalExit} in a solution to the AIRPORT RHAPSODY' Problem that implements
+ * the type 2 client-server model (server replication) with static launch of the shared region threads.
+ */
 public class ArrivalTerminalExitInterface {
 
+    /** ArrivalTerminalExit represents the service to be provided */
     private ArrivalTerminalExit arrivalTermExit;
 
+    /**
+    * Instantiation of the interface of the shared region {@link ArrivalTerminalExit}.
+    *
+    * @param arrivalTermExit arrival terminal exit
+    */
     public ArrivalTerminalExitInterface(ArrivalTerminalExit arrivalTermExit){
         this.arrivalTermExit = arrivalTermExit;
     }
@@ -21,11 +32,27 @@ public class ArrivalTerminalExitInterface {
     public Message ProcessAndReply(Message inMessage) throws MessageException {
        
         Message outMessage = null;
-
-        // process message arguments by type and throw MessageException if necessary
-        // TODO
         
-        // process new inMessage and answer server with new outMessage
+        /* validation of the received message */
+        switch (inMessage.getType ()){ 
+            case Message.GOINGHOME: 
+                if(inMessage.get_flight() < 0 || inMessage.get_flight() > Global.MAX_FLIGHTS){
+                    throw new MessageException ("Invalid flight number!", inMessage);
+                }else if(inMessage.get_passengerID() < 0 || inMessage.get_passengerID() > Global.NR_PASSENGERS){
+                    throw new MessageException ("Invalid passenger ID!", inMessage);
+                }
+                break;
+            case Message.SIGNAL_PASSENGER:
+                break;
+            case Message.SIGNAL_COMPLETION:
+                break;
+            case Message.SHUT:                                                        // shutdown do servidor
+                break;
+            default:               
+                throw new MessageException ("Invalid message type!", inMessage);
+        }
+        
+        /* message processing */
         switch(inMessage.getType()){
             case Message.GOINGHOME:
                 this.arrivalTermExit.goHome(inMessage.get_flight(), inMessage.get_passengerID(), inMessage.get_passengerState());

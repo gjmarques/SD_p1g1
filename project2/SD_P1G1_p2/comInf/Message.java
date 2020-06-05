@@ -1,6 +1,7 @@
 package comInf;
 
 import clientSide.*;
+import global.Global;
 
 import java.io.*;
 
@@ -203,7 +204,7 @@ public class Message implements Serializable {
     /**
      * List of bags per flight
      */
-    public static int[] bagsPerFlight_mess = {0, 1, 2, 3, 4};
+    public int[] bagsPerFlight_mess = new int[Global.MAX_FLIGHTS];
     /**
      * /* Tell Porter to take a rest
      */
@@ -457,10 +458,8 @@ public class Message implements Serializable {
     public Message(int type, int[] bagsPerFlight) {
         msgType = type;
         if (msgType == BAGS_P_FLIGHT) {
-            for (int i = 0; i < bagsPerFlight.length; i++) {
-                bagsPerFlight_mess[i] = bagsPerFlight[i];
-                System.out.println("MESSAGE update bags perflight: " + bagsPerFlight_mess[i]);
-            }
+                this.bagsPerFlight_mess = bagsPerFlight;
+
         }
     }
 
@@ -521,9 +520,6 @@ public class Message implements Serializable {
      * @return int[] bagsPerFlight
      */
     public int[] get_nrBagsPerFlight() {
-        for(int i = 0; i < bagsPerFlight_mess.length; i++){
-            System.out.println("Message get_nrBagsPerFlight: " + bagsPerFlight_mess[i]);
-        }
         return (bagsPerFlight_mess);
     }
 

@@ -135,7 +135,6 @@ public class GenInfoRepo {
     public void nrBagsPlanesHold(int[] bagsPerFlight){
         for(int i = 0; i< bagsPerFlight.length;i++){
             this.bn[i] = bagsPerFlight[i];
-            System.out.println("GIR update bn: " + bn[i]);
             this.bn_total += this.bn[i];
         }
     }

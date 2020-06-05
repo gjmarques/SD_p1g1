@@ -1,32 +1,61 @@
 package serverSide;
 
 import comInf.*;
+import global.*;
 
+/**
+ * This type of data defines the interface to the {@link BaggageCollectionPoint} in a solution to the AIRPORT RHAPSODY' Problem that implements
+ * the type 2 client-server model (server replication) with static launch of the shared region threads.
+ */
 public class BaggageCollectionPointInterface {
     
+    /** BaggageCollectionPoint represents the service to be provided */
     private BaggageCollectionPoint baggageCollectionPoint;
 
+    /**
+    * Instantiation of the interface of the shared region {@link BaggageCollectionPoint}.
+    *
+    * @param baggageCollectionPoint baggage collection point
+    */
     public BaggageCollectionPointInterface(BaggageCollectionPoint baggageCollectionPoint){
         this.baggageCollectionPoint = baggageCollectionPoint;
     }
 
-     /**
-     * Processing of messages by executing the corresponding task.
-     * Generation of a reply message.
-     * 
-     * @param inMessage incoming message with request
-     * @param passengerID passenger identification
-     * @return reply message
-     * @throws MessageException if the message with the request is found to be invalid
-     */
+    /**
+    * Processing of messages by executing the corresponding task.
+    * Generation of a reply message.
+    *
+    * @param inMessage message with the request
+    *
+    * @return reply message
+    *
+    * @throws MessageException if the message with the request is considered invalid
+    */
     public Message ProcessAndReply(Message inMessage) throws MessageException {
        
         Message outMessage = null;
 
-        // process message arguments by type and throw MessageException if necessary
-        // TODO
-        
-        // process new inMessage and answer server with new outMessage
+        /* validation of the received message */
+        switch(inMessage.getType()){
+            case Message.GOCOLLECTBAG: 
+                if(inMessage.get_passengerID() < 0 || inMessage.get_passengerID() > Global.NR_PASSENGERS){
+                    throw new MessageException ("Invalid passenger ID!", inMessage);
+                }
+                break;
+            case Message.CARRYTOAPPSTORE: 
+                if(inMessage.get_Bag() == null){
+                    throw new MessageException ("Bag not found!", inMessage);
+                }
+                break;
+            case Message.NO_BAGS_TO_COLLECT:
+                break;  
+            case Message.SHUT:       
+                // server shutdown 
+                break;
+            default:                              
+                throw new MessageException ("Invalid message type!", inMessage);
+        }
+        /* message processing */
         switch(inMessage.getType()){
             case Message.GOCOLLECTBAG:
                 int bag_id = this.baggageCollectionPoint.goCollectABag(inMessage.get_passengerID());

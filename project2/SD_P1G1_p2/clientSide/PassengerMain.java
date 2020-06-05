@@ -5,10 +5,11 @@ import comInf.*;
 import java.io.*;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class PassengerMain{
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         String hostname = "localhost";
         int port = Global.passenger_PORT;
@@ -64,6 +65,7 @@ public class PassengerMain{
         System.out.println("arrivalTerminalExitStub.shutdown();");
         departureTerminalEntranceStub.shutdown();
         System.out.println("departureTerminalEntranceStub.shutdown();");
+        TimeUnit.SECONDS.sleep(2);
         repoStub.shutdown();
         System.out.println("RAN SUCCESSFULLY");
         
@@ -93,39 +95,7 @@ public class PassengerMain{
             bagsPerPassenger.add(bags);
 
         }
-        for (int i=0 ; i< bagsPerFlight.length; i++){
-            System.out.println("PASSENGER bagsPerFlight: " + bagsPerFlight[i]);
-        }
         repoStub.nrBagsPlanesHold(bagsPerFlight);
-        // send bagsPerFlight to GeneralRepo
-        //send_info(bagsPerFlight, hostname);
-
         return bagsPerPassenger;
     }
-
-    /*public static void send_info(int[] bagsPerFlight, String hostname){
-        // create connection
-        ClientCom con = new ClientCom(hostname, Global.genRepo_PORT);
-        Message inMessage, outMessage;
-        Thread p_thread = Thread.currentThread();
-        while (!con.open ()){
-            try{ 
-                p_thread.sleep ((long) (10));
-            }catch (InterruptedException e) {}
-        }
-        System.out.println("SEND MSG TO REPOSITORY");
-        // send message to arrival lounge interface, and wait for answer
-        outMessage = new Message (Message.BAGS_P_FLIGHT, bagsPerFlight);   
-        con.writeObject (outMessage);
-
-        // receive new in message, and process it
-        inMessage = (Message) con.readObject ();
-        System.out.println("Passenger answer from repo" + inMessage);
-        if (inMessage.getType () != Message.ACK){ 
-            System.out.println ("Thread " + p_thread.getName () + ": Invalid message type!");
-            System.out.println (inMessage.toString ());
-            System.exit (1);
-        }
-        con.close ();
-    }*/
 }
