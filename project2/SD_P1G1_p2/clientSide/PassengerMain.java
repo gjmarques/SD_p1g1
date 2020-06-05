@@ -93,6 +93,9 @@ public class PassengerMain{
             bagsPerPassenger.add(bags);
 
         }
+        for (int i=0 ; i< bagsPerFlight.length; i++){
+            System.out.println("PASSENGER bagsPerFlight: " + bagsPerFlight[i]);
+        }
         repoStub.nrBagsPlanesHold(bagsPerFlight);
         // send bagsPerFlight to GeneralRepo
         //send_info(bagsPerFlight, hostname);

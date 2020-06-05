@@ -17,6 +17,9 @@ public class GenInfoRepoInterface {
 
         switch(inMessage.getType()){
             case Message.BAGS_P_FLIGHT:
+                for(int i = 0; i < inMessage.get_nrBagsPerFlight().length; i++){
+                    System.out.println("GIR INT inMessage.get_nrBagsPerFlight(): " + inMessage.get_nrBagsPerFlight()[i]);
+                }
                 this.genRepo.nrBagsPlanesHold(inMessage.get_nrBagsPerFlight());
                 outMessage = new Message(Message.ACK);
                 break;
@@ -75,6 +78,10 @@ public class GenInfoRepoInterface {
                 break;
             case Message.BUSDRIVER_STATE:
                 this.genRepo.busDriverState(inMessage.get_busDriverState());
+                outMessage = new Message(Message.ACK);
+                break;
+            case Message.REPORT_MISSING_GIR:
+                this.genRepo.missingBags(inMessage.get_numLostBags(), inMessage.get_passengerID());;
                 outMessage = new Message(Message.ACK);
                 break;
             case Message.SHUT:       

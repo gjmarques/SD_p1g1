@@ -188,6 +188,7 @@ public class Message implements Serializable {
      * Signal that passenger is at the collection mat conveyor belt
      */
     public static final int SIGNAL_COMPLETION = 43;
+    public static final int REPORT_MISSING_GIR = 44;
 
 
 
@@ -202,7 +203,7 @@ public class Message implements Serializable {
     /**
      * List of bags per flight
      */
-    public static final int[] bagsPerFlight = {0, 1, 2, 3, 4};
+    public static int[] bagsPerFlight_mess = {0, 1, 2, 3, 4};
     /**
      * /* Tell Porter to take a rest
      */
@@ -281,6 +282,7 @@ public class Message implements Serializable {
      * Number of bags at the conveyor belt
      */
     public int nrLuggageConvBelt;
+    public int num_lost_bags;
 
     /* Messages type */
 
@@ -419,9 +421,9 @@ public class Message implements Serializable {
      */
     public Message(int type, int id, int i) {
         msgType = type;
-        if (type == INITP || msgType == PNEXTLEG || msgType == REPORT_MISSING) {
+        if (type == INITP || msgType == PNEXTLEG || msgType == REPORT_MISSING || msgType == REPORT_MISSING_GIR) {
             this.passengerID = id;
-            this.flight_nr = i;
+            this.num_lost_bags = i;
         }else if( msgType == PSGR_COLLECTED_BAGS){
             this.passengerID = id;
             this.nr_bags = i;
@@ -456,7 +458,8 @@ public class Message implements Serializable {
         msgType = type;
         if (msgType == BAGS_P_FLIGHT) {
             for (int i = 0; i < bagsPerFlight.length; i++) {
-                bagsPerFlight[i] = bagsPerFlight[i];
+                bagsPerFlight_mess[i] = bagsPerFlight[i];
+                System.out.println("MESSAGE update bags perflight: " + bagsPerFlight_mess[i]);
             }
         }
     }
@@ -518,7 +521,10 @@ public class Message implements Serializable {
      * @return int[] bagsPerFlight
      */
     public int[] get_nrBagsPerFlight() {
-        return (bagsPerFlight);
+        for(int i = 0; i < bagsPerFlight_mess.length; i++){
+            System.out.println("Message get_nrBagsPerFlight: " + bagsPerFlight_mess[i]);
+        }
+        return (bagsPerFlight_mess);
     }
 
     /**
@@ -669,6 +675,9 @@ public class Message implements Serializable {
     }
     public boolean get_destination_passenger(){
         return final_dest;
+    }
+    public int get_numLostBags(){
+        return num_lost_bags;
     }
 
 }

@@ -17,7 +17,7 @@ public class BaggageReclaimOfficeInterface {
 
         switch(inMessage.getType()){
             case Message.REPORT_MISSING: 
-                this.bro.reportMissingBags(inMessage.get_flight(), inMessage.get_passengerID());
+                this.bro.reportMissingBags(inMessage.get_numLostBags(), inMessage.get_passengerID());
                 outMessage = new Message(Message.ACK);
                 break;
             case Message.SHUT:       

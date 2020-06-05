@@ -26,7 +26,7 @@ public class BaggageReclaimOffice {
 	 * {@link entities.Passenger}s with missed report them here.
 	 * <p>
 	 * This method increments the total number of missing {@link entities.Bag}s
-	 * @param i Flight number.
+	 * @param i number of lost bags.
 	 * @param passengerID {@link entities.Passenger} identification.
 	 */
 	public void reportMissingBags(int i, int passengerID) {

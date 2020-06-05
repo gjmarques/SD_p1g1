@@ -383,7 +383,7 @@ public class GenInfoRepoStub{
             }catch (InterruptedException e) {}
         }
         // send message to arrival lounge interface, and wait for answer
-        outMessage = new Message (Message.REPORT_MISSING, passengerID, nrBags);   
+        outMessage = new Message (Message.REPORT_MISSING_GIR, passengerID, nrBags);   
         con.writeObject (outMessage);
 
         // receive new in message, and process it
