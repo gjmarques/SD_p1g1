@@ -13,7 +13,6 @@ import java.util.*;
  * home.
  * </ul>
  */
-
 public class Passenger extends Thread {
 
     /**

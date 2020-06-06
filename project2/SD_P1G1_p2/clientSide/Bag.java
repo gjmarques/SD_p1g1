@@ -5,7 +5,6 @@ import java.io.Serializable;
 /**
  * Implementation of Bag. Represents the passengers' luggage.
  */
-
 public class Bag extends Thread implements Serializable{
     
   /**

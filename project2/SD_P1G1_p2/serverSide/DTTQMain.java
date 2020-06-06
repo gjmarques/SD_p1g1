@@ -46,7 +46,7 @@ public class DTTQMain {
         scon = new ServerCom(Global.departureTermTransfQuayStub_PORT);
         scon.start();
 
-        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub(Global.genRepo_HOSTNAME, Global.genRepo_PORT);
         // service activation
         dttq = new DepartureTermTransfQuay(repoStub); // activação do serviço
         // activation of the interface with the service

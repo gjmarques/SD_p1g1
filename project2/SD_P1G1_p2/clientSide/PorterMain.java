@@ -4,6 +4,11 @@ import global.*;
 
 import java.io.*;
 
+/**
+ * This type of data simulates a client-side solution to the Airport Rapsody' Problem that implements the
+ * type 2 client-server model (server replication) with static launch of the shared regions threads.
+ * Communication is based on passing messages over sockets using the TCP protocol.
+ */
 public class PorterMain {
 
     public static void main(String[] args) throws IOException{
@@ -17,10 +22,10 @@ public class PorterMain {
          */
         int port = Global.porter_PORT;
 
-        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);
-        BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(hostname, Global.baggageCollectionPointStub_PORT);
-        GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
-        TempStorageAreaStub tempStorageAreaStub = new TempStorageAreaStub(hostname, Global.tempStorageArea_PORT);
+        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(Global.arrivalLoungeStub_HOSTNAME , Global.arrivalLoungeStub_PORT);
+        BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(Global.baggageCollectionPointStub_HOSTNAME , Global.baggageCollectionPointStub_PORT);
+        GenInfoRepoStub repoStub = new GenInfoRepoStub(Global.genRepo_HOSTNAME , Global.genRepo_PORT);
+        TempStorageAreaStub tempStorageAreaStub = new TempStorageAreaStub(Global.tempStorageArea_HOSTNAME , Global.tempStorageArea_PORT);
         Porter porter = new Porter(arrivalLoungeStub, tempStorageAreaStub, baggageCollectionPointStub, repoStub);
         porter.start();
 

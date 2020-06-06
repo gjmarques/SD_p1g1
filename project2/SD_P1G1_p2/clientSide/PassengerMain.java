@@ -1,12 +1,16 @@
 package clientSide;
 
 import global.*;
-import comInf.*;
 import java.io.*;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This type of data simulates a client-side solution to the Airport Rapsody' Problem that implements the
+ * type 2 client-server model (server replication) with static launch of the shared regions threads.
+ * Communication is based on passing messages over sockets using the TCP protocol.
+ */
 public class PassengerMain{
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -24,14 +28,14 @@ public class PassengerMain{
 		/**
          * Inicialization Stub Areas
          */
-        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);     
-        ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalTermTransfQuayStub_PORT);
-        DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(hostname, Global.departureTermTransfQuayStub_PORT); 
-        BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(hostname, Global.baggageCollectionPointStub_PORT);
-        BaggageReclaimOfficeStub baggageReclaimOfficeStub = new BaggageReclaimOfficeStub(hostname, Global.baggageReclaimOfficeStub_PORT);
-        ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(hostname, Global.arrivalTerminalExitStub_PORT);
-        DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(hostname, Global.departureTerminalEntranceStub_PORT);
-        GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
+        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(Global.arrivalLoungeStub_HOSTNAME , Global.arrivalLoungeStub_PORT);     
+        ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(Global.arrivalTermTransfQuayStub_HOSTNAME , Global.arrivalTermTransfQuayStub_PORT);
+        DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(Global.departureTermTransfQuayStub_HOSTNAME , Global.departureTermTransfQuayStub_PORT); 
+        BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(Global.baggageCollectionPointStub_HOSTNAME , Global.baggageCollectionPointStub_PORT);
+        BaggageReclaimOfficeStub baggageReclaimOfficeStub = new BaggageReclaimOfficeStub(Global.baggageReclaimOfficeStub_HOSTNAME , Global.baggageReclaimOfficeStub_PORT);
+        ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(Global.arrivalTerminalExitStub_HOSTNAME , Global.arrivalTerminalExitStub_PORT);
+        DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(Global.departureTerminalEntranceStub_HOSTNAME , Global.departureTerminalEntranceStub_PORT);
+        GenInfoRepoStub repoStub = new GenInfoRepoStub(Global.genRepo_HOSTNAME , Global.genRepo_PORT);
 
         /**
          * List of every {@link Bag} of every flight occurring in this airport.

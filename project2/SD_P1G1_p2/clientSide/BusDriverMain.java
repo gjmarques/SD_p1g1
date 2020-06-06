@@ -1,10 +1,14 @@
 package clientSide;
 
 import global.*;
-import serverSide.DepartureTermTransfQuayInterface;
 
 import java.io.*;
 
+/**
+ * This type of data simulates a client-side solution to the Airport Rapsody' Problem that implements the
+ * type 2 client-server model (server replication) with static launch of the shared regions threads.
+ * Communication is based on passing messages over sockets using the TCP protocol.
+ */
 public class BusDriverMain {
     public static void main(String[] args) throws IOException{
 

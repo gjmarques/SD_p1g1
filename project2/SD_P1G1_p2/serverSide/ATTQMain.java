@@ -47,7 +47,7 @@ public class ATTQMain {
         scon = new ServerCom (Global.arrivalTermTransfQuayStub_PORT);                    
         scon.start ();   
 
-        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub(Global.genRepo_HOSTNAME, Global.genRepo_PORT);
         // service activation                                    
         attq = new ArrivalTermTransfQuay(Global.BUS_SIZE, Global.MAX_FLIGHTS, repoStub);                           // activação do serviço
         // activation of the interface with the service

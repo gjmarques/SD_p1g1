@@ -24,7 +24,7 @@ public class ArrivalLoungeStub{
      * @param port ort server listening port number
      */
     public ArrivalLoungeStub(String hostname, int port){
-        serverHostName = "localhost";
+        serverHostName = hostname;
         serverPortNumb = port;
     }
 

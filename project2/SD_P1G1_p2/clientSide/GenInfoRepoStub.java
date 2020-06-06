@@ -24,7 +24,7 @@ public class GenInfoRepoStub{
      * @param port ort server listening port number
      */
     public GenInfoRepoStub(String hostname, int port){
-        serverHostName = "localhost";
+        serverHostName = hostname;
         serverPortNumb = port;
     }
 
