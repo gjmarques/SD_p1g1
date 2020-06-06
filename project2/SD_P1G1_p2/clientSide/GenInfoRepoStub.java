@@ -9,7 +9,7 @@ public class GenInfoRepoStub{
     private int serverPortNumb;
 
     public GenInfoRepoStub(String hostname, int port){
-        serverHostName = "localhost";
+        serverHostName = hostname;
         serverPortNumb = port;
     }
 

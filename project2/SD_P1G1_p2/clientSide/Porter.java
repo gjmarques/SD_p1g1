@@ -67,7 +67,6 @@ public class Porter extends Thread {
             char choice = arrivalLoungeStub.takeARest();
             repoStub.porterState(PorterState.WAITING_FOR_A_PLANE_TO_LAND);
             if (choice == 'W') {
-
                 bag = arrivalLoungeStub.tryToCollectBag();
             
                 while (bag != null) {

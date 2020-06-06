@@ -11,7 +11,7 @@ public class PassengerMain{
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        String hostname = "localhost";
+        String hostname = Global.passenger_HOSTNAME;
         int port = Global.passenger_PORT;
 
 
@@ -19,14 +19,14 @@ public class PassengerMain{
 		/**
          * Inicialization Stub Areas
          */
-        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);     
-        ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(hostname, Global.arrivalTermTransfQuayStub_PORT);
-        DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(hostname, Global.departureTermTransfQuayStub_PORT); 
-        BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(hostname, Global.baggageCollectionPointStub_PORT);
-        BaggageReclaimOfficeStub baggageReclaimOfficeStub = new BaggageReclaimOfficeStub(hostname, Global.baggageReclaimOfficeStub_PORT);
-        ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(hostname, Global.arrivalTerminalExitStub_PORT);
-        DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(hostname, Global.departureTerminalEntranceStub_PORT);
-        GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
+        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(Global.arrivalLoungeStub_HOSTNAME , Global.arrivalLoungeStub_PORT);     
+        ArrivalTermTransfQuayStub arrivalTermTransfQuayStub = new ArrivalTermTransfQuayStub(Global.arrivalTermTransfQuayStub_HOSTNAME , Global.arrivalTermTransfQuayStub_PORT);
+        DepartureTermTransfQuayStub departureTermTransfQuayStub = new DepartureTermTransfQuayStub(Global.departureTermTransfQuayStub_HOSTNAME , Global.departureTermTransfQuayStub_PORT); 
+        BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(Global.baggageCollectionPointStub_HOSTNAME , Global.baggageCollectionPointStub_PORT);
+        BaggageReclaimOfficeStub baggageReclaimOfficeStub = new BaggageReclaimOfficeStub(Global.baggageReclaimOfficeStub_HOSTNAME , Global.baggageReclaimOfficeStub_PORT);
+        ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(Global.arrivalTerminalExitStub_HOSTNAME , Global.arrivalTerminalExitStub_PORT);
+        DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(Global.departureTerminalEntranceStub_HOSTNAME , Global.departureTerminalEntranceStub_PORT);
+        GenInfoRepoStub repoStub = new GenInfoRepoStub(Global.genRepo_HOSTNAME , Global.genRepo_PORT);
 
         /**
          * List of every {@link Bag} of every flight occurring in this airport.

@@ -361,7 +361,6 @@ public class Message implements Serializable {
         if (msgType == DEST) {
             // related to general information repository
             this.final_dest = final_dest;
-            System.out.println("FINAL DESTINATION? " + this.final_dest);
         }
     }
 

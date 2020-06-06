@@ -43,10 +43,10 @@ public class DTEMain {
         scon = new ServerCom (Global.departureTerminalEntranceStub_PORT);                    
         scon.start ();   
 
-        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub(Global.genRepo_HOSTNAME, Global.genRepo_PORT);
         // service activation                                    
         dte = new DepartureTerminalEntrance(Global.NR_PASSENGERS,repoStub);      // activação do serviço
-        ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub("localhost", Global.arrivalTerminalExitStub_PORT);
+        ArrivalTerminalExitStub arrivalTerminalExitStub = new ArrivalTerminalExitStub(Global.arrivalLoungeStub_HOSTNAME, Global.arrivalTerminalExitStub_PORT);
         dte.setArrivalTerminal(arrivalTerminalExitStub);
         // activation of the interface with the service
         dteInt = new DepartureTerminalEntranceInterface(dte);       

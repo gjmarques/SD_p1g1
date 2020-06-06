@@ -8,13 +8,13 @@ public class PorterMain {
 
     public static void main(String[] args) throws IOException{
 
-        String hostname = "localhost";
+        String hostname = Global.porter_HOSTNAME;
         int port = Global.porter_PORT;
 
-        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);
-        BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(hostname, Global.baggageCollectionPointStub_PORT);
-        GenInfoRepoStub repoStub = new GenInfoRepoStub(hostname, Global.genRepo_PORT);
-        TempStorageAreaStub tempStorageAreaStub = new TempStorageAreaStub(hostname, Global.tempStorageArea_PORT);
+        ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(Global.arrivalLoungeStub_HOSTNAME , Global.arrivalLoungeStub_PORT);
+        BaggageCollectionPointStub baggageCollectionPointStub = new BaggageCollectionPointStub(Global.baggageCollectionPointStub_HOSTNAME , Global.baggageCollectionPointStub_PORT);
+        GenInfoRepoStub repoStub = new GenInfoRepoStub(Global.genRepo_HOSTNAME , Global.genRepo_PORT);
+        TempStorageAreaStub tempStorageAreaStub = new TempStorageAreaStub(Global.tempStorageArea_HOSTNAME , Global.tempStorageArea_PORT);
         Porter porter = new Porter(arrivalLoungeStub, tempStorageAreaStub, baggageCollectionPointStub, repoStub);
         porter.start();
 

@@ -40,10 +40,10 @@ public class ATEMain {
         scon = new ServerCom (Global.arrivalTerminalExitStub_PORT);                    
         scon.start ();   
         
-        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub(Global.genRepo_HOSTNAME, Global.genRepo_PORT);
         // service activation                                    
         ate = new ArrivalTerminalExit(Global.NR_PASSENGERS, repoStub);                         // activação do serviço
-        DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub("localhost", Global.departureTerminalEntranceStub_PORT);
+        DepartureTerminalEntranceStub departureTerminalEntranceStub = new DepartureTerminalEntranceStub(Global.departureTerminalEntranceStub_HOSTNAME, Global.departureTerminalEntranceStub_PORT);
         ate.setDepartureTerminal(departureTerminalEntranceStub);
         // activation of the interface with the service
         ateInt = new ArrivalTerminalExitInterface(ate);       

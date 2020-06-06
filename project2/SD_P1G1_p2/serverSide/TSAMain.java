@@ -42,7 +42,7 @@ public class TSAMain {
         scon = new ServerCom(Global.tempStorageArea_PORT);
         scon.start();
 
-        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub(Global.genRepo_HOSTNAME, Global.genRepo_PORT);
         // service activation
         tsa = new TempStorageArea(repoStub); // activação do serviço
         // activation of the interface with the service

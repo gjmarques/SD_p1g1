@@ -43,7 +43,7 @@ public class BROMain {
         scon = new ServerCom (Global.baggageReclaimOfficeStub_PORT);                    
         scon.start ();   
 
-        repoStub = new GenInfoRepoStub("localhost", Global.genRepo_PORT);
+        repoStub = new GenInfoRepoStub(Global.genRepo_HOSTNAME, Global.genRepo_PORT);
         // service activation                                    
         bro = new BaggageReclaimOffice(repoStub);                           // activação do serviço
         // activation of the interface with the service

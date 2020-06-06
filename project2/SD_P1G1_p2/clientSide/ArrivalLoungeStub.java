@@ -9,7 +9,7 @@ public class ArrivalLoungeStub{
     private int serverPortNumb;
 
     public ArrivalLoungeStub(String hostname, int port){
-        serverHostName = "localhost";
+        serverHostName = hostname;
         serverPortNumb = port;
     }
 
