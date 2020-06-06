@@ -20,7 +20,7 @@ public class ArrivalTermTransfQuayStub{
      */
 	public void setFlight(int nFlight){
 		// create connection
-        ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
+        ClientCom con = new ClientCom("localhost", Global.arrivalTermTransfQuayStub_PORT);
         Message inMessage, outMessage;
         Passenger p_thread = (Passenger) Thread.currentThread();
         while (!con.open ()){

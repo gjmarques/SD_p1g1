@@ -59,6 +59,7 @@ public class GIRMain {
             }
             catch (SocketTimeoutException e){  }
         scon.end ();                                         
+        repo.finalReport();
         System.out.println("The server has been disabled.");
     }
 }
