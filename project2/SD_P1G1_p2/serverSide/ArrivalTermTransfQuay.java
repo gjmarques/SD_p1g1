@@ -18,25 +18,25 @@ public class ArrivalTermTransfQuay {
 	private final ReentrantLock rl;
 
 	/**
-     * Synchronization point where the {@link entities.Passenger}s until there is
+     * Synchronization point where the {@link clientSide.Passenger}s until there is
 	 * enough space for them to enter the bus
      */
 	private final Condition waitLine;
 
 	/**
-     * Synchronization point where the {@link entities.BusDriver} waits for either the bus capacity to be reached
-	 * or for the arrival of at least one {@link entities.Passenger} and the departure time
+     * Synchronization point where the {@link clientSide.BusDriver} waits for either the bus capacity to be reached
+	 * or for the arrival of at least one {@link clientSide.Passenger} and the departure time
      */
 	private final Condition waitFull;
 
     /**
-     * Synchronization point where the {@link entities.Passenger}s wait for the {@link entities.BusDriver}
+     * Synchronization point where the {@link clientSide.Passenger}s wait for the {@link clientSide.BusDriver}
      * to signal they can enter the bus
      */
 	private final Condition waitAnnouncement;
 	
 	/**
-     * Synchronization point where the {@link entities.BusDriver} waits for all {@link entities.Passenger}s to enter the bus
+     * Synchronization point where the {@link clientSide.BusDriver} waits for all {@link clientSide.Passenger}s to enter the bus
      */
 	private final Condition waitEnter;
 
@@ -56,17 +56,17 @@ public class ArrivalTermTransfQuay {
 	private int busSize;
 
 	/**
-     * Number of {@link entities.Passenger}s that arrived in the Arrival Terminal Transfer Quay
+     * Number of {@link clientSide.Passenger}s that arrived in the Arrival Terminal Transfer Quay
      */
 	private int passengers = 0;
 
     /**
-     * Number of {@link entities.Passenger}s currently inside the bus
+     * Number of {@link clientSide.Passenger}s currently inside the bus
      */
 	private int passengersInside = 0;
 
 	/**
-     * Number of {@link entities.Passenger}s which are going to enter the bus in the next journey
+     * Number of {@link clientSide.Passenger}s which are going to enter the bus in the next journey
      */
 	private int passengersEntering = 0;
 
@@ -94,15 +94,15 @@ public class ArrivalTermTransfQuay {
 
     /**
      * This method updates internal flight count.
-     * @param nFlight
+     * @param flight_number
      */
-	public void setFlight(int nFlight){
-		flightCount = nFlight+1;
+	public void setFlight(int flight_number){
+		flightCount = flight_number+1;
 	}
 
     /**
      * Passengers wait until they have room in the bus, signal the passenger if bus capacity is reach and then wait
-	 * for the {@link entities.BusDriver} to announce they can enter the bus
+	 * for the {@link clientSide.BusDriver} to announce they can enter the bus
      * @param passengerID
      */
 	public void takeABus(int passengerID) {
@@ -132,7 +132,7 @@ public class ArrivalTermTransfQuay {
 	}
 
 	/**
-     * This method signals the {@link entities.BusDriver} at a fixed time interval defined by the {@link entities.BusTimer}
+     * This method signals the {@link clientSide.BusDriver} at a fixed time interval defined by the {@link clientSide.BusTimer}
      */
 	public void departureTime() {
 		rl.lock();
@@ -151,7 +151,7 @@ public class ArrivalTermTransfQuay {
 	}
 
 	/**
-     * This method signals the {@link entities.BusDriver} when all {@link entities.Passenger}s have entered the bus
+     * This method signals the {@link clientSide.BusDriver} when all {@link clientSide.Passenger}s have entered the bus
 	 * @param passengerID
      */
 	public void enterTheBus(int passengerID) {
@@ -176,8 +176,8 @@ public class ArrivalTermTransfQuay {
 	}
 
 	/**
-     * This method signals all {@link entities.Passenger}s waiting to enter the bus. 
-	 * {@link entities.BusDriver} waits until all {@link entities.Passenger}s have entered.
+     * This method signals all {@link clientSide.Passenger}s waiting to enter the bus. 
+	 * {@link clientSide.BusDriver} waits until all {@link clientSide.Passenger}s have entered.
 	 * 
 	 * @return int
      */
@@ -200,18 +200,17 @@ public class ArrivalTermTransfQuay {
 	}
 
 	/**
-	 * {@link entities.BusDriver} arrives at the Arrival Terminal Transfer Quay and internal variable of {@link entities.Passenger}s 
+	 * {@link clientSide.BusDriver} arrives at the Arrival Terminal Transfer Quay and internal variable of {@link clientSide.Passenger}s 
 	 * inside the bus is reset.
      */
 	public synchronized void parkTheBus() {
-		
 		passengersInside = 0;	
 		rep.busDriverState(BusDriverState.PARKING_AT_THE_ARRIVAL_TERMINAL);	
 
 	}
 
 	/**
-	 ** {@link entities.BusDriver} verifies if he has any passangers to transport and whether
+	 ** {@link clientSide.BusDriver} verifies if he has any passangers to transport and whether
 	 *  the last flight has been simulated so he can terminate 
 	 * @return char
 	 */
@@ -242,7 +241,7 @@ public class ArrivalTermTransfQuay {
 	}
 
 	/**
-	 *{@link entities.BusDriver} sleeps for 50 milliseconds to simulate deslocation to the {@link DepartureTermTransfQuay}
+	 *{@link clientSide.BusDriver} sleeps for 50 milliseconds to simulate deslocation to the {@link serverSide.DepartureTermTransfQuay}
 	 */
 	public void goToArrivalTerminal(){
         try {

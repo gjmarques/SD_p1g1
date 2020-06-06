@@ -23,13 +23,19 @@ public class ClientCom
    *  Nome do sistema computacional onde está localizado o servidor
    *    @serialField serverHostName
    */
-   private String serverHostName = "localhost";
+   /**
+     * Name of the computational system where the server is located
+     */
+    private String serverHostName = "localhost";
 
   /**
    *  Número do port de escuta do servidor
    *    @serialField serverPortNumb
    */
-   private int serverPortNumb;
+   /**
+     * Server listening port number
+     */
+    private int serverPortNumb;
 
   /**
    *  Stream de entrada do canal de comunicação
@@ -64,7 +70,6 @@ public class ClientCom
    *    @return <li>true, se o canal de comunicação foi aberto
    *            <li>false, em caso contrário
    */
-
    public boolean open ()
    {
       boolean success = true;

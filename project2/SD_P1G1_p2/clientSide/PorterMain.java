@@ -8,7 +8,13 @@ public class PorterMain {
 
     public static void main(String[] args) throws IOException{
 
+        /**
+        * Name of the computational system where the server is located
+        */
         String hostname = "localhost";
+        /**
+         * Server listening port number
+         */
         int port = Global.porter_PORT;
 
         ArrivalLoungeStub arrivalLoungeStub = new ArrivalLoungeStub(hostname, Global.arrivalLoungeStub_PORT);
@@ -26,7 +32,6 @@ public class PorterMain {
             System.exit(1);
         }
         tempStorageAreaStub.shutdown();
-        System.out.println("tempStorageAreaStub.shutdown();");
         System.out.println("RAN SUCCESSFULLY");
     }
 }

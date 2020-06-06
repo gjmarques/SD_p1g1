@@ -37,31 +37,31 @@ public class Passenger extends Thread {
      */
     private int id;
     /**
-     * Arrival Lounge Stub {@link sharedRegions.ArrivalLoungeStub}
+     * Arrival Lounge Stub {@link serverSide.ArrivalLoungeStub}
      */
     private final ArrivalLoungeStub arrivalLoungeStub;
     /**
-     * Arrival Terminal Exit Stub {@link sharedRegions.ArrivalTerminalExitStub}
+     * Arrival Terminal Exit Stub {@link serverSide.ArrivalTerminalExitStub}
      */
     private final ArrivalTerminalExitStub arrivalTerminalExitStub;
     /**
-     * Departure Terminal Entrance Stub {@link sharedRegions.DepartureTerminalEntranceStub}
+     * Departure Terminal Entrance Stub {@link serverSide.DepartureTerminalEntranceStub}
      */
     private final DepartureTerminalEntranceStub departureTerminalEntranceStub;
     /**
-     * Arrival Terminal Transfer Quay Stub {@link sharedRegions.ArrivalTermTransfQuayStub}
+     * Arrival Terminal Transfer Quay Stub {@link serverSide.ArrivalTermTransfQuayStub}
      */
     private final ArrivalTermTransfQuayStub arrivalTermTransfQuayStub;
     /**
-     * Departure Terminal Transfer Quay Stub {@link sharedRegions.DepartureTermTransfQuayStub}
+     * Departure Terminal Transfer Quay Stub {@link serverSide.DepartureTermTransfQuayStub}
      */
     private final DepartureTermTransfQuayStub departureTermTransfQuayStub;
     /**
-     * Baggage Collection Point Stub {@link sharedRegions.BaggageCollectionPointStub}
+     * Baggage Collection Point Stub {@link serverSide.BaggageCollectionPointStub}
      */
     private final BaggageCollectionPointStub baggageCollectionPointStub;
     /**
-     * Baggage Reclaim Office Stub {@link sharedRegions.BaggageReclaimOfficeStub}
+     * Baggage Reclaim Office Stub {@link serverSide.BaggageReclaimOfficeStub}
      */
     private final BaggageReclaimOfficeStub baggageReclaimOfficeStub;
     /**
@@ -69,7 +69,7 @@ public class Passenger extends Thread {
      */
     private boolean finalDestination;
     /**
-     * General Information Repository {@link sharedRegions.GenInfoRepo}.
+     * General Information Repository {@link serverSide.GenInfoRepo}.
      */
     private GenInfoRepoStub repoStub;
 
@@ -78,14 +78,14 @@ public class Passenger extends Thread {
      * 
      * @param identification of the passenger.
      * @param numBags list of number of passengers' {@link Bag}s, per flight.
-     * @param arrivalLoungeStub {@link sharedRegions.ArrivalLoungeStub}.
-     * @param arrivalTermTransfQuayStub {@link sharedRegions.ArrivalTermTransfQuayStub}.
-     * @param departureTermTransfQuayStub {@link sharedRegions.DepartureTermTransfQuayStub}.
-     * @param baggageCollectionPointStub {@link sharedRegions.BaggageCollectionPointStub}.
-     * @param baggageReclaimOfficeStub {@link sharedRegions.BaggageReclaimOfficeStub}.
-     * @param arrivalTerminalExitStub {@link sharedRegions.ArrivalTerminalExitStub}.
-     * @param departureTerminalEntranceStub {@link sharedRegions.DepartureTerminalEntranceStub}.
-     * @param repoStub {@link sharedRegions.GenInfoRepoStub}.
+     * @param arrivalLoungeStub {@link clientSide.ArrivalLoungeStub}.
+     * @param arrivalTermTransfQuayStub {@link clientSide.ArrivalTermTransfQuayStub}.
+     * @param departureTermTransfQuayStub {@link clientSide.DepartureTermTransfQuayStub}.
+     * @param baggageCollectionPointStub {@link clientSide.BaggageCollectionPointStub}.
+     * @param baggageReclaimOfficeStub {@link clientSide.BaggageReclaimOfficeStub}.
+     * @param arrivalTerminalExitStub {@link clientSide.ArrivalTerminalExitStub}.
+     * @param departureTerminalEntranceStub {@link clientSide.DepartureTerminalEntranceStub}.
+     * @param repoStub {@link clientSide.GenInfoRepoStub}.
      */
     public Passenger(int identification, List<Integer> numBags, ArrivalLoungeStub arrivalLoungeStub,
             ArrivalTermTransfQuayStub arrivalTermTransfQuayStub, DepartureTermTransfQuayStub departureTermTransfQuayStub,

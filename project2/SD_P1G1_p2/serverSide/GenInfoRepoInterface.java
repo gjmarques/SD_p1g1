@@ -150,7 +150,6 @@ public class GenInfoRepoInterface {
             case Message.PSGR_STATE:
                 this.genRepo.passengerState(inMessage.get_flight(), inMessage.get_passengerID(),
                         inMessage.get_passengerState(), inMessage.get_FinalDestREPO(), inMessage.get_nrBags());
-                System.out.println("GIR INT final destination passenger init: " + inMessage.get_FinalDestREPO());
                 outMessage = new Message(Message.ACK);
                 break;
             case Message.PSGR_UPDATE_STATE:

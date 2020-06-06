@@ -30,7 +30,10 @@ public class ServerCom
    *    @serialField serverPortNumb
    */
 
-   private int serverPortNumb;
+   /**
+     * Server listening port number
+     */
+    private int serverPortNumb;
 
   /**
    *  Stream de entrada do canal de comunicação

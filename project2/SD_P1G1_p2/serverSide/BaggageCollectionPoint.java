@@ -17,32 +17,32 @@ public class BaggageCollectionPoint {
 	private final ReentrantLock rl;
 	
 	/**
-     * Synchronization point where the {@link entities.Passenger}s wait until the {@link entities.Passenger}
-	 * signals that a {@link entities.Bag} has placed in the collection mat.
+     * Synchronization point where the {@link clientSide.Passenger}s wait until the {@link clientSide.Passenger}
+	 * signals that a {@link clientSide.Bag} has placed in the collection mat.
      */
 	private final Condition waitBag;
 
 	/**
-     * Variable to signal the {@link entities.Passenger}s that no more bags will be placed in
+     * Variable to signal the {@link clientSide.Passenger}s that no more bags will be placed in
 	 * the collection mat
      */
 	private boolean noMoreBags = false;
 
 	/**
-     * Internal count of how many {@link entities.Passenger}s are trying to collect bags
+     * Internal count of how many {@link clientSide.Passenger}s are trying to collect bags
 	 * to prevent new flight starting before boolean variable noMoreBags has been reset
 	 */
 	private int entered = 0;
 
 	/**
-     * Internal count of how many {@link entities.Passenger}s are done collecting bags
+     * Internal count of how many {@link clientSide.Passenger}s are done collecting bags
 	 * to prevent new flight starting before boolean variable noMoreBags has been reset
      */
 	private int exited = 0;
 
 	/**
-     * Internal structure where the {@link entities.Porter} places each collected {@link entities.Bag}
-	 * in the corresponding {@link entities.Passenger}s list allowing him to retrieve it.
+     * Internal structure where the {@link clientSide.Porter} places each collected {@link clientSide.Bag}
+	 * in the corresponding {@link clientSide.Passenger}s list allowing him to retrieve it.
 	 */
 	private HashMap<Integer, List<Bag>> collectionMat = new HashMap<>();
 
@@ -129,7 +129,7 @@ public class BaggageCollectionPoint {
 	}
 
 	/**
-	 * Signals {@link entities.Passenger}s that no more {@link entities.Bag}s
+	 * Signals {@link clientSide.Passenger}s that no more {@link clientSide.Bag}s
 	 * will be placed in the colletionMat
 	 *
 	 */

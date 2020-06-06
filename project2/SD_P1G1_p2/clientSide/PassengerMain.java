@@ -11,9 +11,14 @@ public class PassengerMain{
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
+        /**
+        * Name of the computational system where the server is located
+        */
         String hostname = "localhost";
+        /**
+         * Server listening port number
+         */
         int port = Global.passenger_PORT;
-
 
 
 		/**
@@ -40,11 +45,13 @@ public class PassengerMain{
             passengers[i] = new Passenger(i, bags.get(i), arrivalLoungeStub, arrivalTermTransfQuayStub, departureTermTransfQuayStub,
                     baggageCollectionPointStub, baggageReclaimOfficeStub, arrivalTerminalExitStub, departureTerminalEntranceStub, repoStub);
         }
+        /**
+         * Start Passenger threads
+         */
         for (int i = 0; i < Global.NR_PASSENGERS; i++){
             passengers[i].start();
         }
         
-
         for (int i = 0; i < Global.NR_PASSENGERS; i++) {
             try{
                 passengers[i].join();
@@ -56,15 +63,10 @@ public class PassengerMain{
         }
         
         arrivalLoungeStub.shutdown();
-        System.out.println("arrivalLoungeStub.shutdown();");
         baggageCollectionPointStub.shutdown();
-        System.out.println("baggageCollectionPointStub.shutdown();");
         baggageReclaimOfficeStub.shutdown();
-        System.out.println("baggageReclaimOfficeStub.shutdown();");
         arrivalTerminalExitStub.shutdown();
-        System.out.println("arrivalTerminalExitStub.shutdown();");
         departureTerminalEntranceStub.shutdown();
-        System.out.println("departureTerminalEntranceStub.shutdown();");
         TimeUnit.SECONDS.sleep(2);
         repoStub.shutdown();
         System.out.println("RAN SUCCESSFULLY");
@@ -74,10 +76,10 @@ public class PassengerMain{
     /**
      * Generates a list with a random number of bags for each flight of a passenger
      *
-     * @param nrFlights
-     * @param maxBags
-     * @param nrPassengers
-     * @param genInfoRepo
+     * @param nrFlights maximum number of flights at the airport
+     * @param maxBags maximum number of bags per passenger 
+     * @param nrPassengers number of passengers at the airport, per flight
+     * @param repoStub {@link clientSide.GenInfoRepoStub}
      * @return List<Integer>
      */
     public static List<List<Integer>> generateBags(GenInfoRepoStub repoStub, int nrPassengers, int nrFlights, int maxBags, String hostname) {

@@ -3,22 +3,36 @@ package clientSide;
 import global.*;
 import comInf.Message;
 
-
+/**
+ * This class defines the stub of the {@link serverSide.ArrivalTermTransfQuay} in the AIRPORT RAPSODY that implements the 
+ * client-server model (type 2) with static launch of the threads
+ */
 public class ArrivalTermTransfQuayStub{
 
+    /**
+     * Name of the computational system where the server is located
+     */
     private String serverHostName = "localhost";
+    /**
+     * Server listening port number
+     */
     private int serverPortNumb;
 
+    /**
+     * Inntantiation of the stub to the Departure Terminal Tranfer Quay
+     * @param hostname name of the computer system where the server is located
+     * @param port ort server listening port number
+     */
     public ArrivalTermTransfQuayStub(String hostname, int port){
         serverHostName = hostname;
         serverPortNumb = port;
     }
 
     /**
-     * This method updates internal attq flight count.
-     * @param nFlight
+     * This method updates internal attq flight count (Service request)
+     * @param flight_number flight number
      */
-	public void setFlight(int nFlight){
+	public void setFlight(int flight_number){
 		// create connection
         ClientCom con = new ClientCom("localhost", Global.arrivalTermTransfQuayStub_PORT);
         Message inMessage, outMessage;
@@ -29,7 +43,7 @@ public class ArrivalTermTransfQuayStub{
             }catch (InterruptedException e) {}
         }
         // send message to arrival lounge interface, and wait for answer
-        outMessage = new Message (Message.SET_FLIGHT, nFlight);   
+        outMessage = new Message (Message.SET_FLIGHT, flight_number);   
         con.writeObject (outMessage);
  
         // receive new in message, and process it
@@ -41,7 +55,10 @@ public class ArrivalTermTransfQuayStub{
         }
         con.close ();
     }
-    
+    /**
+     * Signal that passenger is taking a bus (service request)
+     * @param passengerID passenger identification
+     */
     public void takeABus(int passengerID) {
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
@@ -65,7 +82,10 @@ public class ArrivalTermTransfQuayStub{
         }
         con.close ();
     }
-    
+    /**
+     * Signal that passenger is entering the bus (Service request)
+     * @param passengerID passenger identification
+     */
     public void enterTheBus(int passengerID) {
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
@@ -89,6 +109,12 @@ public class ArrivalTermTransfQuayStub{
         }
         con.close ();
     }
+    /**
+     * Signal Bus Driver that is work days has ended (service request)
+     * @return <li> 'E' if bus driver work days have ended
+     *         <li> 'W' otherwise
+     *         <li> 'z' if it is not possible to say
+     */
     public char hasDaysWorkEnded() {
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
@@ -116,6 +142,10 @@ public class ArrivalTermTransfQuayStub{
         con.close ();
         return res;
     }
+    /**
+     * Bus Driver announces that passengers can now board the bus (service request)
+     * @return int number of bus boarding the bus
+     */
     public int annoucingBusBoarding() {
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
@@ -139,6 +169,9 @@ public class ArrivalTermTransfQuayStub{
         con.close ();
         return inMessage.get_Bus_numPassengers_boarding();
     }
+    /**
+     * Bus driver announces that he is oing to the arrival terminal (request service)
+     */
     public void goToArrivalTerminal(){
         ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
         Message inMessage, outMessage;
@@ -161,6 +194,9 @@ public class ArrivalTermTransfQuayStub{
         }
         con.close ();
     }
+    /**
+     * Bus Driver announces that he has parked the bus (request service)
+     */
     public void parkTheBus() {
         ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
         Message inMessage, outMessage;
@@ -183,6 +219,9 @@ public class ArrivalTermTransfQuayStub{
         }
         con.close ();
     }
+    /**
+     * The Bus Timer signals that is now time for the Bus Driver to departure (Service request)
+     */
     public void departureTime() {
         ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
         Message inMessage, outMessage;
@@ -205,6 +244,9 @@ public class ArrivalTermTransfQuayStub{
         }
         con.close ();
     }
+    /**
+     * Shutdown of the server (service request)
+     */
     public void shutdown() {
         ClientCom con = new ClientCom(serverHostName, Global.arrivalTermTransfQuayStub_PORT);
         Message inMessage, outMessage;

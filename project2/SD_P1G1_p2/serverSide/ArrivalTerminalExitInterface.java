@@ -25,7 +25,6 @@ public class ArrivalTerminalExitInterface {
      * Generation of a reply message.
      * 
      * @param inMessage incoming message with request
-     * @param passengerID passenger identification
      * @return reply message
      * @throws MessageException if the message with the request is found to be invalid
      */

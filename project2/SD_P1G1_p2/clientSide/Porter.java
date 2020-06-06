@@ -26,29 +26,29 @@ public class Porter extends Thread {
     PorterState state;
     /**
      * Arrival Lounge
-     * {@link sharedRegions.ArrivalLounge}
+     * {@link serverSide.ArrivalLounge}
      */
     private final ArrivalLoungeStub arrivalLoungeStub;
     /**
      * Temporary Storage Area
-     * {@link sharedRegions.TempStorageArea}
+     * {@link serverSide.TempStorageArea}
      */
     private final TempStorageAreaStub tempStorageAreaStub;
     /**
      * Baggage Collection Point
-     * {@link sharedRegions.BaggageCollectionPoint}
+     * {@link serverSide.BaggageCollectionPoint}
      */
     private final BaggageCollectionPointStub baggageCollectionPointStub;
     /**
-     * General Information Repository {@link sharedRegions.GenInfoRepo}.
+     * General Information Repository {@link serverSide.GenInfoRepo}.
      */
     private GenInfoRepoStub repoStub;
 
     /**
      * Instantiates entity {@link Porter}
-     * @param {@link sharedRegions.ArrivalLounge}
-     * @param {@link sharedRegions.TempStorageArea}
-     * @param {@link sharedRegions.BaggageCollectionPoint}
+     * @param {@link serverSide.ArrivalLounge}
+     * @param {@link serverSide.TempStorageArea}
+     * @param {@link serverSide.BaggageCollectionPoint}
      */
     public Porter(ArrivalLoungeStub arrivalLoungeStub, TempStorageAreaStub tempStorageAreaStub,
             BaggageCollectionPointStub baggageCollectionPointStub, GenInfoRepoStub repoStub) {

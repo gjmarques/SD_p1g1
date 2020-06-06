@@ -61,7 +61,7 @@ public class ArrivalTerminalExit{
 
     /**
      * Instantiate {@link DepartureTerminalEntrance} 
-     * @param departureTerminalEntrance
+     * @param departureTerminalEntranceStub departure terminal entrance stub
      */
     public void setDepartureTerminal(DepartureTerminalEntranceStub departureTerminalEntranceStub) {
 
@@ -69,7 +69,7 @@ public class ArrivalTerminalExit{
     }
 
     /**
-     * Signal {@link DepartureTerminalEntrance} that all {@link entities.Passenger} have completed their lifecycle
+     * Signal {@link serverSide.DepartureTerminalEntrance} that all {@link clientSide.Passenger} have completed their lifecycle
      */
     public void signalCompletion() {
         rl.lock();
@@ -88,7 +88,7 @@ public class ArrivalTerminalExit{
     }
 
     /**
-     * Signal {@link DepartureTerminalEntrance} that a {@link entities.Passenger} has entered the Arrival Terminal Exit
+     * Signal {@link serverSide.DepartureTerminalEntrance} that a {@link clientSide.Passenger} has entered the Arrival Terminal Exit
      */
     public void signalPassenger() {
         departurePassengers++;
@@ -97,11 +97,11 @@ public class ArrivalTerminalExit{
 
     /**
      * Passengers enter a lock state while waiting for every Passenger to finish their lifecycle
-     * @param nPlane
+     * @param flight_number
      * @param passengerID
      * @param passengerState
      */
-    public void goHome(int nPlane, int passengerID, PassengerState passengerState) {
+    public void goHome(int flight_number, int passengerID, PassengerState passengerState) {
         rl.lock();
         try {
             rep.passengerState(passengerID, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);

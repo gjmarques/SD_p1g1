@@ -14,10 +14,14 @@ public class BusTimer extends Thread {
     private boolean loop = true;
     /**
      * Arrival Terminal Transfer Quay
-     * {@link sharedRegions.ArrivalTermTransfQuay}
+     * {@link serverSide.ArrivalTermTransfQuay}
      */
     private final ArrivalTermTransfQuayStub arrivalTermTransfQuayStub;
 
+    /**
+     * Instantiation of BusTimer
+     * @param arrivalTermTransfQuayStub {@link ArrivalTermTransfQuayStub}
+     */
     public BusTimer(ArrivalTermTransfQuayStub arrivalTermTransfQuayStub) {
         this.arrivalTermTransfQuayStub = arrivalTermTransfQuayStub;
     }

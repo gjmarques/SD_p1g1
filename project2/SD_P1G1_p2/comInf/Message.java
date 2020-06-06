@@ -22,8 +22,17 @@ public class Message implements Serializable {
      */
     public static final int ACK = 999;
 
+    /**
+     * Passenger goes home
+     */
     public static final int GOHOME = 2;
+    /**
+     * Passenger takes a bus
+     */
     public static final int TAKEBUS = 3;
+    /**
+     * Passengers goes collect his bags
+     */
     public static final int COLLECTBAG = 4;
     /**
      * Final destination (or not) message
@@ -178,17 +187,18 @@ public class Message implements Serializable {
      * Signal that passenger is at the collection mat conveyor belt
      */
     public static final int COLLECTIONMAT_CONVBELT = 41;
-    public static final int BAGS_TMP = 42;
-
+    // public static final int BAGS_TMP = 42;
     /**
      * Signal that passenger is at the collection mat conveyor belt
      */
     public static final int SIGNAL_PASSENGER = 42;
-
     /**
      * Signal that passenger is at the collection mat conveyor belt
      */
     public static final int SIGNAL_COMPLETION = 43;
+    /**
+     * Signals a Passenger is reporting a missing bag
+     */
     public static final int REPORT_MISSING_GIR = 44;
 
 
@@ -283,16 +293,18 @@ public class Message implements Serializable {
      * Number of bags at the conveyor belt
      */
     public int nrLuggageConvBelt;
+    /**
+     * Number of Passengers' lost bags
+     */
     public int num_lost_bags;
 
-    /* Messages type */
-
+    /* Messages types */
     /**
      * Message type 12
      * 
-     * @param type
-     * @param passengerID
-     * @param passengerState
+     * @param type type of message
+     * @param passengerID passenger identification
+     * @param passengerState {@link PassengerState}
      */
     public Message(int type, int passengerID, PassengerState passengerState) {
         msgType = type;
@@ -305,8 +317,8 @@ public class Message implements Serializable {
     /**
      * Message type 11
      * 
-     * @param type
-     * @param busDriverState
+     * @param type message type
+     * @param busDriverState {@link BusDriverState}
      */
     public Message(int type, BusDriverState busDriverState) {
         msgType = type;
@@ -318,8 +330,8 @@ public class Message implements Serializable {
     /**
      * Message type 10
      * 
-     * @param type
-     * @param porterState
+     * @param type message type
+     * @param porterState {@link PorterState}
      */
     public Message(int type, PorterState porterState) {
         msgType = type;
@@ -331,12 +343,12 @@ public class Message implements Serializable {
     /**
      * Message type 9
      * 
-     * @param type
-     * @param flight_nr
-     * @param passengerID
-     * @param passengerState
-     * @param dest
-     * @param nr_bags
+     * @param type message type
+     * @param flight_nr passenger's flight number
+     * @param passengerID passenger identification
+     * @param passengerState {@link PassengerState}
+     * @param dest passenger's destination
+     * @param nr_bags passenger number of bags
      */
     public Message(int type, int flight_nr, int passengerID, PassengerState passengerState, boolean dest, int nr_bags) {
         msgType = type;
@@ -361,7 +373,6 @@ public class Message implements Serializable {
         if (msgType == DEST) {
             // related to general information repository
             this.final_dest = final_dest;
-            System.out.println("FINAL DESTINATION? " + this.final_dest);
         }
     }
 
@@ -433,7 +444,9 @@ public class Message implements Serializable {
     }
 
     /**
-     * Message type 3COLLECTBAG_PORTER
+     * Message type 3
+     * 
+     * @param type message type
      */
     public Message(int type) {
         msgType = type;
@@ -670,9 +683,17 @@ public class Message implements Serializable {
     public int ger_nrLuggageCovBelt(){
         return this.nrLuggageConvBelt;
     }
+    /**
+     * Get Passenger destination
+     * @return final_dest Passenger final destination
+     */
     public boolean get_destination_passenger(){
         return final_dest;
     }
+    /**
+     * Get number of lost bags
+     * @return num_lost_bags Number of lost bags
+     */
     public int get_numLostBags(){
         return num_lost_bags;
     }

@@ -1,18 +1,22 @@
 package serverSide;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
 import global.Global;
 import clientSide.*;
 
+/**
+ * This type of data simulates a server-side solution to the Airport Rapsody' Problem that implements the
+ * type 2 client-server model (server replication) with static launch of the shared regions threads.
+ * Communication is based on passing messages over sockets using the TCP protocol.
+ */
 public class DTEMain {
 
-        /**
-         * activity signaling
-         */
-        public static boolean waitConnection;  
+    /**
+     * activity signaling
+     */
+    public static boolean waitConnection;  
 
     public static void main(String[] args) throws IOException{
 

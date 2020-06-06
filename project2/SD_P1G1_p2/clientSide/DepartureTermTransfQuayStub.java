@@ -3,17 +3,36 @@ package clientSide;
 import global.*;
 import comInf.Message;
 
+/**
+ * This class defines the stub of the {@link serverSide.DepartureTermTransfQuay} in the AIRPORT RAPSODY that implements the 
+ * client-server model (type 2) with static launch of the threads
+ */
 public class DepartureTermTransfQuayStub{
 
+    /**
+     * Name of the computational system where the server is located
+     */
     private String serverHostName = "localhost";
+    
+    /**
+     * Server listening port number
+     */
     private int serverPortNumb;
 
+    /**
+     * Inntantiation of the stub to the Departure Terminal Tranfer Quay
+     * @param hostname name of the computer system where the server is located
+     * @param port ort server listening port number
+     */
     public DepartureTermTransfQuayStub(String hostname, int port){
         serverHostName = hostname;
         serverPortNumb = port;
     }
 
-
+    /**
+     * Signal passenger to leave the bus (service request)
+     * @param passengerID passenger identification
+     */
     public void leaveTheBus(int passengerID) {
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.departureTermTransfQuayStub_PORT);
@@ -37,6 +56,9 @@ public class DepartureTermTransfQuayStub{
         }
         con.close ();
     }
+    /**
+     * Bus Driver signals that passengers are going to the departure terminal tranfer quay (service request)
+     */
     public void goToDepartureTerminal(){
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.departureTermTransfQuayStub_PORT);
@@ -60,6 +82,10 @@ public class DepartureTermTransfQuayStub{
         }
         con.close ();
     }
+    /**
+     * Bus driver signals passengers to leave the bus (service request)
+     * @param busPassengers number of passengers inside the bus
+     */
     public void parkTheBusAndLetPassengerOff(int busPassengers) {
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.departureTermTransfQuayStub_PORT);
@@ -83,6 +109,9 @@ public class DepartureTermTransfQuayStub{
         }
         con.close ();
     }
+    /**
+     * Shutdown of the server (Service request)
+     */
     public void shutdown() {
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.departureTermTransfQuayStub_PORT);

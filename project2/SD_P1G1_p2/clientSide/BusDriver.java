@@ -1,11 +1,8 @@
 package clientSide;
 
-import global.*;
-import serverSide.*;
-
 /**
  * Implementation of the Bus Driver whom is responsible for getting the {@link Passenger}s from
- * {@link sharedRegions.ArrivalTermTransfQuay} and leaving them at {@link sharedRegions.DepartureTermTransfQuay}.
+ * {@link serverSide.ArrivalTermTransfQuay} and leaving them at {@link serverSide.DepartureTermTransfQuay}.
  */
 public class BusDriver extends Thread {
 
@@ -27,13 +24,13 @@ public class BusDriver extends Thread {
     private BusDriverState state;
 
     /**
-     * Arrival Terminal Transfer Quay {@link sharedRegions.ArrivalTermTransfQuay}
+     * Arrival Terminal Transfer Quay {@link serverSide.ArrivalTermTransfQuay}
      */
     private final ArrivalTermTransfQuayStub arrivalTermTransfQuayStub;
 
     /**
      * Departure Terminal Transfer Quay
-     * {@link sharedRegions.DepartureTermTransfQuay}
+     * {@link serverSide.DepartureTermTransfQuay}
      */
     private final DepartureTermTransfQuayStub departureTermTransfQuayStub;
 

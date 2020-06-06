@@ -3,6 +3,11 @@ package serverSide;
 import comInf.Message;
 import comInf.MessageException;
 
+/**
+ * This type of data defines the service provider agent thread for a solution to the Airport Rapsody' Problem
+ * that implements the type 2 client-server model (server replication) with static launch of shared regions threads.
+ * Communication is based on passing messages over sockets using the TCP protocol.
+ */
 public class DTEProxy extends Thread{
 
     /**

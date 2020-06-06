@@ -19,7 +19,7 @@ public class ArrivalLoungeInterface {
     /**
      * Instantiation of the interface of the shared region {@link ArrivalLounge}.
      *
-     * @param ArrivalLounge arrival lounge
+     * @param arrivalLounge arrival lounge
      */
     public ArrivalLoungeInterface(ArrivalLounge arrivalLounge) {
         this.arrivalLounge = arrivalLounge;

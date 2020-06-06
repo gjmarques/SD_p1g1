@@ -4,17 +4,32 @@ import global.*;
 
 import comInf.Message;
 
+/**
+ * This class defines the stub of the {@link serverSide.TempStorageArea} in the Airport Rapsody's problem that implements the 
+ * client-server model (type 2) with static launch of the threads
+ */
 public class TempStorageAreaStub{
 
+    /**
+     * Name of the computational system where the server is located
+     */
     private String serverHostName = "localhost";
+    /**
+     * Server listening port number
+     */
     private int serverPortNumb;
 
+    /**
+     * Inntantiation of the stub to the Departure Terminal Tranfer Quay
+     * @param hostname name of the computer system where the server is located
+     * @param port ort server listening port number
+     */
     public TempStorageAreaStub(String hostname, int port){
         serverHostName = hostname;
         serverPortNumb = port;
     }
     /**
-     * This method transforms the request into a message to signal Porter to carry a bag to the appropriate storage
+     * This method transforms the request into a message to signal Porter to carry a bag to the appropriate storage (service request)
      */
     public void carryItToAppropriateStore(Bag bag) {
         // create connection
@@ -39,6 +54,9 @@ public class TempStorageAreaStub{
         }
         con.close ();
     }
+    /**
+     * Shutdown of the server (service request)
+     */
     public void shutdown() {
         ClientCom con = new ClientCom(serverHostName, Global.tempStorageArea_PORT);
         Message inMessage, outMessage;

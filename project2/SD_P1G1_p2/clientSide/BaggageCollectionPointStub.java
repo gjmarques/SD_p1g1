@@ -3,16 +3,35 @@ package clientSide;
 import global.*;
 import comInf.Message;
 
+/**
+ * This class defines the stub of the {@link serverSide.BaggageCollectionPoint} in the AIRPORT RAPSODY that implements the 
+ * client-server model (type 2) with static launch of the threads
+ */
 public class BaggageCollectionPointStub{
 
+    /**
+     * Name of the computational system where the server is located
+     */
     private String serverHostName = "localhost";
+    /**
+     * Server listening port number
+     */
     private int serverPortNumb;
 
+    /**
+     * Inntantiation of the stub to the Departure Terminal Tranfer Quay
+     * @param hostname name of the computer system where the server is located
+     * @param port ort server listening port number
+     */
     public BaggageCollectionPointStub(String hostname, int port){
         serverHostName = hostname;
         serverPortNumb = port;
     }
-
+    /**
+     * PAssenger is going to collect a bag (service request)
+     * @param passengerID passenger identification
+     * @return int bag identification
+     */
     public int goCollectABag(int passengerID) {
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.baggageCollectionPointStub_PORT);
@@ -37,7 +56,10 @@ public class BaggageCollectionPointStub{
         con.close ();
         return inMessage.get_Bag_id();
     }
-
+    /**
+     * Porter announces that he is carrying a bag to its appropriate store (Service request)
+     * @param bag {@link Bag}
+     */
     public void carryItToAppropriateStore(Bag bag) {
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.baggageCollectionPointStub_PORT);
@@ -61,6 +83,9 @@ public class BaggageCollectionPointStub{
         }
         con.close ();
     }
+    /**
+     * Porter announces that there is no more bags to collet (Service request) 
+     */
     public void noMoreBagsToCollect() {
         // create connection
         ClientCom con = new ClientCom(serverHostName, Global.baggageCollectionPointStub_PORT);
@@ -84,6 +109,9 @@ public class BaggageCollectionPointStub{
         }
         con.close ();
     }
+    /**
+     * Shutdown of the server (service request)
+     */
     public void shutdown() {
         ClientCom con = new ClientCom(serverHostName, Global.baggageCollectionPointStub_PORT);
         Message inMessage, outMessage;

@@ -10,7 +10,7 @@ import clientSide.*;
  * visible internal state of the problem is stored. The visible internal state is defined
  * by the set of variables whose value is printed in the logging file.
  * <p>
- * Whenever an entity ({@link entities.Porter}, {@link entities.Passenger}, {@link entities.BusDriver}) 
+ * Whenever an entity ({@link clientSide.Porter}, {@link clientSide.Passenger}, {@link clientSide.BusDriver}) 
  * executes an operation that changes the values of some of these variables, the fact must be reported so that a
  * new line group is printed in the logging file. The report operation must be
  * atomic, that is, when two or more variables are changed, the report operation
@@ -32,7 +32,7 @@ public class GenInfoRepo {
      */
     private int[] bn = {0, 1, 2, 3, 4};
     /**
-     * State of the {@link entities.Porter}.
+     * State of the {@link clientSide.Porter}.
      */
     private PorterState porterState;
     /**
@@ -44,7 +44,7 @@ public class GenInfoRepo {
      */
     private int sr;
     /**
-     * State of the {@link entities.BusDriver}.
+     * State of the {@link clientSide.BusDriver}.
      */
     private BusDriverState bDriverState;
     /**
@@ -88,21 +88,21 @@ public class GenInfoRepo {
      */
     private int bn_total;
     /**
-     * Abbreviations of the {@link entities.Porter}'s' states, rdered by the {@link entities.PorterState}.
+     * Abbreviations of the {@link clientSide.Porter}'s' states, rdered by the {@link clientSide.PorterState}.
      */
     private  String[] porterStates = {"WPTL", "APLH", "ALCB", "ASTR"};
     /**
-     * Abbreviations of the {@link entities.BusDriver}'s' states. Ordered by the {@link entities.BusDriverState}.
+     * Abbreviations of the {@link clientSide.BusDriver}'s' states. Ordered by the {@link clientSide.BusDriverState}.
      */
     private  String[] bDriverStates = {"PKAT", "DRFW", "PKDT", "DRBW"};
     /**
-     * Abbreviations of the {@link entities.Passenger}s' states. Ordered by the {@link entities.PassengerState}
+     * Abbreviations of the {@link clientSide.Passenger}s' states. Ordered by the {@link clientSide.PassengerState}
      */
     private  String[] passengerStates = {"WSD", "LCP", "BRO", "EAT", "ATT", "TRT", "DTT", "EDT"};
 
     /**
      * General Repository of Information.
-     * @param logger
+     * @param logger file to where the logs are going to be written
      */
     public GenInfoRepo(File logger) {
         this.loggerF = logger;
@@ -141,7 +141,7 @@ public class GenInfoRepo {
 
     /**
      * Porter taking bags out of planes' hold.
-     * @param bag {@link entities.Bag}
+     * @param bag {@link clientSide.Bag}
      */
     public synchronized void lessBagsOnPlanesHold(Bag bag){
         this.bn[bag.getflightNR()]-= 1;
@@ -150,8 +150,8 @@ public class GenInfoRepo {
 
     /**
      * Report missing bags.
-     * @param nrBags Number of {@link entities.Bag}.
-     * @param passengerID {@link entities.Passenger} that lost a {@link entities.Bag} identification.
+     * @param nrBags Number of {@link clientSide.Bag}.
+     * @param passengerID {@link clientSide.Passenger} that lost a {@link clientSide.Bag} identification.
      */
     public synchronized void missingBags(int nrBags, int passengerID){
         this.missingBags +=1;
@@ -159,10 +159,10 @@ public class GenInfoRepo {
 
     /**
      * Update state of the passenger
-     * @param passengerID {@link entities.Passenger}'s identitifation.
-     * @param passengerState {@link entities.PassengerState}.
-     * @param Dest {@link entities.Passenger}'s detination.
-     * @param nr_bags Number of {@link entities.Bag}s that the {@link entities.Passenger} brings.
+     * @param passengerID {@link clientSide.Passenger}'s identitifation.
+     * @param passengerState {@link clientSide.PassengerState}.
+     * @param Dest {@link clientSide.Passenger}'s detination.
+     * @param nr_bags Number of {@link clientSide.Bag}s that the {@link clientSide.Passenger} brings.
      */
     public synchronized void passengerState(int flight_nr, int passengerID, PassengerState passengerState,  boolean Dest,  int nr_bags){
         if(Dest){
@@ -177,9 +177,9 @@ public class GenInfoRepo {
     }
     
     /** 
-     * Initializes {@link entities.Passenger}s to {@code null}, to fix logger at the beggining of each flight.
+     * Initializes {@link clientSide.Passenger}s to {@code null}, to fix logger at the beggining of each flight.
      * @param flight_nr Flight number.
-     * @param passengerID {@link entities.Passenger}'s identification.
+     * @param passengerID {@link clientSide.Passenger}'s identification.
      */
     public synchronized void initPassenger(int flight_nr, int passengerID){
         if(flight_nr != this.fn){
@@ -188,9 +188,9 @@ public class GenInfoRepo {
     }
 
     /** 
-     * This method is responsible for the counting of {@link entities.Passenger}s' destinations. It increments
-     * the respective value for {@link entities.Passenger}s in transit or with final destination.
-     * @param dest If {@code true}, then this airport is the final destination of the respective {@link entities.Passenger}. False, otherwise.
+     * This method is responsible for the counting of {@link clientSide.Passenger}s' destinations. It increments
+     * the respective value for {@link clientSide.Passenger}s in transit or with final destination.
+     * @param dest If {@code true}, then this airport is the final destination of the respective {@link clientSide.Passenger}. False, otherwise.
      */
     public synchronized void countDest(boolean dest){
         if(dest){
@@ -200,12 +200,12 @@ public class GenInfoRepo {
     }
     
     /** 
-     * This method updates a {@link entities.Passenger}s' state if it changes.
-     * @param nPlane {@link entities.Passenger}'s flight number.
-     * @param passengerID {@link entities.Passenger}'s identification.
-     * @param passengerState {@link entities.Passenger}'s satate.
+     * This method updates a {@link clientSide.Passenger}s' state if it changes.
+     * @param flight_number {@link clientSide.Passenger}'s flight number.
+     * @param passengerID {@link clientSide.Passenger}'s identification.
+     * @param passengerState {@link clientSide.Passenger}'s satate.
      */
-    public synchronized void passengerState(int nPlane, int passengerID, PassengerState passengerState){
+    public synchronized void passengerState(int flight_number, int passengerID, PassengerState passengerState){
         if(this.passengerState[passengerID] != passengerState){
             this.passengerState[passengerID] = passengerState;
             updateStatePorterOrBDriver();
@@ -213,9 +213,9 @@ public class GenInfoRepo {
     }
     
     /** 
-     * This method updates a {@link entities.Passenger}s' state if it changes.
-     * @param passengerID {@link entities.Passenger}'s identification.
-     * @param passengerState {@link entities.Passenger}'s satate.
+     * This method updates a {@link clientSide.Passenger}s' state if it changes.
+     * @param passengerID {@link clientSide.Passenger}'s identification.
+     * @param passengerState {@link clientSide.Passenger}'s satate.
      */
     public synchronized void passengerState(int passengerID, PassengerState passengerState){
         if(this.passengerState[passengerID] != passengerState){
@@ -225,8 +225,8 @@ public class GenInfoRepo {
     }
 
     /**
-     * This method updates a {@link entities.Porter}s' state if it changes.
-     * @param porterState {@link entities.Passenger}'s satate.
+     * This method updates a {@link clientSide.Porter}s' state if it changes.
+     * @param porterState {@link clientSide.Passenger}'s satate.
      */
     public synchronized void porterState(PorterState porterState){
         if(porterState != this.porterState){
@@ -235,8 +235,8 @@ public class GenInfoRepo {
         } 
     }
     /**
-     * This method updates a {@link entities.BusDriver}s' state if it changes.
-     * @param busDriverState {@link entities.BusDriver}'s satate.
+     * This method updates a {@link clientSide.BusDriver}s' state if it changes.
+     * @param busDriverState {@link clientSide.BusDriver}'s satate.
      */
     public synchronized void busDriverState( BusDriverState busDriverState){
         if(busDriverState != this.bDriverState){
@@ -248,8 +248,8 @@ public class GenInfoRepo {
     /**
      * Occupation state for the sitting queue (passenger id / - (empty)).
      * <p>
-     * It receives the {@link entities.Passenger}s' idetification that are waiting for entering the bus.
-     * @param passengerID {@link entities.Passenger}s' idetification.
+     * It receives the {@link clientSide.Passenger}s' idetification that are waiting for entering the bus.
+     * @param passengerID {@link clientSide.Passenger}s' idetification.
      */
     synchronized void busSitting( int passengerID){
         // passenger is not waiting anymore
@@ -271,8 +271,8 @@ public class GenInfoRepo {
 
     
     /** 
-     * {@link entities.Passenger} leaves the bus.
-     * @param passengerID {@link entities.Passenger}s' idetification.
+     * {@link clientSide.Passenger} leaves the bus.
+     * @param passengerID {@link clientSide.Passenger}s' idetification.
      */
     synchronized void leaveBus(int passengerID){
         for(int i = 0; i < this.s.length; i++){
@@ -287,8 +287,8 @@ public class GenInfoRepo {
     /**
      * Occupation state for the waiting queue (passenger id / - (empty)).
      * <p>
-     * It receives the {@link entities.Passenger}s' idetification that are waiting for entering the bus.
-     * @param passengerId {@link entities.Passenger}s' idetification.
+     * It receives the {@link clientSide.Passenger}s' idetification that are waiting for entering the bus.
+     * @param passengerId {@link clientSide.Passenger}s' idetification.
      */
     synchronized void busWaitingLine(int passengerId){
         for(int i = 0; i < this.q.length; i++){
@@ -301,7 +301,7 @@ public class GenInfoRepo {
     }
 
     /**
-     * Number of pieces of luggage belonging to {@link entities.Passenger}s in transit presently stored at the storeroom.
+     * Number of pieces of luggage belonging to {@link clientSide.Passenger}s in transit presently stored at the storeroom.
      * @param Bag
      */
     synchronized void bagAtStoreRoom(Bag bag){
@@ -330,9 +330,9 @@ public class GenInfoRepo {
     }
     
     /** 
-     * Number of bags colelcted by each {@link entities.Passenger}.
-     * @param passengerID {@link entities.Passenger}'s identification.
-     * @param nBags {@link entities.Passenger}'s number of {@link entities.Bag}s.
+     * Number of bags colelcted by each {@link clientSide.Passenger}.
+     * @param passengerID {@link clientSide.Passenger}'s identification.
+     * @param nBags {@link clientSide.Passenger}'s number of {@link clientSide.Bag}s.
      */
     synchronized void passengerCollectedBags(int passengerID, int nBags){
         int bag_passengers_id = passengerID;

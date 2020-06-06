@@ -21,7 +21,7 @@ public class DepartureTerminalEntrance {
     private final ReentrantLock rl;
 
     /**
-     * Synchronization point where the {@link entities.Passenger}s wait for each other
+     * Synchronization point where the {@link clientSide.Passenger}s wait for each other
      * to complete their lifecycle before moving on to the next flight
      */
     private final Condition waitingEndCV;
@@ -32,17 +32,17 @@ public class DepartureTerminalEntrance {
     private ArrivalTerminalExitStub arrivalTerminalExitStub;
 
     /**
-     * Total number of {@link entities.Passenger}s who finished their execution in the Arrival Terminal Exit
+     * Total number of {@link clientSide.Passenger}s who finished their execution in the Arrival Terminal Exit
      */  
     private int passengers = 0;
 
     /**
-     * Total number of {@link entities.Passenger}s who finished their execution in the Arrival Terminal Exit
+     * Total number of {@link clientSide.Passenger}s who finished their execution in the Arrival Terminal Exit
      */  
     private int arrivalPassengers = 0;
 
     /**
-     * Total number of {@link entities.Passenger}s
+     * Total number of {@link clientSide.Passenger}s
      */  
     private int numPassengers;
 
@@ -53,7 +53,7 @@ public class DepartureTerminalEntrance {
 
     /**
      * Instantiates the Departure Terminal Entrance.
-     * @param numPassengers Number of {@link entities.Passenger}s.
+     * @param numPassengers Number of {@link clientSide.Passenger}s.
      * @param rep {@link GenInfoRepoStub}.
      */
     public DepartureTerminalEntrance(int numPassengers, GenInfoRepoStub rep) {
@@ -73,7 +73,7 @@ public class DepartureTerminalEntrance {
     }
 
     /**
-     * Signal {@link ArrivalTerminalExit} that all {@link entities.Passenger} have completed their lifecycle
+     * Signal {@link serverSide.ArrivalTerminalExit} that all {@link clientSide.Passenger} have completed their lifecycle
      */
     public void signalCompletion() {
         rl.lock();
@@ -92,7 +92,7 @@ public class DepartureTerminalEntrance {
     }
 
     /**
-     * Signal {@link ArrivalTerminalExit} that a {@link entities.Passenger} has entered the Arrival Terminal Exit
+     * Signal {@link ArrivalTerminalExit} that a {@link clientSide.Passenger} has entered the Arrival Terminal Exit
      */
     public void signalPassenger() {
         arrivalPassengers++;
@@ -100,10 +100,10 @@ public class DepartureTerminalEntrance {
 
     /**
      * Passengers enter a lock state while waiting for every Passenger to finish their lifecycle
-     * @param nPlane
+     * @param flight_number
      * @param passengerID
      */
-    public void prepareNextLeg(int nPlane, int passengerID) {
+    public void prepareNextLeg(int flight_number, int passengerID) {
         rl.lock();
         try {
             rep.passengerState(passengerID, PassengerState.ENTERING_THE_DEPARTURE_TERMINAL);

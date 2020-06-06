@@ -20,8 +20,8 @@ public class ArrivalLounge {
     protected final ReentrantLock rl;
 
     /**
-     * Synchronization point where the {@link entities.Porter} waits for all {@link entities.Passenger}s to make their decision
-     * before starting to collect {@link entities.Bag}s
+     * Synchronization point where the {@link clientSide.Porter} waits for all {@link clientSide.Passenger}s to make their decision
+     * before starting to collect {@link clientSide.Bag}s
      */
     protected final Condition planeHoldEmptyCV;
 
@@ -57,7 +57,6 @@ public class ArrivalLounge {
      * 
      * @param rep {@link GenInfoRepo}.
      */
-
     public ArrivalLounge(GenInfoRepoStub rep) {
         rl = new ReentrantLock(true);
         planeHoldEmptyCV = rl.newCondition();
@@ -68,10 +67,10 @@ public class ArrivalLounge {
 
     /**
      * This method updates internal flight count.
-     * @param nFlight
+     * @param flight_number
      */
-    public void setFlight(int nFlight) {
-        flightCount = nFlight + 1;
+    public void setFlight(int flight_number) {
+        flightCount = flight_number + 1;
     }
 
     /**

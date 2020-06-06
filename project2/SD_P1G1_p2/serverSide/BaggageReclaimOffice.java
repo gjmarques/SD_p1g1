@@ -3,7 +3,7 @@ package serverSide;
 import clientSide.*;
 
 /**
- * Implements the {@link BaggageReclaimOffice} In which {@link entities.Passenger}s with missed
+ * Implements the {@link serverSide.BaggageReclaimOffice} In which {@link clientSide.Passenger}s with missed
  * bags come to post their complaint.
  */
 
@@ -23,15 +23,14 @@ public class BaggageReclaimOffice {
 	}
 
 	/**
-	 * {@link entities.Passenger}s with missed report them here.
+	 * {@link clientSide.Passenger}s with missed report them here.
 	 * <p>
-	 * This method increments the total number of missing {@link entities.Bag}s
-	 * @param i number of lost bags.
-	 * @param passengerID {@link entities.Passenger} identification.
+	 * This method increments the total number of missing {@link clientSide.Bag}s
+	 * @param i number of bags lost.
+	 * @param passengerID {@link clientSide.Passenger} identification.
 	 */
 	public void reportMissingBags(int i, int passengerID) {
 		rep.passengerState(passengerID, PassengerState.AT_THE_BAGGAGE_RECLAIM_OFFICE);
-		System.out.println("LOST BAG FROM PASSENGER: " + passengerID);
 		rep.missingBags(i, passengerID);
 	}
 
